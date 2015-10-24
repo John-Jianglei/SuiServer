@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+    <!-- 定时更新消息接口 -->
+    <bean id="WeeklyTaskJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.shinian.job.WeeklyTask"></property>
+        <property name="jobDataAsMap">
+            <map>
+                
+            </map>
+        </property>
+    </bean>
+       
+	<bean id="weeklyTaskTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="WeeklyTaskJob" />
+		<property name="cronExpression" value="0 30 20 ? * FRI" />
+	</bean>
+	
+	
+	
+	<!-- 任务计划表工厂 -->
+	<bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="weeklyTaskTrigger" />
+				
+			</list>
+		</property>
+	</bean>
+
+ </beans>
