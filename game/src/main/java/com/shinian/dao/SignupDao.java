@@ -29,7 +29,7 @@ public class SignupDao{
 	}
 	
 	public boolean isUidNameUnique(String uid, String name){	
-		String sql = "select * from game_player_info where uid = ? or name = ?";
+		String sql = "select id from game_player_info where uid = ? or name = ?";
 		List<PlayerInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(PlayerInfoVo.class), new Object[]{uid, name});
 		
