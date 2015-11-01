@@ -40,7 +40,7 @@ public class SignupDao{
 	} 
 	
 	public PlayerInfoVo getPlayerInfoByUid(String uid){
-		String sql = "select id from game_player_info where uid = ?";
+		String sql = "select id, name from game_player_info where uid = ?";
 		List<PlayerInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(PlayerInfoVo.class), new Object[]{uid});
 		
