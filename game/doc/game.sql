@@ -71,16 +71,44 @@ CREATE TABLE `game_npc_info` (
   `comId` int(11) NOT NULL COMMENT '武将id',
   `uid` varchar(50) NOT NULL COMMENT '角色id',
   `level` int(11) NOT NULL DEFAULT '1' COMMENT '武将等级',
-  `health` int(11) NOT NULL DEFAULT '1' COMMENT '武将初始生命值',
-  `attack` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始攻击力',
-  `defense` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始防御力',
+  `position` int(2) NOT NULL DEFAULT '1' COMMENT '武将队列中的位置',
+  `health` int(11) NOT NULL DEFAULT '1' COMMENT '武将当前生命值',
+  `attack` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前攻击力',
+  `hujia` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前护甲',
+  `pojia` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前破甲',
+  `fachuan` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前法穿',
+  `fakang` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前法抗',
+  `baoji` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前暴击',
+  `renxing` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前韧性',
+  `mingzhong` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前命中',
+  `shanbi` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前闪避',
+  `xixue` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前吸血',
+  `fantang` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前反弹',
+  `jiyun` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前击晕',
+  `kangyun` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前抗晕',
+  `gedang` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前格挡',
+  `gedangPoss` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前格挡概率',
+  `reduce` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前伤害减小',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='武将信息表';
 
-insert into game_npc_info(`com_id`,`pid`,`star`,`health`,`attack`,`defense`) values(5,'1-1',5,300,200,200);
-insert into game_npc_info(`com_id`,`pid`,`star`,`health`,`attack`,`defense`) values(6,'1-1',5,500,500,500);
-insert into game_npc_info(`com_id`,`pid`,`star`,`health`,`attack`,`defense`) values(7,'1-1',5,200,200,200);
-insert into game_npc_info(`com_id`,`pid`,`star`,`health`,`attack`,`defense`) values(8,'1-2',5,200,200,200);
+DROP TABLE IF EXISTS `game_prop_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `game_prop_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `comId` int(11) NOT NULL COMMENT '道具common的id',
+  `uid` varchar(50) NOT NULL COMMENT '角色id',
+  `amount` int(11) NOT NULL DEFAULT '0' COMMENT '道具数量',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='道具信息表';
+
+
+
+insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(205,'1-1',5,300,200,200);
+insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(206,'1-1',5,500,500,500);
+insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(207,'1-1',5,200,200,200);
+insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(208,'1-6',5,200,200,200);
 
 
 
