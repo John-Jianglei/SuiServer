@@ -19,10 +19,10 @@ import com.shinian.vo.NpcInfoVo;
 @Repository
 public class NpcInfoDao{
 	
-	public NpcInfoVo getNpcInfoByUid(String uid){
-		String sql = "select * from game_npc_info where uid = ?";
+	public NpcInfoVo getNpcInfoById(int id){
+		String sql = "select `id`, `comId`, `uid`, `level`, `experience`, `position`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_npc_info where id = ?";
 		List<NpcInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
-				ParameterizedBeanPropertyRowMapper.newInstance(NpcInfoVo.class), new Object[]{uid});
+				ParameterizedBeanPropertyRowMapper.newInstance(NpcInfoVo.class), new Object[]{id});
 		
 		if(pivList != null && pivList.size() > 0){
 			return pivList.get(0);

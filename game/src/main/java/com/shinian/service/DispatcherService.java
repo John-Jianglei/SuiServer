@@ -57,7 +57,7 @@ public class DispatcherService {
 				break;
 			
 			case 1003:
-				result = npcInfoService.getNpcInfo(request, response, jsonStr);///get common NPC info
+				result = npcInfoService.getGameNpcInfo(request, response, jsonStr);///get game NPC info
 				break;
 	
 			case 1004:

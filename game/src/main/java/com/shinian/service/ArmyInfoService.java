@@ -26,10 +26,7 @@ public class ArmyInfoService {
 		
 	@Autowired
 	ArmyInfoDao armyInfoDao;
-	
-	@Autowired
-	RedisCacheUtil redisCacheUtil;
-	
+		
 	public MessageRespVo getArmy(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
 		MessageRespVo result = new MessageRespVo();
@@ -50,17 +47,6 @@ public class ArmyInfoService {
 			result.setCode(Message.MSG_CODE_NPC_NOT_EXIST);
 			result.setMsg(Message.MSG_NPC_NOT_EXIST);
 			return result;
-		}
-		
-		for (NpcInfoVo gameNpcVo : list){
-			NpcInfoVo comNpcVo  = redisCacheUtil.getNpcInfoByComId(gameNpcVo.getComId());
-			
-			gameNpcVo.setName(comNpcVo.getName());
-			gameNpcVo.setGender(comNpcVo.getGender());
-			gameNpcVo.setStar(comNpcVo.getStar());
-			gameNpcVo.setDesc(comNpcVo.getDesc());
-			gameNpcVo.setCategory(comNpcVo.getCategory());
-			gameNpcVo.setCamp(comNpcVo.getCamp());
 		}
 		
 		result.setData(list);		

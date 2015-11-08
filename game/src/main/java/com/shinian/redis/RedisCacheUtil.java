@@ -65,7 +65,7 @@ public class RedisCacheUtil {
 		return "";
 	}
 	
-	public NpcInfoVo getNpcInfoByComId(int comId)
+	public NpcInfoRedisVo getNpcInfoByComId(int comId)
 	{
 		NpcInfoRedisVo npc = new NpcInfoRedisVo();
 		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
@@ -82,12 +82,11 @@ public class RedisCacheUtil {
 				}
 			}
 			else{
-				NpcInfoVo v = commonDataService.getNpcInfoByComId(comId);
+				NpcInfoRedisVo v = commonDataService.getNpcInfoByComId(comId);
 				if(v != null){
-					npc.getAll(v);
-					jedis.hmset(key,npc.toMap());
+					jedis.hmset(key, v.toMap());
 				}
-				return npc;
+				return v;
 			}
 		}
 		catch(Exception e){

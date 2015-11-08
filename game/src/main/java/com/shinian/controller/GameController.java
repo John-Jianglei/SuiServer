@@ -25,6 +25,6 @@ public class GameController {
 		long begin = System.currentTimeMillis();	
 		dispatcherService.dispatch(request,response);		
 		long end = System.currentTimeMillis();		
-		log.info("execution time：" + (end-begin) + "ms");
+		log.info("execution time:" + (end-begin) + "ms");
 	}
 }

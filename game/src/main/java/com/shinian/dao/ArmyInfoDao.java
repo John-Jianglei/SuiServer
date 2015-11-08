@@ -15,7 +15,7 @@ public class ArmyInfoDao {
 
 	public List<NpcInfoVo> getArmyByUid(String uid)
 	{
-		final String sql = " select `id`, `comId`,`uid`,`level`,`health`,`attack`,`defense` from game_npc_info where uid = ?";
+		final String sql = " select `id`, `comId`, `uid`, `level`, `experience`, `position`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_npc_info where uid = ?";
 		List<NpcInfoVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(NpcInfoVo.class),new Object[]{uid});
 		
 		return list;

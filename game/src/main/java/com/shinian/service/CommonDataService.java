@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shinian.dao.CommonDataDao;
-import com.shinian.vo.NpcInfoVo;
+import com.shinian.vo.NpcInfoRedisVo;
 
 @Service
 public class CommonDataService {
@@ -19,7 +19,7 @@ public class CommonDataService {
 		return commonDataDao.getSensitiveCharacterList();
 	}
 	
-	public NpcInfoVo getNpcInfoByComId(int comId)
+	public NpcInfoRedisVo getNpcInfoByComId(int comId)
 	{
 		return commonDataDao.getNpcInfoByComId(comId);
 	}
