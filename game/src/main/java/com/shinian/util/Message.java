@@ -32,5 +32,8 @@ public class Message implements Serializable{
 	public final static int MSG_CODE_NPC_NOT_EXIST = 307;
 	public final static String MSG_NPC_NOT_EXIST = "武将不存在";
 		
+	public final static int MSG_CODE_PROP_NOT_EXIST = 308;
+	public final static String MSG_PROP_NOT_EXIST = "物品不存在";
+		
 	
 }

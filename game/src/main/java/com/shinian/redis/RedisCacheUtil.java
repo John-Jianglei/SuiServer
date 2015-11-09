@@ -11,8 +11,9 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
 import com.shinian.service.CommonDataService;
-import com.shinian.vo.NpcInfoVo;
 import com.shinian.vo.NpcInfoRedisVo;
+import com.shinian.vo.PropInfoRedisVo;
+
 
 @Component
 public class RedisCacheUtil {
@@ -83,6 +84,40 @@ public class RedisCacheUtil {
 			}
 			else{
 				NpcInfoRedisVo v = commonDataService.getNpcInfoByComId(comId);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
+	}
+
+	public PropInfoRedisVo getPropInfoByComId(int comId)
+	{
+		PropInfoRedisVo pvo = new PropInfoRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_COMMON_PROP_INFO;
+			String key = String.format(prefix, comId);
+
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, pvo.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					pvo.fromList(list);
+					return pvo;
+				}
+			}
+			else{
+				PropInfoRedisVo v = commonDataService.getPropInfoByComId(comId);
 				if(v != null){
 					jedis.hmset(key, v.toMap());
 				}

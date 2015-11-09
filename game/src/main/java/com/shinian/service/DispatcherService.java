@@ -29,6 +29,9 @@ public class DispatcherService {
 	@Autowired
 	ArmyInfoService armyInfoService;
 	
+	@Autowired
+	PropInfoService propInfoService;
+	
 	
 	private static Logger log = Logger.getLogger("game");
 	
@@ -62,6 +65,12 @@ public class DispatcherService {
 	
 			case 1004:
 				result = armyInfoService.getArmy(request, response, jsonStr);///get Player's army info
+				break;
+				
+				
+				
+			case 9002:
+				result = propInfoService.getCommPropInfo(request, response, jsonStr);///get common property info
 				break;
 				
 			default:

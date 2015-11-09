@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.shinian.dao.CommonDataDao;
 import com.shinian.vo.NpcInfoRedisVo;
+import com.shinian.vo.PropInfoRedisVo;
+
 
 @Service
 public class CommonDataService {
@@ -23,5 +25,11 @@ public class CommonDataService {
 	{
 		return commonDataDao.getNpcInfoByComId(comId);
 	}
+	
+	public PropInfoRedisVo getPropInfoByComId(int comId)
+	{
+		return commonDataDao.getPropInfoByComId(comId);
+	}
+	
 	
 }

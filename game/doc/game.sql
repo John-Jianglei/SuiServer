@@ -100,10 +100,13 @@ CREATE TABLE `game_prop_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `comId` int(11) NOT NULL COMMENT '道具common的id',
   `uid` varchar(50) NOT NULL COMMENT '角色id',
+  `npcId` int(11) NOT NULL DEFAULT '-1' COMMENT '装备该道具的武将id, -1代表null',
+  `position` int(3) NOT NULL DEFAULT '0' COMMENT '道具摆放位置，只有当npcId不为空时有效',
   `amount` int(11) NOT NULL DEFAULT '0' COMMENT '道具数量',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='道具信息表';
 
+insert into game_prop_info(`comId`,`uid`) values(205,'1-1');
 
 
 insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(205,'1-1',5,300,200,200);
