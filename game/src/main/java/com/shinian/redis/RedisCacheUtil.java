@@ -135,4 +135,23 @@ public class RedisCacheUtil {
 	}
 
 	
+	public boolean isPropComIdExist(int comId)
+	{
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_COMMON_PROP_INFO;
+			String key = String.format(prefix, comId);
+
+			return jedis.exists(key);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return false;
+	}
+	
 }
