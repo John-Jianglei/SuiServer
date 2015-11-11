@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
+import com.shinian.vo.NpcInfoVo;
 import com.shinian.vo.PropInfoVo;
 
 @Repository
@@ -60,5 +61,13 @@ public class PropInfoDao {
         return keyHolder.getKey().intValue();
 	}
 	
+	
+	public List<PropInfoVo> getPropListOfPlayer(String uid)
+	{
+		final String sql = "select `id`, `comId`, `uid`, `npcId`, `position`, `amount` from game_prop_info where `uid` = ?";
+		List<PropInfoVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(PropInfoVo.class),new Object[]{uid});
+		
+		return list;
+	}
 	
 }

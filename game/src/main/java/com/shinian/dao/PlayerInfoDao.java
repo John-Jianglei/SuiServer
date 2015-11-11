@@ -22,7 +22,7 @@ import com.shinian.vo.PlayerInfoVo;
 public class PlayerInfoDao{
 	
 	public boolean isUidExist(String uid){	
-		String sql = "select id from game_player_info where uid = ?";
+		String sql = "select uid from game_player_info where uid = ?";
 		List<PlayerInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(PlayerInfoVo.class), new Object[]{uid});
 		

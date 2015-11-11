@@ -70,7 +70,15 @@ public class DispatcherService {
 				
 				
 			case 9002:
-				result = propInfoService.getCommPropInfo(request, response, jsonStr);///get common property info
+				result = propInfoService.getCommPropInfo(request, response, jsonStr);	///get common property info
+				break;
+				
+			case 9003:
+				result = propInfoService.addPropertyToPlayer(request, response, jsonStr);	
+				break;
+				
+			case 9004:
+				result = propInfoService.getPropListOfPlayer(request, response, jsonStr);	
 				break;
 				
 			default:
