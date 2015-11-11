@@ -110,4 +110,13 @@ public class PropInfoService {
 		return result;
 	}
 	
+	public List<PropInfoVo> getPropListOfPlayer(String uid)
+	{
+		if (!playerInfoService.isUidExist(uid)){
+			return null;
+		}
+		
+		return propInfoDao.getPropListOfPlayer(uid);		
+	}
+	
 }

@@ -54,5 +54,15 @@ public class ArmyInfoService {
 		return result;
 	}
 
+	public List<NpcInfoVo> getArmy(String uid)
+	{
+		MessageRespVo result = new MessageRespVo();
+
+		if (null == uid || "".equals(uid)) {
+			return null;
+		}
+
+		return armyInfoDao.getArmyByUid(uid);
+	}
 
 }
