@@ -32,6 +32,9 @@ public class DispatcherService {
 	@Autowired
 	PropInfoService propInfoService;
 	
+	@Autowired
+	NpcUpdateService npcUpdateService;
+	
 	
 	private static Logger log = Logger.getLogger("game");
 	
@@ -67,7 +70,8 @@ public class DispatcherService {
 				result = armyInfoService.getArmy(request, response, jsonStr);///get Player's army info
 				break;
 				
-				
+			case 1005:
+				result = npcUpdateService.npcUpdate(request, response, jsonStr);///update npc's level	
 				
 			case 9002:
 				result = propInfoService.getCommPropInfo(request, response, jsonStr);	///get common property info
