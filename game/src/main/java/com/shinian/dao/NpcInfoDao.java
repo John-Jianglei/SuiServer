@@ -20,7 +20,7 @@ import com.shinian.vo.NpcInfoVo;
 public class NpcInfoDao{
 	
 	public NpcInfoVo getNpcInfoById(int id){
-		String sql = "select `id`, `comId`, `uid`, `level`, `experience`, `position`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_npc_info where id = ?";
+		String sql = "select `id`, `comId`, `uid`, `pinjie`, `level`, `experience`, `position`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_npc_info where id = ?";
 		List<NpcInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(NpcInfoVo.class), new Object[]{id});
 		
@@ -32,7 +32,7 @@ public class NpcInfoDao{
 	}
 	
 	public NpcInfoVo getNpcByPosition(String uid, int position){
-		String sql = "select `id`, `comId`, `uid`, `level`, `experience`, `position`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_npc_info where `uid` = ? and `position` = ?";
+		String sql = "select `id`, `comId`, `uid`, `pinjie`, `level`, `experience`, `position`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_npc_info where `uid` = ? and `position` = ?";
 		List<NpcInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(NpcInfoVo.class), new Object[]{uid, position});
 		

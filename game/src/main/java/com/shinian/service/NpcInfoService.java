@@ -55,7 +55,7 @@ public class NpcInfoService {
 		return result;
 	}
 	
-	public MessageRespVo getGameNpcInfo(HttpServletRequest request, HttpServletResponse response,String jsonStr)
+	public MessageRespVo getNpcInfo(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
 		MessageRespVo result = new MessageRespVo();
 
@@ -76,6 +76,11 @@ public class NpcInfoService {
 		return result;
 	}
 	
+	public NpcInfoVo getNpcInfoById(int id)
+	{
+		return npcInfoDao.getNpcInfoById(id);
+	}
+	
 	public MessageRespVo setNpcPosition(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
 		MessageRespVo result = new MessageRespVo();
@@ -83,14 +88,23 @@ public class NpcInfoService {
 		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
 		PositionReqVo nrv = JSON.parseObject(gcrv.getData().toString(),PositionReqVo.class);
 		result.setTs(gcrv.getTs());
+
+		NpcInfoVo reqNpc= npcInfoDao.getNpcInfoById(nrv.getId());
+		if(reqNpc == null){
+			result.setCode(Message.MSG_CODE_NPC_NOT_EXIST);
+			result.setMsg(Message.MSG_NPC_NOT_EXIST);
+			return result;
+		}
 		
-		NpcInfoVo npc = getNpcByPosition(nrv.getUid(), nrv.getTargetPosition()); 
-		if (null == npc){
+		int currentPosition = reqNpc.getPosition();
+		
+		NpcInfoVo tpNpc = getNpcByPosition(nrv.getUid(), nrv.getTargetPosition()); 		//Npc on target position
+		if (null == tpNpc){
 			npcInfoDao.setNpcPosition(nrv.getId(), nrv.getTargetPosition());
 		}
-		else{
-			npcInfoDao.setNpcPosition(nrv.getId(), npc.getPosition());
-			npcInfoDao.setNpcPosition(npc.getId(), nrv.getTargetPosition());
+		else if(tpNpc.getId() != nrv.getId()){
+			npcInfoDao.setNpcPosition(nrv.getId(), tpNpc.getPosition());
+			npcInfoDao.setNpcPosition(tpNpc.getId(), currentPosition);
 		}
 		
 		List<NpcInfoVo> list = armyInfoService.getArmy(nrv.getUid());
@@ -105,6 +119,7 @@ public class NpcInfoService {
 		result.setCode(Message.MSG_CODE_OK);
 		return result;
 	}
+	
 	
 	public NpcInfoVo getNpcByPosition(String uid, int position)
 	{

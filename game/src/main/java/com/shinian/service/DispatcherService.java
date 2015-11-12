@@ -63,7 +63,7 @@ public class DispatcherService {
 				break;
 			
 			case 1003:
-				result = npcInfoService.getGameNpcInfo(request, response, jsonStr);///get game NPC info
+				result = npcInfoService.getNpcInfo(request, response, jsonStr);///get game NPC info
 				break;
 	
 			case 1004:
@@ -71,7 +71,12 @@ public class DispatcherService {
 				break;
 				
 			case 1005:
-				result = npcUpdateService.npcUpdate(request, response, jsonStr);///update npc's level	
+				result = npcUpdateService.npcUpdate(request, response, jsonStr);///update npc's level
+				break;
+				
+			case 1006:
+				result = npcInfoService.setNpcPosition(request, response, jsonStr);///set npc's position
+				break;
 				
 			case 9002:
 				result = propInfoService.getCommPropInfo(request, response, jsonStr);	///get common property info

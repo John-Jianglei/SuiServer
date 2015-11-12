@@ -142,7 +142,17 @@ public class RedisCacheUtil {
 			String prefix = RedisKeyDefine.KEY_COMMON_PROP_INFO;
 			String key = String.format(prefix, comId);
 
-			return jedis.exists(key);
+			if(jedis.exists(key)){
+				return true;
+			}
+			
+			PropInfoRedisVo v = commonDataService.getPropInfoByComId(comId);
+			if(v != null){
+				jedis.hmset(key, v.toMap());
+				return true;
+			}
+			
+			return false;			
 		}
 		catch(Exception e){
 			e.printStackTrace();
