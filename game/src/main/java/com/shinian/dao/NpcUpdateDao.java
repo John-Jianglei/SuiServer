@@ -51,10 +51,16 @@ public class NpcUpdateDao{
 		//long cardExp = WebConstant.gameJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{id});
 		long cardExp = 0;
 		switch(id){
-		case 1:
+		case 101:
+			cardExp = 30;
+			break;
+		case 102:
+			cardExp = 50;
+			break;
+		case 103:
 			cardExp = 100;
 			break;
-		case 2:
+		case 104:
 			cardExp = 200;
 			break;
 		default:
