@@ -8,6 +8,7 @@ public class NpcInfoVo extends BaseObject implements Serializable{
 	private  int id;		// ID from game_npc_info;
 	private  int comId;		// ID from common_npc_info;
 	private  String uid;	//	ID from game_player_info; 
+	private  int pinjie;
 	private  int level;
 	private  int experience;
 	private  int position;
@@ -86,6 +87,13 @@ public class NpcInfoVo extends BaseObject implements Serializable{
 	}
 	public void setHujia(int hujia) {
 		this.hujia = hujia;
+	}
+	
+	public int getPinjie() {
+		return pinjie;
+	}
+	public void setPinjie(int pinjie) {
+		this.pinjie = pinjie;
 	}
 	
 	public int getPojia() {
