@@ -164,4 +164,33 @@ public class RedisCacheUtil {
 		return false;
 	}
 	
+	public boolean isNpcComIdExist(int comId)
+	{
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_COMMON_NPC_INFO;
+			String key = String.format(prefix, comId);
+
+			if(jedis.exists(key)){
+				return true;
+			}
+			
+			NpcInfoRedisVo v = commonDataService.getNpcInfoByComId(comId);
+			if(v != null){
+				jedis.hmset(key, v.toMap());
+				return true;
+			}
+			
+			return false;			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return false;
+	}
+	
 }

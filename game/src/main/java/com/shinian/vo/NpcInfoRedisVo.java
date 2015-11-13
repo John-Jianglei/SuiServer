@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import com.shinian.util.Nature;
+
 
 
 public class NpcInfoRedisVo extends BaseObject implements Serializable{
@@ -357,4 +359,66 @@ public class NpcInfoRedisVo extends BaseObject implements Serializable{
 		return new String[] {"comId", "name", "gender", "star", "category", "camp", "health", "attack", "hujia", "pojia", "fachuan", "fakang", "baoji", "renxing", "mingzhong", "shanbi", "xixue", "fantan", "jiyun", "kangyun", "gedang", "gedangPoss", "reduce", "talent", "talentVal", "attackStep", "healthStep", "levelupRate", "pieces", "maxPieces", "desc", "updateTime", "status"};
 	}
 
+	public NpcInfoVo initGameNpc()
+	{
+		NpcInfoVo npc = new NpcInfoVo();
+		
+		npc.setComId(this.comId);
+		npc.setHealth(this.health); 
+		npc.setAttack(this.attack); 
+		npc.setHujia(this.hujia); 
+		npc.setPojia(this.pojia); 
+		npc.setFachuan(this.fachuan); 
+		npc.setFakang(this.fakang); 
+		npc.setBaoji(this.baoji); 
+		npc.setRenxing(this.renxing); 
+		npc.setMingzhong(this.mingzhong); 
+		npc.setShanbi(this.shanbi); 
+		npc.setXixue(this.xixue); 
+		npc.setFantan(this.fantan); 
+		npc.setJiyun(this.jiyun); 
+		npc.setKangyun(this.kangyun); 
+		npc.setGedang(this.gedang); 
+		npc.setGedangPoss(this.gedangPoss); 
+		npc.setReduce(this.reduce);
+		
+		String tlt = this.talent.trim().toLowerCase();
+		int tval = this.talentVal;
+		if (tlt.equalsIgnoreCase(Nature.NT_ATT_HEALTH))
+			npc.setHealth(this.health + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_ATTACK))
+			npc.setAttack(this.attack + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_HUJIA))
+			npc.setHujia(this.hujia + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_POJIA))
+			npc.setPojia(this.pojia + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_FACHUAN))
+			npc.setFachuan(this.fachuan + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_FAKANG))
+			npc.setFakang(this.fakang + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_BAOJI))
+			npc.setBaoji(this.baoji + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_RENXING))
+			npc.setRenxing(this.renxing + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_MINGZHONG))
+			npc.setMingzhong(this.mingzhong + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_SHANBI))
+			npc.setShanbi(this.shanbi + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_XIXUE))
+			npc.setXixue(this.xixue + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_FANTAN))
+			npc.setFantan(this.fantan + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_JIYUN))
+			npc.setJiyun(this.jiyun + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_KANGYUN))
+			npc.setKangyun(this.kangyun + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_GEDANG))
+			npc.setGedang(this.gedang + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_GEDANGPOSS))
+			npc.setGedangPoss(this.gedangPoss + tval);
+		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_REDUCE))
+			npc.setReduce(this.reduce + tval);
+		
+		return npc;
+	}
 }

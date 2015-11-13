@@ -14,58 +14,64 @@ import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
 import com.shinian.vo.NpcInfoVo;
-import com.shinian.vo.PropInfoVo;
+import com.shinian.vo.NpcInfoRedisVo;
 
 @Repository
 public class NpcAddDao {
 	
 
-	public PropInfoVo addNpcToPlayer(String uid, int comId){
-		String sql = "select `id`, `comId`, `uid`, `npcId`, `position`, `amount` from game_prop_info where `uid` = ? and `comId` = ?";
-		List<PropInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
-				ParameterizedBeanPropertyRowMapper.newInstance(PropInfoVo.class), new Object[]{uid, comId});
+	public NpcInfoVo addNpcToPlayer(String uid, NpcInfoRedisVo npcRedis){
+		String sql = "select `id`, `comId`, `uid`, `position` from game_npc_info where `uid` = ? order by `position` desc";
+		List<NpcInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
+				ParameterizedBeanPropertyRowMapper.newInstance(NpcInfoVo.class), new Object[]{uid});
+		
+		int position = 1;
 		
 		if(pivList != null && pivList.size() > 0){
-			sql = "update game_prop_info set `amount` = ? where `uid` = ? and `comId` = ?";
-			pivList.get(0).setAmount(amount + pivList.get(0).getAmount());
-			WebConstant.gameJdbc.getJdbcTemplate().update(sql, pivList.get(0).getAmount(), uid, comId);
-			return pivList.get(0);
+			position = pivList.get(0).getPosition();
 		}
 		
-		PropInfoVo pvo = new PropInfoVo();
-		int rt = insert(uid, comId, amount);
-		pvo.setId(rt);
-		pvo.setComId(comId);
-		pvo.setUid(uid);
-		pvo.setAmount(amount);
-		return pvo;
+		NpcInfoVo npc = npcRedis.initGameNpc();
+		npc.setUid(uid);
+		npc.setPosition(position);
+		int rt = insert(npc);
+		npc.setId(rt);
+
+		return npc;
 	}
 	
-	private int insert(final String uid, final int comId, final int amount){
-		final String sql = "insert into game_prop_info(`uid`, `comId`, `amount`) values(?,?,?)";
+	private int insert(final NpcInfoVo npc){
+		final String sql = "insert into game_npc_info(`comId`, `uid`, `position`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce`) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		WebConstant.gameJdbc.getJdbcTemplate().update(new PreparedStatementCreator(){
 			@Override
             public PreparedStatement createPreparedStatement(Connection conn) throws SQLException{
                 PreparedStatement ps = conn.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
                 
-                ps.setString(1, uid);
-                ps.setInt(2, comId);
-                ps.setInt(3, amount);
+                ps.setInt(1, npc.getComId()); 
+                ps.setString(2, npc.getUid()); 
+                ps.setInt(3, npc.getPosition()); 
+                ps.setInt(4, npc.getHealth()); 
+                ps.setInt(5, npc.getAttack()); 
+                ps.setInt(6, npc.getHujia()); 
+                ps.setInt(7, npc.getPojia()); 
+                ps.setInt(8, npc.getFachuan()); 
+                ps.setInt(9, npc.getFakang()); 
+                ps.setInt(10, npc.getBaoji()); 
+                ps.setInt(11, npc.getRenxing()); 
+                ps.setInt(12, npc.getMingzhong()); 
+                ps.setInt(13, npc.getShanbi()); 
+                ps.setInt(14, npc.getXixue()); 
+                ps.setInt(15, npc.getFantan()); 
+                ps.setInt(16, npc.getJiyun()); 
+                ps.setInt(17, npc.getKangyun()); 
+                ps.setInt(18, npc.getGedang()); 
+                ps.setInt(19, npc.getGedangPoss()); 
+                ps.setInt(20, npc.getReduce());
                 return ps;
             }					
         }, keyHolder);
     
         return keyHolder.getKey().intValue();
 	}
-	
-	
-	public List<PropInfoVo> getPropListOfPlayer(String uid)
-	{
-		final String sql = "select `id`, `comId`, `uid`, `npcId`, `position`, `amount` from game_prop_info where `uid` = ?";
-		List<PropInfoVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(PropInfoVo.class),new Object[]{uid});
-		
-		return list;
-	}
-	
 }
