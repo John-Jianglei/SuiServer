@@ -96,6 +96,11 @@ public class DispatcherService {
 			case 9004:
 				result = propInfoService.getPropListOfPlayer(request, response, jsonStr);	
 				break;
+
+			case 9005:
+				result = propInfoService.usePropertyOfPlayer(request, response, jsonStr);	
+				break;
+				
 				
 			default:
 				CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);

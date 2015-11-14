@@ -119,4 +119,79 @@ public class PropInfoService {
 		return propInfoDao.getPropListOfPlayer(uid);		
 	}
 	
+	
+	public PropInfoVo getPropOfPlayerByComId(String uid, int comId)
+	{
+		if (!playerInfoService.isUidExist(uid)){
+			return null;
+		}
+		
+		if (!redisCacheUtil.isPropComIdExist(comId)){
+			return null;
+		}
+
+		return propInfoDao.getPropOfPlayerByComId(uid, comId);
+	}
+	
+	public MessageRespVo usePropertyOfPlayer(HttpServletRequest request, HttpServletResponse response,String jsonStr)
+	{
+		MessageRespVo result = new MessageRespVo();
+
+		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
+		PropInfoReqVo nrv = JSON.parseObject(gcrv.getData().toString(),PropInfoReqVo.class);
+		result.setTs(gcrv.getTs());
+		
+		if (!playerInfoService.isUidExist(nrv.getUid())){
+			result.setCode(Message.MSG_CODE_PLAYER_NOT_EXIST);
+			result.setMsg(Message.MSG_PLAYER_NOT_EXIST);
+			return result;
+		}
+		
+		PropInfoVo pv = getPropOfPlayerByComId(nrv.getUid(), nrv.getComId());
+		
+		if (null == pv){
+			result.setCode(Message.MSG_CODE_PROP_NOT_EXIST);
+			result.setMsg(Message.MSG_PROP_NOT_EXIST);
+			return result;
+		}
+
+		if (nrv.getAmount() > pv.getAmount()){
+			result.setCode(Message.MSG_CODE_PROP_NOT_ENOUGH);
+			result.setMsg(Message.MSG_PROP_NOT_ENOUGH);
+			return result;
+		}
+		
+		if(nrv.getAmount() == pv.getAmount()){
+			propInfoDao.delPropertyOfPlayer(pv);
+			result.setCode(Message.MSG_CODE_PROP_EMPTY);
+			result.setMsg(Message.MSG_PROP_EMPTY);
+			return result;
+		}
+
+		pv.setAmount(pv.getAmount() - nrv.getAmount());
+		propInfoDao.updatePropertyOfPlayer(pv);
+		result.setData(pv);		
+		result.setCode(Message.MSG_CODE_OK);
+		
+		return result;
+	}
+	
+	public PropInfoVo usePropertyOfPlayer(String uid, int comId, int amount)
+	{
+		PropInfoVo pv = getPropOfPlayerByComId(uid, comId);
+		
+		if ((null == pv) || (amount > pv.getAmount())){
+			return null;
+		}
+		
+		if(amount == pv.getAmount()){
+			propInfoDao.delPropertyOfPlayer(pv);
+			return null;
+		}
+
+		pv.setAmount(pv.getAmount() - amount);
+		propInfoDao.updatePropertyOfPlayer(pv);
+		
+		return pv;
+	}
 }

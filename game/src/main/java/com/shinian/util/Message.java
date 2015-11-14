@@ -38,5 +38,11 @@ public class Message implements Serializable{
 	public final static int MSG_CODE_NPC_CANNOT_LEVEL = 309;
 	public final static String MSG_NPC_CANNOT_LEVEL = "武将不能升级";
 		
+	public final static int MSG_CODE_PROP_NOT_ENOUGH = 310;
+	public final static String MSG_PROP_NOT_ENOUGH = "物品数量不足";
+	
+	public final static int MSG_CODE_PROP_EMPTY = 311;
+	public final static String MSG_PROP_EMPTY = "物品用完";
+	
 	
 }

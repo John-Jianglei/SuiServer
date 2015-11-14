@@ -70,4 +70,29 @@ public class PropInfoDao {
 		return list;
 	}
 	
+	public PropInfoVo getPropOfPlayerByComId(String uid, int comId)
+	{
+		String sql = "select `id`, `comId`, `uid`, `npcId`, `position`, `amount` from game_prop_info where `uid` = ? and comId = ?";
+		List<PropInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
+				ParameterizedBeanPropertyRowMapper.newInstance(PropInfoVo.class), new Object[]{uid, comId});
+		
+		if(pivList != null && pivList.size() > 0){
+			return pivList.get(0);
+		}
+		
+		return null;
+	}
+	
+	public int delPropertyOfPlayer(PropInfoVo pv)
+	{
+		String sql = "delete from game_prop_info where `id` = ?";
+		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, pv.getId());
+	}
+	
+	public int updatePropertyOfPlayer(PropInfoVo pv)
+	{
+		String sql = "update game_prop_info set `amount` = ? where `id` = ?";
+		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, pv.getAmount(), pv.getId());
+	}
+	
 }
