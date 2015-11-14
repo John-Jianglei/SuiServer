@@ -98,7 +98,7 @@ public class DispatcherService {
 				break;
 
 			case 9005:
-				result = propInfoService.usePropertyOfPlayer(request, response, jsonStr);	
+				result = propInfoService.consumePropertyOfPlayer(request, response, jsonStr);	
 				break;
 				
 				

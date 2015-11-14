@@ -133,7 +133,7 @@ public class PropInfoService {
 		return propInfoDao.getPropOfPlayerByComId(uid, comId);
 	}
 	
-	public MessageRespVo usePropertyOfPlayer(HttpServletRequest request, HttpServletResponse response,String jsonStr)
+	public MessageRespVo consumePropertyOfPlayer(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
 		MessageRespVo result = new MessageRespVo();
 
@@ -176,7 +176,7 @@ public class PropInfoService {
 		return result;
 	}
 	
-	public PropInfoVo usePropertyOfPlayer(String uid, int comId, int amount)
+	public PropInfoVo consumePropertyOfPlayer(String uid, int comId, int amount)
 	{
 		PropInfoVo pv = getPropOfPlayerByComId(uid, comId);
 		
