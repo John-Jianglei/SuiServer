@@ -45,36 +45,28 @@ public class NpcUpdateDao{
 		return level;		
 	}
 	
-	public long getCardExpById(int id){
+	public int getExpCardNumbyId(int comId, int npcId, String uid){
 		
-		//final String sql = " select `experience` from game_npc_info where id = ?";
-		//long cardExp = WebConstant.gameJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{id});
-		long cardExp = 0;
-		switch(id){
-		case 101:
-			cardExp = 30;
-			break;
-		case 102:
-			cardExp = 50;
-			break;
-		case 103:
-			cardExp = 100;
-			break;
-		case 104:
-			cardExp = 200;
-			break;
-		default:
-			cardExp = 1000;
-		}		
+		final String sql = " select `amount` from game_prop_info where comId=? and npcId=? and uid = ?";
+		int CardNum = WebConstant.gameJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{comId,npcId,uid});		
+		
+		return CardNum;	
+	}
+	
+	public long getCardExpById(int comId){		
+		
+		final String sql = " select `val` from common_prop_info where nature=200 and comId = ?";
+		long cardExp = WebConstant.commonJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{comId});
+	
 		return cardExp;
 		
 	}
 	
 	//modify 
-	public int setExpById(int id, long npcExp){
+	public int setExpById(int id, int level, long npcExp){
 		
-		String sql = "update game_npc_info set experience = ? where id = ?";
-		int row = WebConstant.gameJdbc.getJdbcTemplate().update(sql,new Object[]{id,npcExp});
+		String sql = "update game_npc_info set `experience` = ? ,`level` = ? where id = ?";
+		int row = WebConstant.gameJdbc.getJdbcTemplate().update(sql, npcExp, level, id);		
 
 		return row;
 	}	

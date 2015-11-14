@@ -16,6 +16,7 @@ import com.shinian.vo.CommonReqVo;
 import com.shinian.vo.ExpCardVo;
 import com.shinian.vo.MessageRespVo;
 import com.shinian.vo.NpcUpdateVo;
+import com.shinian.vo.PropInfoVo;
 
 
 @Service
@@ -26,6 +27,9 @@ public class NpcUpdateService {
 	
 	@Autowired
 	RedisCacheUtil redisCacheUtil;
+	
+	@Autowired
+	PropInfoService propInfoService;
 	
 	public MessageRespVo npcUpdate(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
@@ -46,13 +50,38 @@ public class NpcUpdateService {
 		int npcId = npcuv.getId();
 		String Uid = npcuv.getUid();
 		long totalExp = 0;
+		//int tempCardId = 0;
+		int[][] ExpCard = new int[expCardList.size()][2]; //每列是id和数量
+		for( int i=0; i<expCardList.size(); i++ ){
+			ExpCard[i][0] = 0;
+			ExpCard[i][0] = 0;
+		}
 		
 		for(ExpCardVo expCardVo : expCardList){
-			totalExp += npcUpdateDao.getCardExpById(expCardVo.getId());
+			for( int i=0; i<expCardList.size(); i++ ){
+				if( ExpCard[i][0] ==0 || ExpCard[i][0]==expCardVo.getId() ){
+					ExpCard[i][0] = expCardVo.getId();
+					ExpCard[i][1]++;
+					break;
+				}
+			}
+			totalExp += npcUpdateDao.getCardExpById(expCardVo.getId());			
+		}
+		
+		//Has enough exp card in db?
+		for( int i=0; i<expCardList.size(); i++ ){
+			if( 0==ExpCard[i][0] ){
+				break;
+			}
+			if( ExpCard[i][1] > npcUpdateDao.getExpCardNumbyId(ExpCard[i][0], npcId, Uid)){
+				result.setCode(Message.MSG_CODE_PROP_NOT_EXIST);
+				result.setMsg(Message.MSG_PROP_NOT_EXIST);
+				return result;
+			}
 		}
 					
 		//cacu exp
-		//1、get exp by id
+		//get exp by id
 		List<NpcUpdateVo> list = npcUpdateDao.getRpcById(npcId);
 		
 		if(list == null || list.size() == 0){
@@ -66,48 +95,55 @@ public class NpcUpdateService {
 			int playerLevel = npcUpdateDao.getPlayerLevelByUid(updateNpcVo.getUid());	
 			int npcLevel = updateNpcVo.getLevel();
 			long npcCurrentExp;
-			
+			long npcLastExp;	//武将最终经验
+			long tempExp;
 			if( npcLevel>playerLevel || npcLevel==200){
 				result.setCode(Message.MSG_CODE_NPC_CANNOT_LEVEL);
 				result.setMsg(Message.MSG_NPC_CANNOT_LEVEL);
 				return result;
 			}
 			
+			npcCurrentExp = updateNpcVo.getExperience();
+			
 			for( int j=npcLevel; j<=playerLevel; j++){
 				//the MAX Level of rpc is 200				
 				if( j==200 ){
 					updateNpcVo.setLevel(j);
-					updateNpcVo.setExperience(npcUpdateDao.getExpBylevel(200));
-					break;
+					npcLastExp = npcUpdateDao.getExpBylevel(200);
+					updateNpcVo.setExperience(npcLastExp);
 					//write database
+					npcUpdateDao.setExpById(npcId, j, npcLastExp);					
+					break;
 				}
-				npcCurrentExp = updateNpcVo.getExperience();
-				if( npcCurrentExp + totalExp < npcUpdateDao.getExpBylevel(npcLevel+1>=200?200:npcLevel+1)){
+				
+				tempExp = npcUpdateDao.getExpBylevel(j+1>=200?200:j+1);
+				if( npcCurrentExp + totalExp < tempExp){
 					updateNpcVo.setLevel(j);
 					updateNpcVo.setExperience(npcCurrentExp + totalExp); //not level up
 					//write database
+					npcUpdateDao.setExpById(npcId, j, npcCurrentExp + totalExp);
 					break;
 				}
-				if( npcCurrentExp + totalExp >= npcUpdateDao.getExpBylevel(npcLevel+1>=200?200:npcLevel+1)){
-					npcCurrentExp = npcCurrentExp + totalExp - npcUpdateDao.getExpBylevel(npcLevel+1>=200?200:npcLevel+1);
+				if( npcCurrentExp + totalExp >= tempExp){
+					npcCurrentExp = npcCurrentExp + totalExp - tempExp;
 					totalExp = 0;
 					
-					if( j==playerLevel && npcCurrentExp>=npcUpdateDao.getExpBylevel(npcLevel+1>=200?200:npcLevel+1)){
+					if( j==playerLevel && npcCurrentExp>=tempExp){
 						updateNpcVo.setLevel(j);
-						updateNpcVo.setExperience(npcUpdateDao.getExpBylevel(npcLevel+1>=200?200:npcLevel+1)); 
+						updateNpcVo.setExperience(tempExp); 
+						npcUpdateDao.setExpById(npcId, j, tempExp);
 						break;
 					}
-				}
-				
-
-				
-				
+				}				
 			}		
 			
-			//Q? how to use redisCacheUtil ? syq
-			//NpcInfoVo comNpcVo  = redisCacheUtil.getNpcInfoByComId(gameNpcVo.getComId());
-			
-			//token need not send back?? syq
+			//update db for card number has been changed
+			for( int i=0; i<expCardList.size(); i++ ){
+				if( 0==ExpCard[i][0] ){
+					break;
+				}
+				propInfoService.consumePropertyOfPlayer(Uid, ExpCard[i][0], ExpCard[i][1]);
+			}
 			
 			updateNpcVo.setExpCardList(expCardList);
 			updateNpcVo.setId(npcId);
