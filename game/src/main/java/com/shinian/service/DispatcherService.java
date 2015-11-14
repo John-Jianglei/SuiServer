@@ -35,6 +35,9 @@ public class DispatcherService {
 	@Autowired
 	NpcUpdateService npcUpdateService;
 	
+	@Autowired
+	NpcAddService npcAddService;
+	
 	
 	private static Logger log = Logger.getLogger("game");
 	
@@ -76,6 +79,10 @@ public class DispatcherService {
 				
 			case 1006:
 				result = npcInfoService.setNpcPosition(request, response, jsonStr);///set npc's position
+				break;
+				
+			case 1008:
+				result = npcAddService.addNpcToPlayer(request, response, jsonStr);///
 				break;
 				
 			case 9002:

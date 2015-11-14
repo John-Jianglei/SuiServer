@@ -28,7 +28,7 @@ public class NpcAddDao {
 		int position = 1;
 		
 		if(pivList != null && pivList.size() > 0){
-			position = pivList.get(0).getPosition();
+			position = pivList.get(0).getPosition() + 1;
 		}
 		
 		NpcInfoVo npc = npcRedis.initGameNpc();

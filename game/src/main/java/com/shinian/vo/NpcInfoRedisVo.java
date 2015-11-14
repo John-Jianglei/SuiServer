@@ -384,39 +384,39 @@ public class NpcInfoRedisVo extends BaseObject implements Serializable{
 		
 		String tlt = this.talent.trim().toLowerCase();
 		int tval = this.talentVal;
-		if (tlt.equalsIgnoreCase(Nature.NT_ATT_HEALTH))
+		if (tlt.equalsIgnoreCase(Nature.NT_MSG_HEALTH))
 			npc.setHealth(this.health + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_ATTACK))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_ATTACK))
 			npc.setAttack(this.attack + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_HUJIA))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_HUJIA))
 			npc.setHujia(this.hujia + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_POJIA))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_POJIA))
 			npc.setPojia(this.pojia + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_FACHUAN))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_FACHUAN))
 			npc.setFachuan(this.fachuan + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_FAKANG))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_FAKANG))
 			npc.setFakang(this.fakang + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_BAOJI))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_BAOJI))
 			npc.setBaoji(this.baoji + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_RENXING))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_RENXING))
 			npc.setRenxing(this.renxing + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_MINGZHONG))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_MINGZHONG))
 			npc.setMingzhong(this.mingzhong + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_SHANBI))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_SHANBI))
 			npc.setShanbi(this.shanbi + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_XIXUE))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_XIXUE))
 			npc.setXixue(this.xixue + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_FANTAN))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_FANTAN))
 			npc.setFantan(this.fantan + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_JIYUN))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_JIYUN))
 			npc.setJiyun(this.jiyun + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_KANGYUN))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_KANGYUN))
 			npc.setKangyun(this.kangyun + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_GEDANG))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_GEDANG))
 			npc.setGedang(this.gedang + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_GEDANGPOSS))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_GEDANGPOSS))
 			npc.setGedangPoss(this.gedangPoss + tval);
-		else if (tlt.equalsIgnoreCase(Nature.NT_ATT_REDUCE))
+		else if (tlt.equalsIgnoreCase(Nature.NT_MSG_REDUCE))
 			npc.setReduce(this.reduce + tval);
 		
 		return npc;
