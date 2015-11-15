@@ -45,10 +45,10 @@ public class NpcUpdateDao{
 		return level;		
 	}
 	
-	public int getExpCardNumbyId(int comId, int npcId, String uid){
+	public int getExpCardNumbyId(int comId, String uid){
 		
-		final String sql = " select `amount` from game_prop_info where comId=? and npcId=? and uid = ?";
-		int CardNum = WebConstant.gameJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{comId,npcId,uid});		
+		final String sql = " select `amount` from game_prop_info where comId=? and npcId=-1 and uid = ?";
+		int CardNum = WebConstant.gameJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{comId,uid});		
 		
 		return CardNum;	
 	}

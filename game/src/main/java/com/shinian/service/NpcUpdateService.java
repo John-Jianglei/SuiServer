@@ -73,7 +73,7 @@ public class NpcUpdateService {
 			if( 0==ExpCard[i][0] ){
 				break;
 			}
-			if( ExpCard[i][1] > npcUpdateDao.getExpCardNumbyId(ExpCard[i][0], npcId, Uid)){
+			if( ExpCard[i][1] > npcUpdateDao.getExpCardNumbyId(ExpCard[i][0], Uid)){
 				result.setCode(Message.MSG_CODE_PROP_NOT_EXIST);
 				result.setMsg(Message.MSG_PROP_NOT_EXIST);
 				return result;
