@@ -91,6 +91,17 @@ CREATE TABLE `game_npc_info` (
   `gedang` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前格挡',
   `gedangPoss` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前格挡概率',
   `reduce` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前伤害减小',
+  `skill1` int(11) NOT NULL DEFAULT '0' COMMENT '技能1',
+  `skill2` int(11) NOT NULL DEFAULT '0' COMMENT '技能2',
+  `skill3` int(11) NOT NULL DEFAULT '0' COMMENT '技能3',
+  `skill4` int(11) NOT NULL DEFAULT '0' COMMENT '技能4',
+  `skill5` int(11) NOT NULL DEFAULT '0' COMMENT '技能5',
+  `skill6` int(11) NOT NULL DEFAULT '0' COMMENT '技能6',
+  `skill7` int(11) NOT NULL DEFAULT '0' COMMENT '技能7',
+  `skill8` int(11) NOT NULL DEFAULT '0' COMMENT '技能8',
+  `skill9` int(11) NOT NULL DEFAULT '0' COMMENT '技能9',
+  `skill10` int(11) NOT NULL DEFAULT '0' COMMENT '技能10',
+  `skill11` int(11) NOT NULL DEFAULT '0' COMMENT '技能11',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='武将信息表';
 
@@ -110,10 +121,10 @@ CREATE TABLE `game_prop_info` (
 insert into game_prop_info(`comId`,`uid`) values(205,'1-1');
 
 
-insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(205,'1-1',5,300,200,200);
-insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(206,'1-1',5,500,500,500);
-insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(207,'1-1',5,200,200,200);
-insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(208,'1-6',5,200,200,200);
+insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(105,'1-1',5,300,200,200);
+insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(106,'1-1',5,500,500,500);
+insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(107,'1-1',5,200,200,200);
+insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) values(108,'1-6',5,200,200,200);
 
 
 
