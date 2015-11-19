@@ -43,6 +43,8 @@ public class Message implements Serializable{
 	
 	public final static int MSG_CODE_PROP_EMPTY = 311;
 	public final static String MSG_PROP_EMPTY = "物品用完";
-	
+
+	public final static int MSG_CODE_SEL_NPC_ERROR = 312;
+	public final static String MSG_SEL_NPC_ERROR = "选择武将错误";
 	
 }

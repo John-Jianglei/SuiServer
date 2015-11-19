@@ -70,12 +70,6 @@ public class NpcUpdateDao{
 
 		return row;
 	}	
-	
-	//modify wupin table
-	public int setCardNumById(int kk){		
-		int row = 0;
-		return row;		
-	}
 
 	
 }
