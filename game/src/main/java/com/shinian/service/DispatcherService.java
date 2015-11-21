@@ -38,6 +38,8 @@ public class DispatcherService {
 	@Autowired
 	NpcAddService npcAddService;
 	
+	@Autowired
+	BattleService battleService;
 	
 	private static Logger log = Logger.getLogger("game");
 	
@@ -101,6 +103,9 @@ public class DispatcherService {
 				result = propInfoService.consumePropertyOfPlayer(request, response, jsonStr);	
 				break;
 				
+			case 9006:
+				result = battleService.makeWar(request, response, jsonStr);	
+				break;
 				
 			default:
 				CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);
