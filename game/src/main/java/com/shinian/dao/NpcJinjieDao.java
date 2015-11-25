@@ -29,20 +29,6 @@ public class NpcJinjieDao {
 		return null;	
 	}
 	
-	
-	//获得武将升级需要的材料
-	public JinjieMaterialRedisVo getJinjieNeedMByPinjie(int nextpinjie){
-		
-		final String sql = " select `silver`,`jinjiedan`, `fivecolorstone`,`tigertally`, `eviltally`," +
-				"`ploughtally`, `sttally`,`suitangmedal` from common_npc_jinjie_material where nextpinjie = ?";
-		List<JinjieMaterialRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(JinjieMaterialRedisVo.class),new Object[]{nextpinjie});	
-	
-		if(list != null && list.size() > 0){
-			return list.get(0);
-		}
-		return null;		
-	}
-	
 //	//获得材料comId
 //	public int getComIdByEname(String ename){
 //		
@@ -67,14 +53,14 @@ public class NpcJinjieDao {
 	}
 	
 	//获得武将已有的材料
-	public List<NpcJinjieVo> getRpcHasMByLevel(int nexlevel){
-		
-		final String sql = " select `jinjiedan`, `fivecolorstone`,`tigertally`, `eviltally`," +
-				"`ploughtally`, `sttally`,`suitangmedal` from common_rpc_jinjie_material where id = ?";
-		List<NpcJinjieVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(NpcJinjieVo.class),new Object[]{nexlevel});	
-		
-		return list;		
-	}
+//	public List<NpcJinjieVo> getRpcHasMByLevel(int nexlevel){
+//		
+//		final String sql = " select `jinjiedan`, `fivecolorstone`,`tigertally`, `eviltally`," +
+//				"`ploughtally`, `sttally`,`suitangmedal` from common_rpc_jinjie_material where id = ?";
+//		List<NpcJinjieVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(NpcJinjieVo.class),new Object[]{nexlevel});	
+//		
+//		return list;		
+//	}
 	
 //	public long getSilverByUid(String uid){
 //		

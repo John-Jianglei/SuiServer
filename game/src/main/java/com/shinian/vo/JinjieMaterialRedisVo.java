@@ -2,6 +2,9 @@ package com.shinian.vo;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JinjieMaterialRedisVo implements Serializable{
 
@@ -71,5 +74,40 @@ public class JinjieMaterialRedisVo implements Serializable{
 	public void setSuitangmedal(int suitangmedal) {
 		this.suitangmedal = suitangmedal;
 	}	
+	
+	public void fromList(List<String> list) {
+		int idx = 0;
+		
+		this.nextpinjie = Integer.parseInt(list.get(idx++));   
+		this.silver = new BigInteger(list.get(idx++));	
+		this.jinjiedan = Integer.parseInt(list.get(idx++));  		
+		this.fivecolorstone = Integer.parseInt(list.get(idx++));  		
+		this.tigertally = Integer.parseInt(list.get(idx++));   
+		this.eviltally = Integer.parseInt(list.get(idx++));  
+		this.ploughtally = Integer.parseInt(list.get(idx++));  
+		this.sttally = Integer.parseInt(list.get(idx++));  
+		this.suitangmedal = Integer.parseInt(list.get(idx++));  
+	}
+	
+	public Map<String, String> toMap() {
+		Map<String, String> map = new HashMap<String, String>();
+				
+		map.put("nextpinjie", 		               	this.nextpinjie + "");
+		map.put("silver",                        	this.silver + "");
+		map.put("jinjiedan", 	               	   	this.jinjiedan + "");
+		map.put("fivecolorstone",		 	       	this.fivecolorstone + "");
+		map.put("tigertally", 		               	this.tigertally + "");
+		map.put("eviltally",                        this.eviltally + "");
+		map.put("ploughtally",                  	this.ploughtally + "");
+		map.put("sttally",                      	this.sttally + "");
+		map.put("suitangmedal",                     this.suitangmedal + "");
+
+		return map;
+	}
+	
+	public String[] getFieldNames() {
+		return new String[] {"nextpinjie", "silver", "jinjiedan", "fivecolorstone", "tigertally", 
+				"eviltally", "ploughtally", "sttally", "suitangmedal"};
+	}
 	
 }

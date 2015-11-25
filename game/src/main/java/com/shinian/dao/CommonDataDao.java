@@ -9,7 +9,9 @@ import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
+import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
+import com.shinian.vo.NpcUpdateRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
 
 
@@ -44,5 +46,33 @@ public class CommonDataDao  {
 		return null;
 	}
 	
+	//获得武将升级需要的材料
+	public JinjieMaterialRedisVo getJinjieNeedMByPinjie(int nextpinjie){
+		
+		final String sql = " select `silver`,`jinjiedan`, `fivecolorstone`,`tigertally`, `eviltally`," +
+				"`ploughtally`, `sttally`,`suitangmedal` from common_npc_jinjie_material where nextpinjie = ?";
+		List<JinjieMaterialRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(JinjieMaterialRedisVo.class),new Object[]{nextpinjie});	
+	
+		if(list != null && list.size() > 0){
+			return list.get(0);
+		}
+		return null;		
+	}
+	
+	public NpcUpdateRedisVo getExpBylevel(int level){
+		
+		final String sql = " select `experience` from common_npc_experience where level = ?";
+		//WebConstant.gameJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{level});
+		//WebConstant.commonJdbc.getJdbcTemplate().queryForObject( sql, new Object[]{level}, Integer.class);
+		long exp = WebConstant.commonJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{level});		
+		
+		List<NpcUpdateRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(NpcUpdateRedisVo.class),new Object[]{level});	
+		
+		if(list != null && list.size() > 0){
+			return list.get(0);
+		}
+		return null;		
+	
+	}
 	
 }

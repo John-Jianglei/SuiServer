@@ -85,7 +85,7 @@ public class DispatcherService {
 				break;
 
 			case 1007:
-				result = npcJinjieService.npcJinjie(request, response, jsonStr);///set npc's position
+				result = npcJinjieService.npcJinjie(request, response, jsonStr);/// npc jinjie
 				break;
 				
 			case 1008:

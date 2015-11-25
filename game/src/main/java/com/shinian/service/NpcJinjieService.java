@@ -65,7 +65,7 @@ public class NpcJinjieService {
 		}
 		
 		//获取升级所需材料，根据pinjie.  		//使用redis
-		JinjieMaterialRedisVo jinjieNeedMaterial = npcJinjieDao.getJinjieNeedMByPinjie(npc1.getPinjie()+1);
+		JinjieMaterialRedisVo jinjieNeedMaterial = redisCacheUtil.getJinjieNeedMByPinjie(npc1.getPinjie()+1);
 		jinjieNeedMaterial.setNextpinjie(npc1.getPinjie()+1);
 		
 		if( jinjieNeedMaterial.getNextpinjie()%10!=0 ){
