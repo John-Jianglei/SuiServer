@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
 import com.shinian.service.CommonDataService;
+import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
+import com.shinian.vo.NpcUpdateRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
 
 
@@ -64,6 +66,40 @@ public class RedisCacheUtil {
 			RedisMessageUtil.getInstance().closeConnection(jedis);
 		}
 		return "";
+	}
+	
+	public JinjieMaterialRedisVo getJinjieNeedMByPinjie(int pinjie)
+	{
+		JinjieMaterialRedisVo jinjieM = new JinjieMaterialRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_COMMON_NPC_JINJIE_MATERIAL;
+			String key = String.format(prefix, pinjie);
+
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, jinjieM.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					jinjieM.fromList(list);
+					return jinjieM;
+				}
+			}
+			else{
+				JinjieMaterialRedisVo v = commonDataService.getJinjieNeedMByPinjie(pinjie);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
 	}
 	
 	public NpcInfoRedisVo getNpcInfoByComId(int comId)
@@ -134,6 +170,39 @@ public class RedisCacheUtil {
 		return null;
 	}
 
+	public NpcUpdateRedisVo getExpBylevel(int level)
+	{
+		NpcUpdateRedisVo nuvo = new NpcUpdateRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_COMMON_NPC_EXPERIENCE;
+			String key = String.format(prefix, level);
+
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, nuvo.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					nuvo.fromList(list);
+					return nuvo;
+				}
+			}
+			else{
+				NpcUpdateRedisVo v = commonDataService.getExpBylevel(level);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
+	}
 	
 	public boolean isPropComIdExist(int comId)
 	{

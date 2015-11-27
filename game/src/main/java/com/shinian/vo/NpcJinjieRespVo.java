@@ -3,17 +3,18 @@ package com.shinian.vo;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-public class NpcJinjieVo extends BaseObject implements Serializable {
-	
+public class NpcJinjieRespVo implements Serializable {
+
 	protected int id;		// ID from game_npc_info;
 	protected int comsumedid;	//the rpc is to be eaten
 	protected String uid;
 	private String token;
-	private int comId;
+	
+	private int pinjie;
+	private int attack;
+	private int health;
 	
 	private BigInteger silver;
-	private int pinjie;
-	private int level;
 	private int jinjiedan;
 	private int fivecolorstone;
 	private int tigertally;
@@ -22,24 +23,53 @@ public class NpcJinjieVo extends BaseObject implements Serializable {
 	private int sttally;
 	private int suitangmedal;
 	
-	public int getLevel() {
-		return level;
+	public int getId() {
+		return id;
 	}
-	public void setLevel(int level) {
-		this.level = level;
+	public void setId(int id) {
+		this.id = id;
 	}
-	
-	public BigInteger getSilver() {
-		return silver;
+	public int getComsumedid() {
+		return comsumedid;
 	}
-	public void setSilver(BigInteger silver) {
-		this.silver = silver;
+	public void setComsumedid(int comsumedid) {
+		this.comsumedid = comsumedid;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 	public int getPinjie() {
 		return pinjie;
 	}
 	public void setPinjie(int pinjie) {
 		this.pinjie = pinjie;
+	}
+	public int getAttack() {
+		return attack;
+	}
+	public void setAttack(int attack) {
+		this.attack = attack;
+	}
+	public int getHealth() {
+		return health;
+	}
+	public void setHealth(int health) {
+		this.health = health;
+	}
+	public BigInteger getSilver() {
+		return silver;
+	}
+	public void setSilver(BigInteger silver) {
+		this.silver = silver;
 	}
 	public int getJinjiedan() {
 		return jinjiedan;
@@ -83,38 +113,5 @@ public class NpcJinjieVo extends BaseObject implements Serializable {
 	public void setSuitangmedal(int suitangmedal) {
 		this.suitangmedal = suitangmedal;
 	}
-	public int getComId() {
-		return comId;
-	}
-	public void setComId(int comId) {
-		this.comId = comId;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public int getComsumedid() {
-		return comsumedid;
-	}
-	public void setComsumedid(int comsumedid) {
-		this.comsumedid = comsumedid;
-	}
-	
-	public String getUid() {
-		return uid;
-	}
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
-	}	
-
 	
 }

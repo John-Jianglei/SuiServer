@@ -15,8 +15,9 @@ import com.shinian.util.Message;
 import com.shinian.vo.CommonReqVo;
 import com.shinian.vo.ExpCardVo;
 import com.shinian.vo.MessageRespVo;
+import com.shinian.vo.NpcUpdateRedisVo;
 import com.shinian.vo.NpcUpdateVo;
-import com.shinian.vo.PropInfoVo;
+import com.shinian.vo.PropInfoRedisVo;
 
 
 @Service
@@ -65,7 +66,10 @@ public class NpcUpdateService {
 					break;
 				}
 			}
-			totalExp += npcUpdateDao.getCardExpById(expCardVo.getId());			
+			PropInfoRedisVo v = redisCacheUtil.getPropInfoByComId(expCardVo.getId());
+			if( 200 == v.getNature() ){
+				totalExp += v.getVal();
+			}
 		}
 		
 		//Has enough exp card in db?
@@ -90,6 +94,8 @@ public class NpcUpdateService {
 			return result;
 		}
 		
+		NpcUpdateRedisVo npcUpdate;
+		
 		for (NpcUpdateVo updateNpcVo : list){
 			
 			int playerLevel = npcUpdateDao.getPlayerLevelByUid(updateNpcVo.getUid());	
@@ -109,14 +115,16 @@ public class NpcUpdateService {
 				//the MAX Level of rpc is 200				
 				if( j==200 ){
 					updateNpcVo.setLevel(j);
-					npcLastExp = npcUpdateDao.getExpBylevel(200);
+					npcUpdate = redisCacheUtil.getExpBylevel(200);
+					npcLastExp = npcUpdate.getExperience();
 					updateNpcVo.setExperience(npcLastExp);
 					//write database
 					npcUpdateDao.setExpById(npcId, j, npcLastExp);					
 					break;
 				}
 				
-				tempExp = npcUpdateDao.getExpBylevel(j+1>=200?200:j+1);
+				npcUpdate = redisCacheUtil.getExpBylevel(j+1>=200?200:j+1);
+				tempExp = npcUpdate.getExperience();
 				if( npcCurrentExp + totalExp < tempExp){
 					updateNpcVo.setLevel(j);
 					updateNpcVo.setExperience(npcCurrentExp + totalExp); //not level up

@@ -27,15 +27,15 @@ public class NpcUpdateDao{
 		return list;		
 	}
 	
-	public long getExpBylevel(int level){
-		
-		final String sql = " select `experience` from common_npc_experience where level = ?";
-		//WebConstant.gameJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{level});
-		//WebConstant.commonJdbc.getJdbcTemplate().queryForObject( sql, new Object[]{level}, Integer.class);
-		long exp = WebConstant.commonJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{level});		
-		
-		return exp;		
-	}
+//	public long getExpBylevel(int level){
+//		
+//		final String sql = " select `experience` from common_npc_experience where level = ?";
+//		//WebConstant.gameJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{level});
+//		//WebConstant.commonJdbc.getJdbcTemplate().queryForObject( sql, new Object[]{level}, Integer.class);
+//		long exp = WebConstant.commonJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{level});		
+//		
+//		return exp;		
+//	}
 	
 	public int getPlayerLevelByUid(String uid){
 		
@@ -53,14 +53,14 @@ public class NpcUpdateDao{
 		return CardNum;	
 	}
 	
-	public long getCardExpById(int comId){		
-		
-		final String sql = " select `val` from common_prop_info where nature=200 and comId = ?";
-		long cardExp = WebConstant.commonJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{comId});
-	
-		return cardExp;
-		
-	}
+//	public long getCardExpById(int comId){		
+//		
+//		final String sql = " select `val` from common_prop_info where nature=200 and comId = ?";
+//		long cardExp = WebConstant.commonJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{comId});
+//	
+//		return cardExp;
+//		
+//	}
 	
 	//modify 
 	public int setExpById(int id, int level, long npcExp){
