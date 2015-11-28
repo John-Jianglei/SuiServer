@@ -1,0 +1,160 @@
+package com.shinian.service;
+
+import javax.servlet.http.HttpServletRequest;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.ArrayList;
+
+import com.alibaba.fastjson.JSON;
+import com.shinian.dao.PropInfoDao;
+import com.shinian.util.Message;
+import com.shinian.vo.CommonReqVo;
+import com.shinian.vo.MessageRespVo;
+import com.shinian.vo.BattleReqVo;
+import com.shinian.vo.NpcInfoVo;
+import com.shinian.vo.NpcBattleVo;
+import com.shinian.vo.ActionVo;
+import com.shinian.vo.RewardVo;
+import com.shinian.vo.BattleReturnVo;
+import com.shinian.vo.PropInfoRedisVo;
+import com.shinian.vo.PropInfoVo;
+import com.shinian.redis.RedisCacheUtil;
+import com.shinian.service.PlayerInfoService;
+import com.shinian.util.RandomUtil;
+import com.shinian.util.Constant;
+
+@Service
+public class BattleService {
+		
+	@Autowired
+	PlayerInfoService playerInfoService;
+	
+	@Autowired
+	ArmyInfoService armyInfoService;
+
+	@Autowired
+	PropInfoDao propInfoDao;
+	
+	@Autowired
+	RedisCacheUtil redisCacheUtil;
+
+	private NpcBattleVo[] offArmy;
+	private NpcBattleVo[] defArmy;
+	
+	
+	public MessageRespVo makeWar(HttpServletRequest request, HttpServletResponse response,String jsonStr)
+	{
+		MessageRespVo result = new MessageRespVo();
+
+		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
+		BattleReqVo nrv = JSON.parseObject(gcrv.getData().toString(),BattleReqVo.class);
+		result.setTs(gcrv.getTs());
+		
+		
+		if (!playerInfoService.isUidExist(nrv.getOffUid()) || !playerInfoService.isUidExist(nrv.getDefUid()) ){
+			result.setCode(Message.MSG_CODE_PLAYER_NOT_EXIST);
+			result.setMsg(Message.MSG_PLAYER_NOT_EXIST);
+			return result;
+		}
+		
+		List<NpcInfoVo> oArmy = armyInfoService.getArmyOnBattle(nrv.getOffUid());
+		List<NpcInfoVo> dArmy = armyInfoService.getArmyOnBattle(nrv.getDefUid());
+		if ((oArmy == null) || (dArmy == null)){
+			result.setCode(Message.MSG_CODE_NPC_NOT_EXIST);
+			result.setMsg(Message.MSG_NPC_NOT_EXIST);
+			return result;
+		}
+			
+		offArmy = initBattleArmy(oArmy);
+		defArmy = initBattleArmy(dArmy);
+		
+		List<ActionVo> lav = battle(offArmy, defArmy);
+		List<RewardVo> rewardlist = postWar();
+				
+		BattleReturnVo re = new BattleReturnVo();
+		re.setActions(lav);
+		re.setRewards(rewardlist);
+		
+		result.setData(re);		
+		result.setCode(Message.MSG_CODE_OK);
+		
+		return result;
+
+	}
+	
+	public List<ActionVo> battle(NpcBattleVo[] offArmy, NpcBattleVo[] defArmy)
+	{
+		List<ActionVo> replay = new ArrayList<ActionVo>();
+		
+		int seq = 0;
+		int[] targets;
+		preWar(offArmy);
+		preWar(defArmy);
+		
+		while (isSurvived(offArmy) && isSurvived(defArmy)){
+			for (int i=0; i<Constant.CON_ARMY_SIZE; i++){
+				targets = offArmy[i].getActionTarget();
+				for (int j=0; j < targets.length; j++){
+					if (defArmy[j].getNpc().getHealth() > 0){
+						ActionVo action = offArmy[i].attackAction(defArmy[j]);
+						action.setSeq(seq);
+						
+						replay.add(action);
+					}
+						
+				}
+				
+				seq++;
+				targets = defArmy[i].getActionTarget();
+				for (int j=0; j < targets.length; j++){
+					if (offArmy[j].getNpc().getHealth() > 0){
+						ActionVo action = defArmy[i].attackAction(offArmy[j]);
+						action.setSeq(seq);
+						
+						replay.add(action);
+					}
+				}
+			}
+		}
+		
+		
+		return replay;
+	}
+	
+	private void preWar(NpcBattleVo[] army)
+	{
+		
+	}
+	
+	private List<RewardVo> postWar()
+	{
+		List<RewardVo> rl = null;
+		return rl;
+	}
+		
+	private boolean isSurvived(NpcBattleVo[] army)
+	{
+		boolean bool = true;
+		for (int i = 0; i < Constant.CON_ARMY_SIZE; i++)
+			bool = bool && (army[i].getNpc().getHealth() > 0) ;
+		
+		return bool;
+	}
+	
+	private NpcBattleVo[] initBattleArmy(List<NpcInfoVo> army)
+	{
+		NpcBattleVo[] result = new NpcBattleVo[Constant.CON_ARMY_SIZE];
+		for (NpcInfoVo npc:army){
+			if (npc.getPosition() < Constant.CON_ARMY_SIZE)
+				result[npc.getPosition()].setNpc(npc);
+		}
+		
+		return result;
+	}
+
+}

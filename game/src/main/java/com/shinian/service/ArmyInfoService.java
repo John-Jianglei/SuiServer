@@ -56,13 +56,20 @@ public class ArmyInfoService {
 
 	public List<NpcInfoVo> getArmy(String uid)
 	{
-		MessageRespVo result = new MessageRespVo();
-
 		if (null == uid || "".equals(uid)) {
 			return null;
 		}
 
 		return armyInfoDao.getArmyByUid(uid);
+	}
+	
+	public List<NpcInfoVo> getArmyOnBattle(String uid)
+	{
+		if (null == uid || "".equals(uid)) {
+			return null;
+		}
+
+		return armyInfoDao.getArmyOnBattleByUid(uid);
 	}
 
 }

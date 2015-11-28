@@ -25,7 +25,7 @@ public class NpcAddDao {
 		List<NpcInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(NpcInfoVo.class), new Object[]{uid});
 		
-		int position = 1;
+		int position = 0;
 		
 		if(pivList != null && pivList.size() > 0){
 			position = pivList.get(0).getPosition() + 1;
