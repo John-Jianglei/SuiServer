@@ -55,6 +55,8 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 
 	public int[] getActionTarget()
 	{
+		if (npc.getHealth() <= 0) return new int[0];
+		
 		int[] n = {2,4};
 		//	To Sun: return action target number, eg {3,4,5}
 

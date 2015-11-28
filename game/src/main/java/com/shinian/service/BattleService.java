@@ -106,7 +106,6 @@ public class BattleService {
 						
 						replay.add(action);
 					}
-						
 				}
 				
 				seq++;
