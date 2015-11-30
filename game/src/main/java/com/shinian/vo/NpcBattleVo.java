@@ -1,7 +1,9 @@
 package com.shinian.vo;
 
 import java.io.Serializable;
-import com.shinian.vo.ActionVo;
+import java.util.Random;
+import java.math.*;
+
 import com.shinian.util.Constant;
  
 
@@ -48,6 +50,32 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 		}
 		
 		//	To Sun: add real fight here
+		//攻击力、生命值、怒气值、暴击、命中...
+		//1、计算是否命中
+		Random random = new Random();
+		float hv = random.nextInt(3) * (npc.getMingzhong()+10)/(npc.getMingzhong()+10+doee.getNpc().getShanbi());
+		Float.compare(hv,0.0f);
+		if( Float.compare(hv,1.0f)<0 ){
+			//出现闪避
+			hv = 0;
+			action.setImpact(1);
+			action.setReflection(0);
+			return action;
+		}
+		else if( Float.compare(hv,1.0f)>=0 && Float.compare(hv,2.0f)<0 ){
+			//命中
+			hv = 1;
+		}
+		else if( Float.compare(hv,2.0f)>=0 && npc.getMingzhong()>100 ){
+			//产生了额外伤害
+			hv = 1 + (npc.getMingzhong()+10)/(npc.getMingzhong()+10+doee.getNpc().getShanbi());
+		}
+		//2、计算基本伤害
+		//生成9-11的随机数
+		int dc = random.nextInt(3) % (20-10+1) + 10;
+		int d01 = npc.getAttack() * dc / 10;
+		//3、计算破甲造成的伤害
+		
 		
 		return action;
 	}

@@ -19,12 +19,17 @@ import com.shinian.vo.NpcInfoVo;
 @Repository
 public class NpcUpdateDao{
 	
-	public List<NpcUpdateVo> getRpcById(int id){
+	public NpcUpdateVo getNpcById(int id){
 		
-		final String sql = " select `experience`, `level`,`uid` from game_npc_info where id = ?";
+		final String sql = " select `experience`, `comId`, `pinjie`, `level`,`uid` from game_npc_info where id = ?";
 		List<NpcUpdateVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(NpcUpdateVo.class),new Object[]{id});	
 		
-		return list;		
+		if(list != null && list.size() > 0){
+			return list.get(0);
+		}
+		
+		return null;
+	
 	}
 	
 //	public long getExpBylevel(int level){
@@ -70,6 +75,14 @@ public class NpcUpdateDao{
 
 		return row;
 	}	
+	
+	public int setNpcInfobyId(int level, int attack, int health, int npcId){
+		
+		String sql = "update game_npc_info set `level` = ? , `attack` = ?, `health` = ? where id = ?";
+		int row = WebConstant.gameJdbc.getJdbcTemplate().update(sql, level, attack, health, npcId);		
+
+		return row;
+	}
 
 	
 }
