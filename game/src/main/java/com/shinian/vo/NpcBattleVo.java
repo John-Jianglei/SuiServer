@@ -70,11 +70,39 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 			//产生了额外伤害
 			hv = 1 + (npc.getMingzhong()+10)/(npc.getMingzhong()+10+doee.getNpc().getShanbi());
 		}
+		
 		//2、计算基本伤害
 		//生成9-11的随机数
 		int dc = random.nextInt(3) % (20-10+1) + 10;
 		int d01 = npc.getAttack() * dc / 10;
-		//3、计算破甲造成的伤害
+		
+		//3、计算破甲造成的伤害。(xap)暂时取2,最大护甲假设为300。
+		int d02 = d01 * (npc.getPojia()*2-doee.getNpc().getHujia()) / (300+doee.getNpc().getHujia());
+		
+		//4、普通附加伤害
+		
+		//根据武将技能1判断是物攻型还是法攻型,要查数据库
+		int adc = 115;
+		int maxFachuan = 100;
+		int d03 = 0;
+		if( nuqi == 100 ){
+			//物攻
+			d03 = ( d01 + d02 ) * 115 / 100;
+			//法攻
+			d03 = ( d01 + d01*(npc.getFachuan()-doee.getNpc().getFakang())/maxFachuan ) * 115 / 100;
+			//怒气减100
+			//nuqi = 0;
+		}
+		
+		//5、暴击造成的伤害
+		int d04 = 0;
+		float bv = random.nextInt(3) * (npc.getBaoji()+10)/(npc.getBaoji()+10+doee.getNpc().getRenxing());
+		if( nuqi<100 ){
+			
+		}
+		else{
+			
+		}
 		
 		
 		return action;
