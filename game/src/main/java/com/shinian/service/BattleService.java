@@ -99,7 +99,7 @@ public class BattleService {
 		preWar(offArmy);
 		preWar(defArmy);
 		
-		while (isSurvived(offArmy) && isSurvived(defArmy)){
+		while (isSurvived(offArmy) && isSurvived(defArmy) && (seq < Constant.CON_BATTLE_MAX_SEQUENCE)){
 			for (int i=0; i<Constant.CON_ARMY_SIZE; i++){
 				targets = offArmy[i].getActionTarget();
 				for (int j=0; j < targets.length; j++){
@@ -107,6 +107,8 @@ public class BattleService {
 						ActionVo action = offArmy[i].attackAction(defArmy[j]);
 						action.setSeq(seq);
 						action.setDoee(action.getDoee() + Constant.CON_ARMY_SIZE);
+						action.setDoerHP(offArmy[i].getNpc().getHealth());
+						action.setDoeeHP(defArmy[j].getNpc().getHealth());
 						
 						replay.add(action);
 						seq++;
@@ -119,6 +121,8 @@ public class BattleService {
 						ActionVo action = defArmy[i].attackAction(offArmy[j]);
 						action.setSeq(seq);
 						action.setDoer(action.getDoer() + Constant.CON_ARMY_SIZE);
+						action.setDoerHP(defArmy[i].getNpc().getHealth());
+						action.setDoeeHP(offArmy[j].getNpc().getHealth());
 						
 						replay.add(action);
 						seq++;

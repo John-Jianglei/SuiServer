@@ -10,26 +10,26 @@ public class ActionVo extends BaseObject implements Serializable{
 
 	private int seq;		
 	private int doer;
+	private long doerHP;		//受到反弹、吸血之后的hp
 	private int act;		// Define in Constant.CON_NPC_BATTLE_ACT_*
 	private int doee;
+	private long doeeHP;		//受到伤害之后的hp
 	private long impact;		//攻击伤害
 	private long reflection;	//反弹伤害
 	private long xixue;			//吸血值
-	private long doer_hp;		//受到反弹、吸血之后的hp
-	private long doee_hp;		//受到伤害之后的hp
 	
-	public long getDoer_hp() {
-		return doer_hp;
+	public long getDoerHP() {
+		return doerHP;
 	}
-	public void setDoer_hp(long doer_hp) {
-		this.doer_hp = doer_hp;
+	public void setDoerHP(long doerHP) {
+		this.doerHP = doerHP;
 	}
 	
-	public long getDoee_hp() {
-		return doee_hp;
+	public long getDoeeHP() {
+		return doeeHP;
 	}
-	public void setDoee_hp(long doee_hp) {
-		this.doee_hp = doee_hp;
+	public void setDoeeHP(long doeeHP) {
+		this.doeeHP = doeeHP;
 	}
 	
 	public long getXixue() {

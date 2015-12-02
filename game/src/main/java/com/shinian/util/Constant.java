@@ -7,6 +7,8 @@ public class Constant implements Serializable{
 	private static final long serialVersionUID = 1L;
 		
 	public final static int CON_ARMY_SIZE = 6;
+	public final static int CON_BATTLE_MAX_SEQUENCE = 100;
+	
 
 	
 	
