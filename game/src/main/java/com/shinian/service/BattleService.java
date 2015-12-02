@@ -77,6 +77,9 @@ public class BattleService {
 		List<RewardVo> rewardlist = postWar();
 				
 		BattleReturnVo re = new BattleReturnVo();
+		
+		re.setOffArmy(oArmy);
+		re.setDefArmy(dArmy);
 		re.setActions(lav);
 		re.setRewards(rewardlist);
 		
@@ -103,19 +106,22 @@ public class BattleService {
 					if (defArmy[j].getNpc().getHealth() > 0){
 						ActionVo action = offArmy[i].attackAction(defArmy[j]);
 						action.setSeq(seq);
+						action.setDoee(action.getDoee() + Constant.CON_ARMY_SIZE);
 						
 						replay.add(action);
+						seq++;
 					}
 				}
 				
-				seq++;
 				targets = defArmy[i].getActionTarget();
 				for (int j=0; j < targets.length; j++){
 					if (offArmy[j].getNpc().getHealth() > 0){
 						ActionVo action = defArmy[i].attackAction(offArmy[j]);
 						action.setSeq(seq);
+						action.setDoer(action.getDoer() + Constant.CON_ARMY_SIZE);
 						
 						replay.add(action);
+						seq++;
 					}
 				}
 			}

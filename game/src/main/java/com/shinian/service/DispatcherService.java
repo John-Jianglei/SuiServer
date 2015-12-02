@@ -45,6 +45,8 @@ public class DispatcherService {
 	NpcJinjieService npcJinjieService;
 	
 
+	
+	
 	private static Logger log = Logger.getLogger("game");
 	
 	
@@ -93,6 +95,10 @@ public class DispatcherService {
 				
 			case 1008:
 				result = npcAddService.addNpcToPlayer(request, response, jsonStr);///
+				break;
+				
+			case 1010:
+				result = battleService.makeWar(request, response, jsonStr);///
 				break;
 				
 			case 9002:

@@ -50,7 +50,7 @@ CREATE TABLE `common_npc_info` (
   `levelupRate` int(11) NOT NULL DEFAULT '0' COMMENT '进阶材料需求系数',
   `pieces` int(11) NOT NULL DEFAULT '0' COMMENT '组合需要碎片数',
   `maxPieces` int(11) NOT NULL DEFAULT '0' COMMENT '最大可用公共碎片数',
-  `pieceid` int(11) NOT NULL,
+  `pieceId` int(11) NOT NULL,
   `skill3` int(11) NOT NULL DEFAULT '0' COMMENT 'skill 1',
   `skill2` int(11) NOT NULL DEFAULT '0',
   `desc` varchar(512) DEFAULT NULL COMMENT '武将列传',

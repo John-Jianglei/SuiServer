@@ -7,6 +7,8 @@ public class BattleReturnVo extends BaseObject implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private String token;
+	private List<NpcInfoVo> offArmy;
+	private List<NpcInfoVo> defArmy;
 	private List<ActionVo> actions;
 	List<RewardVo> rewards;
 
@@ -30,6 +32,20 @@ public class BattleReturnVo extends BaseObject implements Serializable{
 	}
 	public void setRewards(List<RewardVo> rewards) {
 		this.rewards = rewards;
+	}
+	
+	public List<NpcInfoVo> getOffArmy() {
+		return offArmy;
+	}
+	public void setOffArmy(List<NpcInfoVo> offArmy) {
+		this.offArmy = offArmy;
+	}
+	
+	public List<NpcInfoVo> getDefArmy() {
+		return defArmy;
+	}
+	public void setDefArmy(List<NpcInfoVo> defArmy) {
+		this.defArmy = defArmy;
 	}
 	
 	
