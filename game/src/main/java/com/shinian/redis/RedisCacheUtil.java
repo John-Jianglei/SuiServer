@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
 import com.shinian.service.CommonDataService;
+import com.shinian.vo.JinengRedisVo;
 import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcUpdateRedisVo;
@@ -260,6 +261,40 @@ public class RedisCacheUtil {
 		}
 		
 		return false;
+	}
+	
+	public JinengRedisVo getJinengInfoById(int id)
+	{
+		JinengRedisVo jnvo = new JinengRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_COMMON_NPC_EXPERIENCE;
+			String key = String.format(prefix, id);
+
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, jnvo.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					jnvo.fromList(list);
+					return jnvo;
+				}
+			}
+			else{
+				JinengRedisVo v = commonDataService.getJinengInfoById(id);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
 	}
 	
 }

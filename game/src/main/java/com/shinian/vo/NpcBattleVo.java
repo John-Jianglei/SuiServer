@@ -164,7 +164,7 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 		
 		int[] n = {2,4};
 		//	To Sun: return action target number, eg {3,4,5}
-
+		
 		
 		return n;
 	}
