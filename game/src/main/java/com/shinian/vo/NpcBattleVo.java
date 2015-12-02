@@ -70,6 +70,13 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 			//产生了额外伤害
 			hv = 1 + (npc.getMingzhong()+10)/(npc.getMingzhong()+10+doee.getNpc().getShanbi());
 		}
+		if( doee.getNuqi()+50<=100 ){
+			doee.setNuqi(doee.getNuqi()+50);
+		}
+		else{
+			doee.setNuqi(100);
+		}
+
 		
 		//2、计算基本伤害
 		//生成9-11的随机数
@@ -95,14 +102,56 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 		}
 		
 		//5、暴击造成的伤害
-		int d04 = 0;
-		float bv = random.nextInt(3) * (npc.getBaoji()+10)/(npc.getBaoji()+10+doee.getNpc().getRenxing());
+		BigInteger d04 = new BigInteger("0");
+		int rand  = 0;
+		float bv = 0;	//暴击概率
 		if( nuqi<100 ){
-			
+			rand = random.nextInt(3);
 		}
 		else{
-			
+			rand = random.nextInt(4);
 		}
+		bv = rand * (npc.getBaoji()+10)/(npc.getBaoji()+10+doee.getNpc().getRenxing());
+		if( Float.compare(bv,1.0f)<0 ){
+			bv = 0;
+		}
+		else if( Float.compare(bv,1.0f)>=0 && Float.compare(bv,2.0f)<0 ){
+			bv = 1;
+		}
+		else if( Float.compare(bv,2.0f)>=0 && npc.getBaoji()>100 ){
+			bv = (Float.compare(bv,3.0f)<0)?bv:3;
+		}
+		
+		d04 = BigInteger.valueOf( (long)(( d01 + d02 + d03 )*bv) );
+		
+		//6、最终伤害
+		BigInteger fd =  new BigInteger("0");
+		fd = BigInteger.valueOf( (long)(( d01 + d02 + d03 )*bv*hv) );
+		fd = fd.add(BigInteger.valueOf( (long)( d01 + d02 + d03)));
+		
+		//7、是否被晕
+		//已经处于被晕状态，则抗晕加10
+		if( doee.getStatus()==Constant.CON_NPC_BATTLE_STATUS_DAZZLE ){
+			doee.getNpc().setKangyun(doee.getNpc().getKangyun()+10);
+		}
+
+		rand = random.nextInt(100);
+		if( rand <= npc.getJiyun()-doee.getNpc().getKangyun() ){
+			doee.setStatus( Constant.CON_NPC_BATTLE_STATUS_DAZZLE );
+		}
+		
+		//8、吸血值
+		//先设定吸血概率为50%,吸血能力0-100
+		long sbh = 0;
+		if( random.nextInt(100)<=50 ){
+			sbh = (fd.multiply(BigInteger.valueOf(npc.getXixue())).divide(BigInteger.valueOf(100))).longValue();
+		}
+		action.setXixue(sbh);
+		
+		//9、反弹值
+		long rbd = (fd.multiply(BigInteger.valueOf(npc.getXixue())).divide(BigInteger.valueOf(100))).longValue();
+		rbd = rbd<doee.getNpc().getHealth() ? rbd: doee.getNpc().getHealth();
+		action.setReflection(rbd);
 		
 		
 		return action;

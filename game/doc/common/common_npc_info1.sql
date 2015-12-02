@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2015-11-08 10:16:57
+Date: 2015-12-02 18:54:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,11 +25,11 @@ CREATE TABLE `common_npc_info` (
   `gender` int(2) NOT NULL COMMENT '武将性别:0-女，1-男',
   `star` int(11) NOT NULL DEFAULT '1' COMMENT '武将星级',
   `category` int(2) NOT NULL DEFAULT '0' COMMENT '武将类型：1-君主；2-猛将；3-元帅；4-军师；5-智将；',
-  `camp` int(2) NOT NULL DEFAULT '0' COMMENT '武将阵营: 1-唐;2-隋;3-反王;',  
-  `attack` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始攻击力',
+  `camp` int(2) NOT NULL DEFAULT '0' COMMENT '武将阵营: 1-唐;2-隋;3-反王;',
   `health` int(11) NOT NULL DEFAULT '1' COMMENT '武将初始生命值',
+  `attack` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始攻击力',
+  `hujia` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始护甲',
   `pojia` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始破甲',
-  `hujia` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始护甲',  
   `fachuan` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始法穿',
   `fakang` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始法抗',
   `baoji` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始暴击',
@@ -50,9 +50,20 @@ CREATE TABLE `common_npc_info` (
   `levelupRate` int(11) NOT NULL DEFAULT '0' COMMENT '进阶材料需求系数',
   `pieces` int(11) NOT NULL DEFAULT '0' COMMENT '组合需要碎片数',
   `maxPieces` int(11) NOT NULL DEFAULT '0' COMMENT '最大可用公共碎片数',
+  `pieceid` int(11) NOT NULL,
+  `skill3` int(11) NOT NULL DEFAULT '0' COMMENT 'skill 1',
+  `skill2` int(11) NOT NULL DEFAULT '0',
   `desc` varchar(512) DEFAULT NULL COMMENT '武将列传',
   `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '0:无效;1:有效',
+  `skill1` int(11) NOT NULL DEFAULT '0',
+  `skill4` int(11) NOT NULL DEFAULT '0' COMMENT '技能4',
+  `skill5` int(11) NOT NULL DEFAULT '0' COMMENT '技能5',
+  `skill6` int(11) NOT NULL DEFAULT '0' COMMENT '技能6',
+  `skill7` int(11) NOT NULL DEFAULT '0' COMMENT '技能7',
+  `skill8` int(11) NOT NULL DEFAULT '0' COMMENT '技能8',
+  `skill9` int(11) NOT NULL DEFAULT '0' COMMENT '技能9',
+  `skill10` int(11) NOT NULL DEFAULT '0' COMMENT '技能10',
+  `skill11` int(11) NOT NULL DEFAULT '0' COMMENT '技能11',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8 COMMENT='武将信息表';
-
+) ENGINE=InnoDB AUTO_INCREMENT=637 DEFAULT CHARSET=utf8 COMMENT='武将信息表';
