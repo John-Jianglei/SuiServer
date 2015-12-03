@@ -101,7 +101,7 @@ public class BattleService {
 		
 		while (isSurvived(offArmy) && isSurvived(defArmy) && (seq < Constant.CON_BATTLE_MAX_SEQUENCE)){
 			for (int i=0; i<Constant.CON_ARMY_SIZE; i++){
-				targets = offArmy[i].getActionTarget();
+				targets = (offArmy[i] != null) ? offArmy[i].getActionTarget(defArmy) : new int[0];
 				for (int j=0; j < targets.length; j++){
 					if (defArmy[j].getNpc().getHealth() > 0){
 						ActionVo action = offArmy[i].attackAction(defArmy[j]);
@@ -115,7 +115,7 @@ public class BattleService {
 					}
 				}
 				
-				targets = defArmy[i].getActionTarget();
+				targets = (defArmy[i] != null) ? defArmy[i].getActionTarget(offArmy) : new int[0];
 				for (int j=0; j < targets.length; j++){
 					if (offArmy[j].getNpc().getHealth() > 0){
 						ActionVo action = defArmy[i].attackAction(offArmy[j]);
@@ -150,7 +150,7 @@ public class BattleService {
 	{
 		boolean bool = true;
 		for (int i = 0; i < Constant.CON_ARMY_SIZE; i++)
-			bool = bool && (army[i].getNpc().getHealth() > 0) ;
+			if (army[i] != null) bool = bool && (army[i].getNpc().getHealth() > 0) ;
 		
 		return bool;
 	}
@@ -159,8 +159,10 @@ public class BattleService {
 	{
 		NpcBattleVo[] result = new NpcBattleVo[Constant.CON_ARMY_SIZE];
 		for (NpcInfoVo npc:army){
-			if (npc.getPosition() < Constant.CON_ARMY_SIZE)
+			if (npc.getPosition() < Constant.CON_ARMY_SIZE){
+				result[npc.getPosition()] = new NpcBattleVo();
 				result[npc.getPosition()].setNpc(npc);
+			}
 		}
 		
 		return result;
