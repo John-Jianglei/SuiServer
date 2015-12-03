@@ -46,7 +46,102 @@ public class NpcInfoRedisVo extends BaseObject implements Serializable{
 	private  String desc;
 	private  String updateTime;
 	private  int status;
+	private	 int pieceId;
+	private	 int skill1;
+	private	 int skill2;
+	private	 int skill3;
+	private	 int skill4;
+	private	 int skill5;
+	private	 int skill6;
+	private	 int skill7;
+	private	 int skill8;
+	private	 int skill9;
+	private	 int skill10;
+	private	 int skill11;
+
+	public int getPieceId() {
+		return pieceId;
+	}
+	public void setPieceId(int pieceId) {
+		this.pieceId = pieceId;
+	}
 	
+	public int getSkill1() {
+		return skill1;
+	}
+	public void setSkill1(int skill1) {
+		this.skill1 = skill1;
+	}
+	
+	public int getSkill2() {
+		return skill2;
+	}
+	public void setSkill2(int skill2) {
+		this.skill2 = skill2;
+	}
+	
+	public int getSkill3() {
+		return skill3;
+	}
+	public void setSkill3(int skill3) {
+		this.skill3 = skill3;
+	}
+	
+	public int getSkill4() {
+		return skill4;
+	}
+	public void setSkill4(int skill4) {
+		this.skill4 = skill4;
+	}
+	
+	public int getSkill5() {
+		return skill5;
+	}
+	public void setSkill5(int skill5) {
+		this.skill5 = skill5;
+	}
+	
+	public int getSkill6() {
+		return skill6;
+	}
+	public void setSkill6(int skill6) {
+		this.skill6 = skill6;
+	}
+	
+	public int getSkill7() {
+		return skill7;
+	}
+	public void setSkill7(int skill7) {
+		this.skill7 = skill7;
+	}
+	
+	public int getSkill8() {
+		return skill8;
+	}
+	public void setSkill8(int skill8) {
+		this.skill8 = skill8;
+	}
+	
+	public int getSkill9() {
+		return skill9;
+	}
+	public void setSkill9(int skill9) {
+		this.skill9 = skill9;
+	}
+	
+	public int getSkill10() {
+		return skill10;
+	}
+	public void setSkill10(int skill10) {
+		this.skill10 = skill10;
+	}
+	
+	public int getSkill11() {
+		return skill11;
+	}
+	public void setSkill11(int skill11) {
+		this.skill11 = skill11;
+	}
 	
 	public int getComId() {
 		return comId;
@@ -311,8 +406,21 @@ public class NpcInfoRedisVo extends BaseObject implements Serializable{
 		this.pieces = Integer.parseInt(list.get(idx++));                     
 		this.maxPieces = Integer.parseInt(list.get(idx++));                  
 		this.desc = list.get(idx++);                       
-		this.updateTime = list.get(idx++);                 
-		this.status = Integer.parseInt(list.get(idx++));                     
+		this.updateTime = list.get(idx++);
+		this.status = Integer.parseInt(list.get(idx++));
+		this.pieceId = Integer.parseInt(list.get(idx++));
+		this.skill1 = Integer.parseInt(list.get(idx++));
+		this.skill2 = Integer.parseInt(list.get(idx++));
+		this.skill3 = Integer.parseInt(list.get(idx++));
+		this.skill4 = Integer.parseInt(list.get(idx++));
+		this.skill5 = Integer.parseInt(list.get(idx++));
+		this.skill6 = Integer.parseInt(list.get(idx++));
+		this.skill7 = Integer.parseInt(list.get(idx++));
+		this.skill8 = Integer.parseInt(list.get(idx++));
+		this.skill9 = Integer.parseInt(list.get(idx++));
+		this.skill10 = Integer.parseInt(list.get(idx++));
+		this.skill11 = Integer.parseInt(list.get(idx++));
+
 	}
 	
 	public Map<String, String> toMap() {
@@ -351,12 +459,30 @@ public class NpcInfoRedisVo extends BaseObject implements Serializable{
 		map.put("desc",                        this.desc + "");
 		map.put("updateTime",                  this.updateTime + "");
 		map.put("status",                      this.status + "");
+		map.put("pieceId",                     this.pieceId + "");
+		map.put("skill1",                      this.skill1 + "");
+		map.put("skill2",                      this.skill2 + "");
+		map.put("skill3",                      this.skill3 + "");
+		map.put("skill4",                      this.skill4 + "");
+		map.put("skill5",                      this.skill5 + "");
+		map.put("skill6",                      this.skill6 + "");
+		map.put("skill7",                      this.skill7 + "");
+		map.put("skill8",                      this.skill8 + "");
+		map.put("skill9",                      this.skill9 + "");
+		map.put("skill10",                     this.skill10 + "");
+		map.put("skill11",                     this.skill11 + "");
 
 		return map;
 	}
 	
 	public String[] getFieldNames() {
-		return new String[] {"comId", "name", "gender", "star", "category", "camp", "health", "attack", "hujia", "pojia", "fachuan", "fakang", "baoji", "renxing", "mingzhong", "shanbi", "xixue", "fantan", "jiyun", "kangyun", "gedang", "gedangPoss", "reduce", "talent", "talentVal", "attackStep", "healthStep", "levelupRate", "pieces", "maxPieces", "desc", "updateTime", "status"};
+		return new String[] {"comId", "name", "gender", "star", "category", "camp", 
+				"health", "attack", "hujia", "pojia", "fachuan", "fakang", "baoji", 
+				"renxing", "mingzhong", "shanbi", "xixue", "fantan", "jiyun", "kangyun", 
+				"gedang", "gedangPoss", "reduce", "talent", "talentVal", "attackStep", 
+				"healthStep", "levelupRate", "pieces", "maxPieces", "desc", "updateTime", 
+				"status", "pieceId", "skill1", "skill2", "skill3", "skill4", "skill5", 
+				"skill6", "skill7", "skill8", "skill9", "skill10", "skill11"};
 	}
 
 	public NpcInfoVo initGameNpc()
