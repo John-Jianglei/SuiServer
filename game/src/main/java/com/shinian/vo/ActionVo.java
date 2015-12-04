@@ -1,6 +1,7 @@
 package com.shinian.vo;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 public class ActionVo extends BaseObject implements Serializable{	
@@ -11,11 +12,12 @@ public class ActionVo extends BaseObject implements Serializable{
 	private int seq;		
 	private int doer;
 	private long doerHP;		//受到反弹、吸血之后的hp
-	private int act;		// Define in Constant.CON_NPC_BATTLE_ACT_*
+	private int act;			// Define in Constant.CON_NPC_BATTLE_ACT_*
 	private int doee;
 	private long doeeHP;		//受到伤害之后的hp
 	private long impact;		//攻击伤害
-	private long reflection;	//反弹伤害
+	//private List<Long> reflection;		//反弹伤害（负值）&吸血值(正值)
+	private long fantan;	//反弹伤害
 	private long xixue;			//吸血值
 	
 	public long getDoerHP() {
@@ -82,10 +84,10 @@ public class ActionVo extends BaseObject implements Serializable{
 	}
 	
 	public long getReflection() {
-		return reflection;
+		return fantan;
 	}
 	public void setReflection(long reflection) {
-		this.reflection = reflection;
+		this.fantan = reflection;
 	}	
 	
 }
