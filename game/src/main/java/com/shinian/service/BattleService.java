@@ -101,31 +101,33 @@ public class BattleService {
 		
 		while (isSurvived(offArmy) && isSurvived(defArmy) && (seq < Constant.CON_BATTLE_MAX_SEQUENCE)){
 			for (int i=0; i<Constant.CON_ARMY_SIZE; i++){
-				targets = (offArmy[i] != null) ? offArmy[i].getActionTarget(defArmy) : new int[0];
+				targets = (offArmy[i] != null) ? offArmy[i].selectActionTargets(getAliveNpc(defArmy)) : new int[0];
+				if (targets.length > 0) seq++;
 				for (int j=0; j < targets.length; j++){
-					if (defArmy[j].getNpc().getHealth() > 0){
-						ActionVo action = offArmy[i].attackAction(defArmy[j]);
+					int target = targets[j];
+					if (defArmy[target].getNpc().getHealth() > 0){
+						ActionVo action = offArmy[i].attackAction(defArmy[target]);
 						action.setSeq(seq);
 						action.setDoee(action.getDoee() + Constant.CON_ARMY_SIZE);
 						action.setDoerHP(offArmy[i].getNpc().getHealth());
-						action.setDoeeHP(defArmy[j].getNpc().getHealth());
+						action.setDoeeHP(defArmy[target].getNpc().getHealth());
 						
 						replay.add(action);
-						seq++;
 					}
 				}
-				
-				targets = (defArmy[i] != null) ? defArmy[i].getActionTarget(offArmy) : new int[0];
+								
+				targets = (defArmy[i] != null) ? defArmy[i].selectActionTargets(getAliveNpc(offArmy)) : new int[0];
+				if (targets.length > 0) seq++;
 				for (int j=0; j < targets.length; j++){
-					if (offArmy[j].getNpc().getHealth() > 0){
-						ActionVo action = defArmy[i].attackAction(offArmy[j]);
+					int target = targets[j];
+					if (offArmy[target].getNpc().getHealth() > 0){
+						ActionVo action = defArmy[i].attackAction(offArmy[target]);
 						action.setSeq(seq);
 						action.setDoer(action.getDoer() + Constant.CON_ARMY_SIZE);
 						action.setDoerHP(defArmy[i].getNpc().getHealth());
-						action.setDoeeHP(offArmy[j].getNpc().getHealth());
+						action.setDoeeHP(offArmy[target].getNpc().getHealth());
 						
 						replay.add(action);
-						seq++;
 					}
 				}
 			}
@@ -168,4 +170,15 @@ public class BattleService {
 		return result;
 	}
 
+	private int[] getAliveNpc(NpcBattleVo[] army)
+	{
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < Constant.CON_ARMY_SIZE; i++)
+			if ((army[i] != null) && (army[i].getNpc().getHealth() > 0)) list.add(army[i].getNpc().getPosition());
+
+		int[] ret = new int[list.size()];
+		for (int j = 0; j < list.size(); j++)
+			ret[j] = list.get(j);
+		return ret;
+	}
 }

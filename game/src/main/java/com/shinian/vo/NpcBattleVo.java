@@ -194,6 +194,14 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 		
 		return action;
 	}
+	
+	public int[] selectActionTargets(int[] target)
+	{
+		int[] ret = {1};
+		return ret;
+//		return selectActionTargets(target, this.getNpc().getPosition());
+	}
+
 
 	//必须知道攻击者的位置，因为攻击时要攻击前排对应自己位置的武将
 	public int[] selectActionTargets(int[] target, int attackerPos)
