@@ -15,6 +15,8 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 	private NpcInfoVo npc;
 	private int nuqi;
 	private int status;
+	private boolean hasRelive = false;		//是否复活过
+	private boolean hasWudi = false;		//是否无敌过
 
 	public NpcInfoVo getNpc() {
 		return npc;
@@ -53,8 +55,6 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 		
 		//	To Sun: add real fight here
 		
-		// 根据技能9，判断是否无敌
-		
 		//攻击力、生命值、怒气值、暴击、命中...
 		//1、计算是否命中
 		Random random = new Random();
@@ -81,7 +81,6 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 		else{
 			doee.setNuqi(100);
 		}
-
 		
 		//2、计算基本伤害
 		//生成9-11的随机数
@@ -106,11 +105,9 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 				d03 = ( d01 + d02 ) * 115 / 100;
 			}
 			//法攻
-			if(damageType==2){
+			else if(damageType==2){
 				d03 = ( d01 + d01*(npc.getFachuan()-doee.getNpc().getFakang())/maxFachuan ) * 115 / 100;
 			}
-			//怒气减100
-			//nuqi = 0;
 		}
 		
 		//5、暴击造成的伤害
@@ -137,9 +134,23 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 		d04 = BigInteger.valueOf( (long)(( d01 + d02 + d03 )*bv) );
 		
 		//6、最终伤害
-		BigInteger fd =  new BigInteger("0");
-		fd = BigInteger.valueOf( (long)(( d01 + d02 + d03 )*bv*hv) );
-		fd = fd.add(BigInteger.valueOf( (long)( d01 + d02 + d03)));
+		long fd = 0;
+		fd = (long)(( d01 + d02 + d03 )*bv*hv) +(long)( d01 + d02 + d03);
+		
+		//武将死亡事件发生
+		if( fd >= doee.getNpc().getHealth() ){
+			// 根据技能9，判断是否无敌
+			if( npc.isSkill9() ){
+				hasWudi = true;
+				return action;				
+			}
+			//判断被攻击目标是否复活，技能7
+			if( npc.isSkill7() ){
+				hasRelive = true;
+				return action;				
+			}
+		}
+		
 		
 		//7、是否被晕
 		//已经处于被晕状态，则抗晕加10
@@ -156,12 +167,14 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 		//先设定吸血概率为50%,吸血能力0-100
 		long sbh = 0;
 		if( random.nextInt(100)<=50 ){
-			sbh = (fd.multiply(BigInteger.valueOf(npc.getXixue())).divide(BigInteger.valueOf(100))).longValue();
+			//sbh = (fd.multiply(BigInteger.valueOf(npc.getXixue())).divide(BigInteger.valueOf(100))).longValue();
+			sbh = fd * npc.getXixue() / 100;
 		}
 		action.setXixue(sbh);
 		
 		//9、反弹值
-		long rbd = (fd.multiply(BigInteger.valueOf(npc.getXixue())).divide(BigInteger.valueOf(100))).longValue();
+		//long rbd = (fd.multiply(BigInteger.valueOf(npc.getXixue())).divide(BigInteger.valueOf(100))).longValue();
+		long rbd = fd * npc.getXixue() / 100;
 		rbd = rbd<doee.getNpc().getHealth() ? rbd: doee.getNpc().getHealth();
 		action.setReflection(rbd);
 		
@@ -175,7 +188,7 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 			}
 		}
 		
-		//判断被攻击目标是否复活，技能7
+
 		
 		
 		
@@ -225,6 +238,10 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 	
 	private int[] getAttackerPos(int[] target, int attackerPos, int attackNum, int aimPos){
 		
+		if(target.length==0){
+			return new int[0];
+		}
+		
 		int[] myTarget = {-1,-1,-1,-1,-1,-1};
 		for(int i:target){
 			if( i>=0 && i<=6 ){
@@ -273,135 +290,95 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 				rand = RandomUtil.random(0, 2, attackNum);
 			}			
 			break;
+		//随机选取前排attackNum个目标
 		case 3:
-			//备选目标已经少于能够攻击的目标
-			if( target.length<=attackNum ){
-				n = target;
-				break;
+			temp = 0;
+			for( int i=0; i<3; i++ ){
+				if( myTarget[i] >= 0 ){
+					temp++;
+				}
 			}
-			else{
+			//前排全部阵亡，则攻击后排
+			if(temp==0){
+				return getAttackerPos(target, attackerPos, attackNum, 4);
+			}
+			//前排目标少于或等于能够攻击的目标
+			else if( temp <= attackNum ){
 				for( int i=0; i<3; i++ ){
 					if( myTarget[i] >= 0 ){
-						temp++;
+						n[temp2] = myTarget[i];
+						temp2++;
+					}							
+				}						
+					
+			}
+			//前排目标多于能够攻击的目标
+			else{
+				rand = RandomUtil.random(0, 2, attackNum);
+				//如果随机到阵亡武将，则重新随机
+				while(true){
+					isRightRand = true;
+					for(int j:rand){
+						if( myTarget[j] < 0 ){
+							isRightRand = false;
+							break;
+						}
 					}
-				}
-				//前排目标少于或等于能够攻击的目标
-				if( temp <= attackNum ){
-					for( int i=0; i<3; i++ ){
-						if( myTarget[i] >= 0 ){
-							n[temp2] = myTarget[i];
+					if(isRightRand){
+						for(int j:rand){
+							n[temp2] = myTarget[j];
 							temp2++;
-						}							
-					}						
-					//剩下的从后排选
-					rand = RandomUtil.random(3, 5, attackNum-temp);
-					//如果随机到阵亡武将，则重新随机
-					while(true){
-						isRightRand = true;
-						for(int j:rand){
-							if( myTarget[j] < 0 ){
-								isRightRand = false;
-								break;
-							}
 						}
-						if(isRightRand){
-							for(int j:rand){
-								n[temp2] = myTarget[j];
-								temp2++;
-							}
-							break;
-						}
-						rand = RandomUtil.random(3, 5, attackNum-temp);
-					}						
-				}
-				//前排目标多于能够攻击的目标
-				else{
+						break;
+					}
 					rand = RandomUtil.random(0, 2, attackNum);
-					//如果随机到阵亡武将，则重新随机
-					while(true){
-						isRightRand = true;
-						for(int j:rand){
-							if( myTarget[j] < 0 ){
-								isRightRand = false;
-								break;
-							}
-						}
-						if(isRightRand){
-							for(int j:rand){
-								n[temp2] = myTarget[j];
-								temp2++;
-							}
-							break;
-						}
-						rand = RandomUtil.random(0, 2, attackNum);
-					}					
-				}
+				}					
 			}
 			break;
+		//随机选取后排attackNum个目标
 		case 4:
-			//备选目标已经少于能够攻击的目标
-			if( target.length<=attackNum ){
-				n = target;
-				break;
+			temp = 0;
+			for( int i=3; i<5; i++ ){
+				if( myTarget[i] >= 0 ){
+					temp++;
+				}
 			}
-			else{
-				for( int i=3; i<6; i++ ){
+			//后排全部阵亡，则攻击前排
+			if(temp==0){
+				return getAttackerPos(target, attackerPos, attackNum, 3);
+			}
+			//后排目标少于或等于能够攻击的目标
+			else if( temp <= attackNum ){
+				for( int i=3; i<5; i++ ){
 					if( myTarget[i] >= 0 ){
-						temp++;
-					}
-				}
-				//后排目标少于或等于能够攻击的目标
-				if( temp <= attackNum ){
-					for( int i=3; i<6; i++ ){
-						if( myTarget[i] >= 0 ){
-							n[temp2] = myTarget[i];
-							temp2++;
-						}							
-					}						
-					//剩下的从前排选
-					rand = RandomUtil.random(0, 2, attackNum-temp);
-					//如果随机到阵亡武将，则重新随机
-					while(true){
-						isRightRand = true;
-						for(int j:rand){
-							if( myTarget[j] < 0 ){
-								isRightRand = false;
-								break;
-							}
-						}
-						if(isRightRand){
-							for(int j:rand){
-								n[temp2] = myTarget[j];
-								temp2++;
-							}
-							break;
-						}
-						rand = RandomUtil.random(0, 2, attackNum-temp);
-					}						
-				}
-				//后排目标多于能够攻击的目标
-				else{
-					rand = RandomUtil.random(3, 5, attackNum);
-					//如果随机到阵亡武将，则重新随机
-					while(true){
-						isRightRand = true;
-						for(int j:rand){
-							if( myTarget[j] < 0 ){
-								isRightRand = false;
-								break;
-							}
-						}
-						if(isRightRand){
-							for(int j:rand){
-								n[temp2] = myTarget[j];
-								temp2++;
-							}
-							break;
-						}
-						rand = RandomUtil.random(3, 5, attackNum);
-					}					
-				}
+						n[temp2] = myTarget[i];
+						temp2++;
+					}							
+				}						
+					
 			}
+			//后排目标多于能够攻击的目标
+			else{
+				rand = RandomUtil.random(3, 5, attackNum);
+				//如果随机到阵亡武将，则重新随机
+				while(true){
+					isRightRand = true;
+					for(int j:rand){
+						if( myTarget[j] < 0 ){
+							isRightRand = false;
+							break;
+						}
+					}
+					if(isRightRand){
+						for(int j:rand){
+							n[temp2] = myTarget[j];
+							temp2++;
+						}
+						break;
+					}
+					rand = RandomUtil.random(3, 5, attackNum);
+				}					
+			}			
 			break;
 		case 5:
 			Random r = new Random();
