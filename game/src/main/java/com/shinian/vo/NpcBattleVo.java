@@ -158,7 +158,7 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 	}
 
 
-	public int[] getActionTarget()
+	public int[] getActionTarget(NpcBattleVo[] targetArmy)
 	{
 		if (npc.getHealth() <= 0) return new int[0];
 		
@@ -168,6 +168,5 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 		
 		return n;
 	}
-	
-	
+
 }
