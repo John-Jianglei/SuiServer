@@ -31,6 +31,24 @@ public class NpcInfoVo extends BaseObject implements Serializable{
 	private  int gedangPoss;
 	private  int reduce;
 	
+	private  int healthBase;
+	private  int attackBase;
+	private  int hujiaBase;
+	private  int pojiaBase;
+	private  int fachuanBase;
+	private  int fakangBase;
+	private  int baojiBase;
+	private  int renxingBase;
+	private  int mingzhongBase;
+	private  int shanbiBase;
+	private  int xixueBase;
+	private  int fantanBase;
+	private  int jiyunBase;
+	private  int kangyunBase;
+	private  int gedangBase;
+	private  int gedangPossBase;
+	private  int reduceBase;
+	
 	private	 boolean skill1;
 	private	 boolean skill2;
 	private	 boolean skill3;
@@ -144,6 +162,125 @@ public class NpcInfoVo extends BaseObject implements Serializable{
 	}
 	public void setPosition(int position) {
 		this.position = position;
+	}
+	
+	public int getHealthBase() {
+		return healthBase;
+	}
+	public void setHealthBase(int healthBase) {
+		this.healthBase = healthBase;
+	}
+	
+	public int getAttackBase() {
+		return attackBase;
+	}
+	public void setAttackBase(int attackBase) {
+		this.attackBase = attackBase;
+	}
+
+	public int getHujiaBase() {
+		return hujiaBase;
+	}
+	public void setHujiaBase(int hujiaBase) {
+		this.hujiaBase = hujiaBase;
+	}
+	
+	public int getPojiaBase() {
+		return pojiaBase;
+	}
+	public void setPojiaBase(int pojiaBase) {
+		this.pojiaBase = pojiaBase;
+	}
+	
+	public int getFachuanBase() {
+		return fachuanBase;
+	}
+	public void setFachuanBase(int fachuanBase) {
+		this.fachuanBase = fachuanBase;
+	}	
+	
+	public int getFakangBase() {
+		return fakangBase;
+	}
+	public void setFakangBase(int fakangBase) {
+		this.fakangBase = fakangBase;
+	}	
+	
+	public int getRenxingBase() {
+		return renxingBase;
+	}
+	public void setRenxingBase(int renxingBase) {
+		this.renxingBase = renxingBase;
+	}
+	
+	public int getMingzhongBase() {
+		return mingzhongBase;
+	}
+	public void setMingzhongBase(int mingzhongBase) {
+		this.mingzhongBase = mingzhongBase;
+	}
+	
+	public int getShanbiBase() {
+		return shanbiBase;
+	}
+	public void setShanbiBase(int shanbiBase) {
+		this.shanbiBase = shanbiBase;
+	}
+	
+	public int getXixueBase() {
+		return xixueBase;
+	}
+	public void setXixueBase(int xixueBase) {
+		this.xixueBase = xixueBase;
+	}
+	
+	public int getFantanBase() {
+		return fantanBase;
+	}
+	public void setFantanBase(int fantanBase) {
+		this.fantanBase = fantanBase;
+	}
+	
+	public int getJiyunBase() {
+		return jiyunBase;
+	}
+	public void setJiyunBase(int jiyunBase) {
+		this.jiyunBase = jiyunBase;
+	}
+	
+	public int getKangyunBase() {
+		return kangyunBase;
+	}
+	public void setKangyunBase(int kangyunBase) {
+		this.kangyunBase = kangyunBase;
+	}
+	
+	public int getGedangBase() {
+		return gedangBase;
+	}
+	public void setGedangBase(int gedangBase) {
+		this.gedangBase = gedangBase;
+	}
+	
+	public int getGedangPossBase() {
+		return gedangPossBase;
+	}
+	public void setGedangPossBase(int gedangPossBase) {
+		this.gedangPossBase = gedangPossBase;
+	}
+	
+	public int getReduceBase() {
+		return reduceBase;
+	}
+	public void setReduceBase(int reduceBase) {
+		this.reduceBase = reduceBase;
+	}
+	
+	public int getBaojiBase() {
+		return baojiBase;
+	}
+	public void setBaojiBase(int baojiBase) {
+		this.baojiBase = baojiBase;
 	}
 	
 	public int getHealth() {

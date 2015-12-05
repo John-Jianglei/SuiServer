@@ -91,6 +91,23 @@ CREATE TABLE `game_npc_info` (
   `gedang` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前格挡',
   `gedangPoss` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前格挡概率',
   `reduce` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前伤害减小',
+  `healthBase` int(11) NOT NULL DEFAULT '1' COMMENT '武将当前基础生命值',
+  `attackBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础攻击力',
+  `hujiaBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础护甲',
+  `pojiaBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础破甲',
+  `fachuanBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础法穿',
+  `fakangBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础法抗',
+  `baojiBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础暴击',
+  `renxingBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础韧性',
+  `mingzhongBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础命中',
+  `shanbiBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础闪避',
+  `xixueBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础吸血',
+  `fantanBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础反弹',
+  `jiyunBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础击晕',
+  `kangyunBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础抗晕',
+  `gedangBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础格挡',
+  `gedangPossBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础格挡概率',
+  `reduceBase` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前基础伤害减小',
   `skill1` int(11) NOT NULL DEFAULT '0' COMMENT '技能1',
   `skill2` int(11) NOT NULL DEFAULT '0' COMMENT '技能2',
   `skill3` int(11) NOT NULL DEFAULT '0' COMMENT '技能3',
@@ -130,3 +147,22 @@ insert into game_npc_info(`comId`,`uid`,`position`,`health`,`attack`,`hujia`) va
 
 alter table game_npc_info Add column pid varchar(50) not null after uid COMMENT='角色id';
 alter table game_npc_info change pid uid varchar(50) NOT NULL COMMENT '角色id';
+
+
+alter table game_npc_info Add column  `healthBase` int(11) NOT NULL DEFAULT '1' ;
+alter table game_npc_info Add column  `attackBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `hujiaBase` int(11) NOT NULL DEFAULT '0' 	;
+alter table game_npc_info Add column  `pojiaBase` int(11) NOT NULL DEFAULT '0' 	;
+alter table game_npc_info Add column  `fachuanBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `fakangBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `baojiBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `renxingBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `mingzhongBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `shanbiBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `xixueBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `fantanBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `jiyunBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `kangyunBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `gedangBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `gedangPossBase` int(11) NOT NULL DEFAULT '0' ;
+alter table game_npc_info Add column  `reduceBase` int(11) NOT NULL DEFAULT '0' ;

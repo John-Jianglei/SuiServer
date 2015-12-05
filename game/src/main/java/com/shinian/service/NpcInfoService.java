@@ -120,6 +120,10 @@ public class NpcInfoService {
 		return result;
 	}
 	
+	public int updateNpcNatureById(NpcInfoVo npc)		//	update the actual nature, which synthesizes the value from prop, team, skill, etc.
+	{
+		return npcInfoDao.updateNpcNatureById(npc);
+	}
 	
 	public NpcInfoVo getNpcByPosition(String uid, int position)
 	{

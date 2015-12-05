@@ -48,4 +48,9 @@ public class NpcInfoDao{
 		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, position, id);
 	}
 	
+	public int updateNpcNatureById(NpcInfoVo npc)
+	{
+		String sql = "update game_npc_info set `health` = ?, `attack` = ?,  `hujia` = ?,  `pojia` = ?,  `fachuan` = ?,  `fakang` = ?,  `baoji` = ?,  `renxing` = ?,  `mingzhong` = ?,  `shanbi` = ?,  `xixue` = ?,  `fantan` = ?,  `jiyun` = ?,  `kangyun` = ?,  `gedang` = ?,  `gedangPoss` = ?,  `reduce` = ? where `id` = ?";
+		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, npc.getHealth(),  npc.getAttack(),  npc.getHujia(),  npc.getPojia(),  npc.getFachuan(),  npc.getFakang(),  npc.getBaoji(),  npc.getRenxing(),  npc.getMingzhong(),  npc.getShanbi(),  npc.getXixue(),  npc.getFantan(),  npc.getJiyun(),  npc.getKangyun(),  npc.getGedang(),  npc.getGedangPoss(),  npc.getReduce(),  npc.getId());
+	}
 }
