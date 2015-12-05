@@ -131,6 +131,10 @@ CREATE TABLE `common_npc_info` (
   `skill9` int(11) NOT NULL DEFAULT '0' COMMENT '技能9',
   `skill10` int(11) NOT NULL DEFAULT '0' COMMENT '技能10',
   `skill11` int(11) NOT NULL DEFAULT '0' COMMENT '技能11',
+  `yuanfen1` int(11) NOT NULL DEFAULT '0' COMMENT '缘份1',
+  `yuanfen2` int(11) NOT NULL DEFAULT '0' COMMENT '缘份2',
+  `yuanfen3` int(11) NOT NULL DEFAULT '0' COMMENT '缘份3',
+  `yuanfen4` int(11) NOT NULL DEFAULT '0' COMMENT '缘份4',
   `desc` varchar(512) COMMENT '武将列传',
   `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '0:无效;1:有效',
@@ -162,3 +166,20 @@ CREATE TABLE `common_prop_info` (
 insert into common_prop_info(`name`,`nature`,`val`,`star`,`desc`) values('经验书',200,100,2,'增加经验');
 insert into common_prop_info(`name`,`nature`,`val`,`star`,`desc`) values('ExperienceBook',200,100,2,'Increase NPC experience');
 
+
+DROP TABLE IF EXISTS `common_yuanfen_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `common_yuanfen_info` (
+  `comId` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL COMMENT '缘份名称',
+  `npcId` int(11) NOT NULL COMMENT '武将id',
+  `category` int(11) NOT NULL DEFAULT '1' COMMENT '缘份关系类别: 1--武将 2--武器  3--宝物',
+  `objId` int(11) NOT NULL DEFAULT '0' COMMENT '缘份关系对象id',
+  `addAttack` int(11) NOT NULL DEFAULT '0' COMMENT '增加攻击',
+  `addHealth` int(11) NOT NULL DEFAULT '0' COMMENT '增加生命',
+  `desc` varchar(512) COMMENT '缘份描述',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '0:无效;1:有效',
+  PRIMARY KEY (`comId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='缘份信息表';

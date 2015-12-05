@@ -1,6 +1,7 @@
 package com.shinian.redis;
 
 import java.util.List;
+
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcUpdateRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
+import com.shinian.vo.YuanfenInfoRedisVo;
 
 
 @Component
@@ -155,6 +157,40 @@ public class RedisCacheUtil {
 			}
 			else{
 				PropInfoRedisVo v = commonDataService.getPropInfoByComId(comId);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
+	}
+
+	public YuanfenInfoRedisVo getYuanfenInfoByComId(int comId)
+	{
+		YuanfenInfoRedisVo pvo = new YuanfenInfoRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_COMMON_YUANFEN_INFO;
+			String key = String.format(prefix, comId);
+
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, pvo.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					pvo.fromList(list);
+					return pvo;
+				}
+			}
+			else{
+				YuanfenInfoRedisVo v = commonDataService.getYuanfenInfoByComId(comId);
 				if(v != null){
 					jedis.hmset(key, v.toMap());
 				}

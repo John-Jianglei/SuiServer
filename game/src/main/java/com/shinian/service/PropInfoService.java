@@ -119,6 +119,11 @@ public class PropInfoService {
 		return propInfoDao.getPropListOfPlayer(uid);		
 	}
 	
+	public List<PropInfoVo> getPropListOfNpc(int npcId)
+	{
+		return propInfoDao.getPropListOfNpc(npcId);		
+	}
+	
 	
 	public PropInfoVo getPropOfPlayerByComId(String uid, int comId)
 	{

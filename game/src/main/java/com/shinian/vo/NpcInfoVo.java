@@ -61,6 +61,43 @@ public class NpcInfoVo extends BaseObject implements Serializable{
 	private	 boolean skill10;
 	private	 boolean skill11;
 	
+	private int yuanfen1;
+	private int yuanfen2;
+	private int yuanfen3;
+	private int yuanfen4;
+	
+	public int getYuanfen1() {
+		return yuanfen1;
+	}
+	
+	public void setYuanfen1(int yuanfen1) {
+		this.yuanfen1 = yuanfen1;
+	}	
+	
+	public int getYuanfen2() {
+		return yuanfen2;
+	}
+	
+	public void setYuanfen2(int yuanfen2) {
+		this.yuanfen2 = yuanfen2;
+	}	
+	
+	public int getYuanfen3() {
+		return yuanfen3;
+	}
+	
+	public void setYuanfen3(int yuanfen3) {
+		this.yuanfen3 = yuanfen3;
+	}	
+	
+	public int getYuanfen4() {
+		return yuanfen4;
+	}
+	
+	public void setYuanfen4(int yuanfen4) {
+		this.yuanfen4 = yuanfen4;
+	}	
+	
 	public boolean isSkill1() {
 		return skill1;
 	}

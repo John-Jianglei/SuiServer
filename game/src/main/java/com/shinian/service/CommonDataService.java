@@ -12,7 +12,7 @@ import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcUpdateRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
-
+import com.shinian.vo.YuanfenInfoRedisVo;
 
 @Service
 public class CommonDataService {
@@ -32,6 +32,11 @@ public class CommonDataService {
 	public PropInfoRedisVo getPropInfoByComId(int comId)
 	{
 		return commonDataDao.getPropInfoByComId(comId);
+	}
+	
+	public YuanfenInfoRedisVo getYuanfenInfoByComId(int comId)
+	{
+		return commonDataDao.getYuanfenInfoByComId(comId);
 	}
 	
 	public JinjieMaterialRedisVo getJinjieNeedMByPinjie(int pinjie)

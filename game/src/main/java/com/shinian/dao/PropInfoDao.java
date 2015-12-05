@@ -70,6 +70,14 @@ public class PropInfoDao {
 		return list;
 	}
 	
+	public List<PropInfoVo> getPropListOfNpc(int npcId)
+	{
+		final String sql = "select `id`, `comId`, `uid`, `npcId`, `position`, `amount` from game_prop_info where `npcId` = ?";
+		List<PropInfoVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(PropInfoVo.class),new Object[]{npcId});
+		
+		return list;
+	}	
+	
 	public PropInfoVo getPropOfPlayerByComId(String uid, int comId)
 	{
 		String sql = "select `id`, `comId`, `uid`, `npcId`, `position`, `amount` from game_prop_info where `uid` = ? and comId = ?";

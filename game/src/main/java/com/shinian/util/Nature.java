@@ -6,6 +6,9 @@ import java.io.Serializable;
 public class Nature implements Serializable{
 	private static final long serialVersionUID = 1L;
 		
+	public final static int YUANFEN_CATEGORY_NPC = 1;
+	public final static int YUANFEN_CATEGORY_PROP = 2;
+	
 	public final static int NT_ATT_EXPERIENCE = 200;
 	public final static String NT_MSG_EXPERIENCE = "experience";
 	

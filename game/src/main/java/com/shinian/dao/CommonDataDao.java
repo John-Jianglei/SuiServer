@@ -14,6 +14,7 @@ import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcUpdateRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
+import com.shinian.vo.YuanfenInfoRedisVo;
 
 
 @Repository
@@ -46,6 +47,17 @@ public class CommonDataDao  {
 	{
 		final String sql = " select `comId`, `name`, `nature`, `val`, `star`, `desc`, `updateTime`, `status` from common_prop_info where comId = ? and status = 1";
 		List<PropInfoRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(PropInfoRedisVo.class),new Object[]{comId});
+		if( null != list && list.size() > 0 )
+		{
+			return list.get(0);
+		}
+		return null;
+	}
+	
+	public YuanfenInfoRedisVo getYuanfenInfoByComId(final int comId)
+	{
+		final String sql = " select `comId`, `name`, `npcId`, `category`, `objId`, `addAttack`, `addHealth`, `desc`, `updateTime`, `status` from common_yuanfen_info where comId = ? and status = 1";
+		List<YuanfenInfoRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(YuanfenInfoRedisVo.class),new Object[]{comId});
 		if( null != list && list.size() > 0 )
 		{
 			return list.get(0);

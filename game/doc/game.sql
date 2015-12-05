@@ -119,6 +119,10 @@ CREATE TABLE `game_npc_info` (
   `skill9` int(11) NOT NULL DEFAULT '0' COMMENT '技能9',
   `skill10` int(11) NOT NULL DEFAULT '0' COMMENT '技能10',
   `skill11` int(11) NOT NULL DEFAULT '0' COMMENT '技能11',
+  `yuanfen1` int(11) NOT NULL DEFAULT '0' COMMENT '缘份1',
+  `yuanfen2` int(11) NOT NULL DEFAULT '0' COMMENT '缘份2',
+  `yuanfen3` int(11) NOT NULL DEFAULT '0' COMMENT '缘份3',
+  `yuanfen4` int(11) NOT NULL DEFAULT '0' COMMENT '缘份4',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='武将信息表';
 
