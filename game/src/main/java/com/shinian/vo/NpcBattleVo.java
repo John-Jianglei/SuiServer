@@ -186,8 +186,7 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 			else{
 				nuqi = 0;
 			}
-		}
-		
+		}	
 
 		
 		
@@ -195,17 +194,18 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 		return action;
 	}
 	
-	public int[] selectActionTargets(int[] target)
-	{
-		int[] ret = {1};
-		return ret;
-//		return selectActionTargets(target, this.getNpc().getPosition());
-	}
+//	public int[] selectActionTargets(int[] target)
+//	{
+//		int[] ret = {1};
+//		return ret;
+////		return selectActionTargets(target, this.getNpc().getPosition());
+//	}
 
 
 	//必须知道攻击者的位置，因为攻击时要攻击前排对应自己位置的武将
-	public int[] selectActionTargets(int[] target, int attackerPos)
+	public int[] selectActionTargets(int[] target )
 	{
+		int attackerPos = npc.getPosition();
 		if (npc.getHealth() <= 0 || attackerPos>=6 || attackerPos<0 ){
 			return new int[0];
 		}
@@ -239,12 +239,12 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 			jnvo = redisCacheUtil.getJinengInfoById(nivo.getSkill1());	
 		}
 
-		n= getAttackerPos( target,  attackerPos, jnvo.getAttack_num(), jnvo.getMubiao_pos());			
+		n= getAttackPos( target,  attackerPos, jnvo.getAttack_num(), jnvo.getMubiao_pos());			
 		
 		return n;
 	}
 	
-	private int[] getAttackerPos(int[] target, int attackerPos, int attackNum, int aimPos){
+	private int[] getAttackPos(int[] target, int attackerPos, int attackNum, int aimPos){
 		
 		if(target.length==0){
 			return new int[0];
@@ -308,7 +308,7 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 			}
 			//前排全部阵亡，则攻击后排
 			if(temp==0){
-				return getAttackerPos(target, attackerPos, attackNum, 4);
+				return getAttackPos(target, attackerPos, attackNum, 4);
 			}
 			//前排目标少于或等于能够攻击的目标
 			else if( temp <= attackNum ){
@@ -353,7 +353,7 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 			}
 			//后排全部阵亡，则攻击前排
 			if(temp==0){
-				return getAttackerPos(target, attackerPos, attackNum, 3);
+				return getAttackPos(target, attackerPos, attackNum, 3);
 			}
 			//后排目标少于或等于能够攻击的目标
 			else if( temp <= attackNum ){
