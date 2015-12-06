@@ -220,7 +220,7 @@ public class BattleService {
 		if( Float.compare(hv,1.0f)<0 ){
 			//出现闪避
 			hv = 0;
-			action.setImpact(1);
+			action.setImpact(0);
 			action.setReflection(0);
 			return action;
 		}
@@ -231,6 +231,9 @@ public class BattleService {
 		else if( Float.compare(hv,2.0f)>=0 && offNpc.getNpc().getMingzhong()>100 ){
 			//产生了额外伤害
 			hv = 1 + (offNpc.getNpc().getMingzhong()+10)/(offNpc.getNpc().getMingzhong()+10+defNpc.getNpc().getShanbi());
+		}
+		else{
+			hv = 1;
 		}
 		
 		//2、计算基本伤害
@@ -244,11 +247,12 @@ public class BattleService {
 		//4、普通附加伤害
 		
 		//根据武将技能判断是物攻型还是法攻型,要查数据库
-		NpcInfoRedisVo nivo = redisCacheUtil.getNpcInfoByComId(defNpc.getNpc().getId());
+		NpcInfoRedisVo nivo = redisCacheUtil.getNpcInfoByComId(defNpc.getNpc().getComId());
 		JinengRedisVo jnvo = redisCacheUtil.getJinengInfoById(nivo.getSkill1());
 		int damageType = jnvo.getDamage_type();
 		int maxFachuan = 100;
 		int d03 = 0;
+		//怒气满才能发动必杀技
 		if( offNpc.getNuqi() == 100 ){
 			//物攻
 			if( damageType==1 ){
@@ -279,6 +283,9 @@ public class BattleService {
 		}
 		else if( Float.compare(bv,2.0f)>=0 && offNpc.getNpc().getBaoji()>100 ){
 			bv = (Float.compare(bv,3.0f)<0)?bv:3;
+		}
+		else{
+			bv = 1;
 		}
 		
 		d04 = (long)(( d01 + d02 + d03 )*bv);
@@ -353,7 +360,7 @@ public class BattleService {
 		
 		//9、反弹值
 		//long rbd = (fd.multiply(BigInteger.valueOf(npc.getXixue())).divide(BigInteger.valueOf(100))).longValue();
-		long rbd = fd * offNpc.getNpc().getXixue() / 100;
+		long rbd = fd * offNpc.getNpc().getFantan() / 100;
 		rbd = rbd<defNpc.getNpc().getHealth() ? rbd: defNpc.getNpc().getHealth();
 		action.setReflection(rbd);
 		tempHealth = (int)rbd>offNpc.getNpc().getHealth()? 0 : (offNpc.getNpc().getHealth()-(int)rbd);
@@ -429,7 +436,8 @@ public class BattleService {
 				myTarget[i] = i;
 			}
 		}		
-		int[] n ={};
+		int[] n = new int[6];
+		int[] ret = {};
 		int temp = 0;
 		int temp2 = 0;
 		int[] rand;
@@ -437,13 +445,14 @@ public class BattleService {
 		
 		switch(aimPos){
 		case 1:
+			ret = new int[1];
 			if( myTarget[attackerPos] >=0 ){
-				n[0] = myTarget[attackerPos];
+				ret[0] = myTarget[attackerPos];
 			}
 			else{
 				for( int i=0; i<6; i++ ){
 					if( myTarget[i] >= 0 ){
-						n[0] = i;
+						ret[0] = i;
 						break;
 					}
 				}
@@ -467,6 +476,10 @@ public class BattleService {
 						temp++;
 					}
 					break;
+				}
+				ret = new int[temp];
+				for(int i:ret){
+					ret[i] = n[i];
 				}
 				rand = RandomUtil.random(0, 2, attackNum);
 			}			
@@ -515,6 +528,10 @@ public class BattleService {
 					rand = RandomUtil.random(0, 2, attackNum);
 				}					
 			}
+			ret = new int[temp2];
+			for(int i:ret){
+				ret[i] = n[i];
+			}
 			break;
 		//随机选取后排attackNum个目标
 		case 4:
@@ -559,7 +576,11 @@ public class BattleService {
 					}
 					rand = RandomUtil.random(3, 5, attackNum);
 				}					
-			}			
+			}
+			ret = new int[temp2];
+			for(int i:ret){
+				ret[i] = n[i];
+			}
 			break;
 		case 5:
 			Random r = new Random();
@@ -580,15 +601,19 @@ public class BattleService {
 			}
 			if( myTarget[temp+3]>=0 ){
 				n[temp2] = myTarget[temp];
-			}			
+			}
+			ret = new int[temp2];
+			for(int i:ret){
+				ret[i] = n[i];
+			}
 			break;
 		case 6:
 		default:
-			n=target;
+			ret=target;
 			break;
 		}
 		
 		
-		return n;
+		return ret;
 	}
 }

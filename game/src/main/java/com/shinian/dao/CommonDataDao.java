@@ -100,9 +100,9 @@ public class CommonDataDao  {
 		"`consum_nuqi`,`remain_nuqi`,`attack_num`,`mubiao_pos`,`damage_type`,`damage_min`," +
 		"`damage_max`,`add_health_type`,`add_health`,`shuxing_type`,`add_damage`," +
 		"`add_tianming`,`is_relive`,`is_wudi`,`add_pojia`,`add_fachuan`,`add_baoji`," +
-		"`add_mingzhong`,`add_shanbi` where nextpinjie = ?";
+		"`add_mingzhong`,`add_shanbi` from common_jineng where id = ?";
 
-		long exp = WebConstant.commonJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{id});		
+		//long exp = WebConstant.commonJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{id});		
 		
 		List<JinengRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(JinengRedisVo.class),new Object[]{id});	
 		
