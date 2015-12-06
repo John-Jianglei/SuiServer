@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
-import com.shinian.dao.PropInfoDao;
+import com.shinian.dao.SyncNatureDao;
 import com.shinian.util.Message;
 import com.shinian.vo.CommonReqVo;
 import com.shinian.vo.MessageRespVo;
@@ -33,17 +33,14 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 	@Autowired
 	NpcInfoService npcInfoService;
 	
+	@Autowired
+	SyncNatureDao syncNatureDao;
+	
 	
 	public NpcInfoVo syncNpcById(int id)		
 	{
 		NpcInfoVo npc = npcInfoService.getNpcInfoById(id);
 		
-		// synthesize props
-		List<PropInfoVo> plist = propInfoService.getPropListOfNpc(id);	// synthesize props
-		for (PropInfoVo prop:plist){
-			updateNpcNatureByProp(npc, prop.getComId());
-		}
-
 		// synthesize yuanfen
 		if (npc.getYuanfen1() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen1());
 		if (npc.getYuanfen2() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen2());
@@ -55,15 +52,21 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 		
 		
 		
-		npcInfoService.updateNpcNatureById(npc);
+		// synthesize props
+		List<PropInfoVo> plist = propInfoService.getPropListOfNpc(id);	// synthesize props
+		for (PropInfoVo prop:plist){
+			updateNpcNatureByProp(npc, prop.getComId());
+		}
+
+		syncNatureDao.updateNpcNature(npc);
 		return npc;
 	}
 	
 	private void updateNpcNatureByYuanfen(NpcInfoVo npc, int yfId)
 	{
 		YuanfenInfoRedisVo yf = redisCacheUtil.getYuanfenInfoByComId(yfId);
-		npc.setAttack(npc.getAttack() + yf.getAddAttack());
-		npc.setHealth(npc.getHealth() + yf.getAddHealth());
+		npc.setAttack(npc.getAttack() + npc.getAttackBase() * yf.getAddAttack() / 100);
+		npc.setHealth(npc.getHealth() + npc.getHealthBase() * yf.getAddHealth() / 100);
 	}
 	
 	private void updateNpcNatureByProp(NpcInfoVo npc, int propComId)
@@ -144,4 +147,5 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 		}
 		
 	}
+	
 }
