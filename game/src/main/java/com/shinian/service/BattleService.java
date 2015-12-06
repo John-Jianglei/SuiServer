@@ -101,12 +101,14 @@ public class BattleService {
 		
 		while (isSurvived(offArmy) && isSurvived(defArmy) && (seq < Constant.CON_BATTLE_MAX_SEQUENCE)){
 			for (int i=0; i<Constant.CON_ARMY_SIZE; i++){
-				targets = (offArmy[i] != null) ? offArmy[i].selectActionTargets(getAliveNpc(defArmy)) : new int[0];
+//				targets = (offArmy[i] != null) ? offArmy[i].selectActionTargets(getAliveNpc(defArmy)) : new int[0];
+				targets = (offArmy[i] != null) ? selectActionTargets(offArmy[i], getAliveNpc(defArmy)) : new int[0];
 				if (targets.length > 0) seq++;
 				for (int j=0; j < targets.length; j++){
 					int target = targets[j];
 					if (defArmy[target].getNpc().getHealth() > 0){
-						ActionVo action = offArmy[i].attackAction(defArmy[target]);
+//						ActionVo action = offArmy[i].attackAction(defArmy[target]);
+						ActionVo action = getAttackAction(offArmy[i], defArmy[target]);
 						action.setSeq(seq);
 						action.setDoee(action.getDoee() + Constant.CON_ARMY_SIZE);
 						action.setDoerHP(offArmy[i].getNpc().getHealth());
@@ -116,12 +118,14 @@ public class BattleService {
 					}
 				}
 								
-				targets = (defArmy[i] != null) ? defArmy[i].selectActionTargets(getAliveNpc(offArmy)) : new int[0];
+//				targets = (defArmy[i] != null) ? defArmy[i].selectActionTargets(getAliveNpc(offArmy)) : new int[0];
+				targets = (defArmy[i] != null) ? selectActionTargets(defArmy[i], getAliveNpc(offArmy)) : new int[0];
 				if (targets.length > 0) seq++;
 				for (int j=0; j < targets.length; j++){
 					int target = targets[j];
 					if (offArmy[target].getNpc().getHealth() > 0){
-						ActionVo action = defArmy[i].attackAction(offArmy[target]);
+//						ActionVo action = defArmy[i].attackAction(offArmy[target]);
+						ActionVo action = getAttackAction(defArmy[i], offArmy[target]);
 						action.setSeq(seq);
 						action.setDoer(action.getDoer() + Constant.CON_ARMY_SIZE);
 						action.setDoerHP(defArmy[i].getNpc().getHealth());
@@ -180,5 +184,16 @@ public class BattleService {
 		for (int j = 0; j < list.size(); j++)
 			ret[j] = list.get(j);
 		return ret;
+	}
+	
+	private ActionVo getAttackAction(NpcBattleVo offNpc, NpcBattleVo defNpc)
+	{
+		//	To Sun: replace NpcBattleVo.attackAction()
+	}
+	
+	private int[] selectActionTargets(NpcBattleVo offNpc, int[] targets)
+	{
+		//	To Sun: replace NpcBattleVo.selectActionTargets()
+
 	}
 }
