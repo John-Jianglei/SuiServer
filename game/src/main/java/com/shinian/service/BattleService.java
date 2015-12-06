@@ -244,7 +244,6 @@ public class BattleService {
 		//4、普通附加伤害
 		
 		//根据武将技能判断是物攻型还是法攻型,要查数据库
-		RedisCacheUtil redisCacheUtil = new RedisCacheUtil();
 		NpcInfoRedisVo nivo = redisCacheUtil.getNpcInfoByComId(defNpc.getNpc().getId());
 		JinengRedisVo jnvo = redisCacheUtil.getJinengInfoById(nivo.getSkill1());
 		int damageType = jnvo.getDamage_type();
@@ -397,9 +396,8 @@ public class BattleService {
 		if( attackerPos>=3 ){
 			attackerPos -= 3;
 		}		
-		
-		RedisCacheUtil redisCacheUtil = new RedisCacheUtil();
-		NpcInfoRedisVo nivo = redisCacheUtil.getNpcInfoByComId(offNpc.getNpc().getId());
+
+		NpcInfoRedisVo nivo = redisCacheUtil.getNpcInfoByComId(offNpc.getNpc().getComId());
 		JinengRedisVo jnvo = new JinengRedisVo();
 		//JinengRedisVo jnvo = redisCacheUtil.getJinengInfoById(nivo.);
 
