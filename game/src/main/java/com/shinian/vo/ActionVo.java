@@ -19,7 +19,27 @@ public class ActionVo extends BaseObject implements Serializable{
 	//private List<Long> reflection;		//反弹伤害（负值）&吸血值(正值)
 	private long fantan;	//反弹伤害
 	private long xixue;			//吸血值
+	private int doerNuqi;
+	private int doeeNuqi;
 	
+	public long getFantan() {
+		return fantan;
+	}
+	public void setFantan(long fantan) {
+		this.fantan = fantan;
+	}
+	public int getDoerNuqi() {
+		return doerNuqi;
+	}
+	public void setDoerNuqi(int doerNuqi) {
+		this.doerNuqi = doerNuqi;
+	}
+	public int getDoeeNuqi() {
+		return doeeNuqi;
+	}
+	public void setDoeeNuqi(int doeeNuqi) {
+		this.doeeNuqi = doeeNuqi;
+	}
 	public long getDoerHP() {
 		return doerHP;
 	}

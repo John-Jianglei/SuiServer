@@ -308,20 +308,35 @@ public class BattleService {
 		//武将受到攻击，怒气值上升
 		if( defNpc.getNuqi()+50<=100 ){
 			defNpc.setNuqi(defNpc.getNuqi()+50);
+			action.setDoeeNuqi(defNpc.getNuqi()+50);
 		}
 		else{
 			defNpc.setNuqi(100);
-		}		
+			action.setDoeeNuqi(100);
+		}
+		action.setImpact(fd);
+		
+		if( fd >= defNpc.getNpc().getHealth() ){
+			defNpc.getNpc().setHealth(0);
+		}
+		else{
+			defNpc.getNpc().setHealth( (int)(defNpc.getNpc().getHealth()-fd) );
+		}
 		
 		//7、是否被晕
 		//已经处于被晕状态，则抗晕加10
-		if( defNpc.getStatus()==Constant.CON_NPC_BATTLE_STATUS_DAZZLE ){
-			defNpc.getNpc().setKangyun(defNpc.getNpc().getKangyun()+10);
-		}
+		if( defNpc.getStatus()!= Constant.CON_NPC_BATTLE_STATUS_DAZZLE ){
+			if( defNpc.getlastStatus()==Constant.CON_NPC_BATTLE_STATUS_DAZZLE ){
+				defNpc.getNpc().setKangyun(defNpc.getNpc().getKangyun()+10);
+			}
 
-		rand = random.nextInt(100);
-		if( rand <= offNpc.getNpc().getJiyun()-defNpc.getNpc().getKangyun() ){
-			defNpc.setStatus( Constant.CON_NPC_BATTLE_STATUS_DAZZLE );
+			rand = random.nextInt(100);
+			if( rand <= offNpc.getNpc().getJiyun()-defNpc.getNpc().getKangyun() ){
+				defNpc.setStatus( Constant.CON_NPC_BATTLE_STATUS_DAZZLE );
+				if( (0x0004 & action.getAct()) ==0 ){
+					action.setAct(action.getAct()+0x0004);
+				}
+			}
 		}
 		
 		//8、吸血值
@@ -332,20 +347,29 @@ public class BattleService {
 			sbh = fd * offNpc.getNpc().getXixue() / 100;
 		}
 		action.setXixue(sbh);
+		int tempHealth = (int)sbh + offNpc.getNpc().getHealth();
+		tempHealth = tempHealth>offNpc.getNpc().getHealthBase()?offNpc.getNpc().getHealthBase():tempHealth;
+		offNpc.getNpc().setHealth( tempHealth );
+		action.setDoerHP(tempHealth);
 		
 		//9、反弹值
 		//long rbd = (fd.multiply(BigInteger.valueOf(npc.getXixue())).divide(BigInteger.valueOf(100))).longValue();
 		long rbd = fd * offNpc.getNpc().getXixue() / 100;
 		rbd = rbd<defNpc.getNpc().getHealth() ? rbd: defNpc.getNpc().getHealth();
 		action.setReflection(rbd);
+		tempHealth = (int)rbd>offNpc.getNpc().getHealth()? 0 : (offNpc.getNpc().getHealth()-(int)rbd);
+		offNpc.getNpc().setHealth( tempHealth );
+		action.setDoeeHP(tempHealth);
 		
 		//如果消耗nuqi，剩余怒气看技能10
 		if(offNpc.getNuqi()==100){
 			if( offNpc.getNpc().isSkill10() ){
 				offNpc.setNuqi(redisCacheUtil.getJinengInfoById(nivo.getSkill10()).getRemain_nuqi());
+				action.setDoerNuqi(offNpc.getNuqi());
 			}
 			else{
 				offNpc.setNuqi(0);
+				action.setDoerNuqi(0);
 			}
 		}		
 		

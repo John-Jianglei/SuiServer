@@ -14,6 +14,7 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 
 	private NpcInfoVo npc;
 	private int nuqi;
+	private int lastStatus;			//上回合是否被晕
 	private int status;
 	private boolean hasRelive;		//是否复活过
 	private boolean hasWudi;		//是否无敌过
@@ -45,6 +46,13 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 		this.nuqi = nuqi;
 	}	
 	
+	public int getlastStatus() {
+		return lastStatus;
+	}
+	public void setlastStatus(int lastStatus) {
+		this.lastStatus = lastStatus;
+	}
+	
 	public int getStatus() {
 		return status;
 	}
@@ -52,19 +60,19 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 		this.status = status;
 	}	
 	
-	public ActionVo attackAction(NpcBattleVo doee){
-		ActionVo action = new ActionVo();
-
-		action.setDoer(npc.getPosition());
-		action.setDoee(doee.getNpc().getPosition());
-
-		if (status == Constant.CON_NPC_BATTLE_STATUS_DAZZLE){
-			action.setAct(Constant.CON_NPC_BATTLE_ACT_NOTHING);
-			action.setImpact(0);
-			action.setReflection(0);
-			
-			return action;
-		}
+//	public ActionVo attackAction(NpcBattleVo doee){
+//		ActionVo action = new ActionVo();
+//
+//		action.setDoer(npc.getPosition());
+//		action.setDoee(doee.getNpc().getPosition());
+//
+//		if (status == Constant.CON_NPC_BATTLE_STATUS_DAZZLE){
+//			action.setAct(Constant.CON_NPC_BATTLE_ACT_NOTHING);
+//			action.setImpact(0);
+//			action.setReflection(0);
+//			
+//			return action;
+//		}
 		
 		//	To Sun: add real fight here
 		
@@ -202,8 +210,8 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 //		}	
 		
 		
-		return action;
-	}
+//		return action;
+//	}
 	
 //	public int[] selectActionTargets(int[] target)
 //	{
