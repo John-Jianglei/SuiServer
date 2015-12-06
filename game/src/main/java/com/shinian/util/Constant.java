@@ -18,8 +18,8 @@ public class Constant implements Serializable{
  	public final static int CON_NPC_BATTLE_STATUS_UNSTOPPABLE = 102;
  	
  	//	action of Npc in Battle, start from 200
- 	public final static int CON_NPC_BATTLE_ACT_NOTHING = 200;
- 	public final static int CON_NPC_BATTLE_ACT_HELP = 201;
+ 	//public final static int CON_NPC_BATTLE_ACT_NOTHING = 200;
+ 	//public final static int CON_NPC_BATTLE_ACT_HELP = 201;
  	
  	//	action of Npc in Battle
  	public final static int CON_NPC_BATTLE_ACT_MISS 		= 0x0001;
