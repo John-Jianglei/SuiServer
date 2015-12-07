@@ -1,9 +1,14 @@
 package com.shinian.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;	
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import com.alibaba.fastjson.JSON;
 import com.shinian.dao.SyncNatureDao;
@@ -28,6 +33,9 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 	PropInfoService propInfoService;
 	
 	@Autowired
+	ArmyInfoService armyInfoService;
+	
+	@Autowired
 	RedisCacheUtil redisCacheUtil;
 	
 	@Autowired
@@ -36,12 +44,31 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 	@Autowired
 	SyncNatureDao syncNatureDao;
 	
-	
+	//	actual nature value(anv) is combination of base nature value(bnv), prop value(pv), yuanfen value(yv) and skills value(sv), 
+	//	which is:  anv = bnv + pv + bnv*yv + bnv*sv
 	public NpcInfoVo syncNpcById(int id)		
 	{
 		NpcInfoVo npc = npcInfoService.getNpcInfoById(id);
+		List<NpcInfoVo> army = armyInfoService.getArmyOnBattle(npc.getUid());
 		
-		// synthesize yuanfen
+		Map<Integer, NpcInfoVo> mpArmy = new HashMap<Integer, NpcInfoVo>();  
+		for (NpcInfoVo p : army){
+			mpArmy.put(p.getId(), p);
+		}
+		
+		Set<Integer> npcSet = new HashSet<Integer>();
+		npcSet.clear();
+
+		// synthesize props: anv = bnv + pv 
+		List<PropInfoVo> plist = propInfoService.getPropListOfNpc(id);	// synthesize props
+		for (PropInfoVo prop:plist){
+			updateNpcNatureByProp(npc, prop.getComId());
+		}
+
+
+		// synthesize yuanfen: anv = anv + bnv*yv
+		npcSet.addAll(checkYuanfen(npc, mpArmy, plist));
+		
 		if (npc.getYuanfen1() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen1());
 		if (npc.getYuanfen2() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen2());
 		if (npc.getYuanfen3() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen3());
@@ -52,14 +79,18 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 		
 		
 		
-		// synthesize props
-		List<PropInfoVo> plist = propInfoService.getPropListOfNpc(id);	// synthesize props
-		for (PropInfoVo prop:plist){
-			updateNpcNatureByProp(npc, prop.getComId());
-		}
-
 		syncNatureDao.updateNpcNature(npc);
 		return npc;
+	}
+	
+	private Set<Integer> checkYuanfen(NpcInfoVo npc, Map<Integer, NpcInfoVo> army, List<PropInfoVo> plist)
+	{
+		Set<Integer> npcSet = new HashSet<Integer>();
+		npcSet.clear();
+		
+		
+		
+		return npcSet; 
 	}
 	
 	private void updateNpcNatureByYuanfen(NpcInfoVo npc, int yfId)
