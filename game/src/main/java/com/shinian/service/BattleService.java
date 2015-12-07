@@ -173,6 +173,10 @@ public class BattleService {
 			if (npc.getPosition() < Constant.CON_ARMY_SIZE){
 				result[npc.getPosition()] = new NpcBattleVo();
 				result[npc.getPosition()].setNpc(npc);
+				result[npc.getPosition()].setStartHealth(npc.getHealth());
+				if( npc.isSkill4() ){
+					result[npc.getPosition()].setNuqi(redisCacheUtil.getJinengInfoById(npc.getComId()).getInit_nuqi());
+				}
 			}
 		}
 		
@@ -219,7 +223,8 @@ public class BattleService {
 		//攻击力、生命值、怒气值、暴击、命中...
 		//1、计算是否命中
 		Random random = new Random();
-		float hv = random.nextInt(3) * (offNpc.getNpc().getMingzhong()+10)/(offNpc.getNpc().getMingzhong()+10+defNpc.getNpc().getShanbi());
+		int r = random.nextInt(11);
+		float hv = (float)(r+1)/3 * (offNpc.getNpc().getMingzhong()+10)/(10+defNpc.getNpc().getShanbi());
 		Float.compare(hv,0.0f);
 		if( Float.compare(hv,1.0f)<0 ){
 			//出现闪避
@@ -276,12 +281,12 @@ public class BattleService {
 		int rand  = 0;
 		float bv = 0;	//暴击概率
 		if( offNpc.getNuqi()<100 ){
-			rand = random.nextInt(3);
+			rand = random.nextInt(2);
 		}
 		else{
-			rand = random.nextInt(4);
+			rand = random.nextInt(3);
 		}
-		bv = rand * (offNpc.getNpc().getBaoji()+10)/(offNpc.getNpc().getBaoji()+10+defNpc.getNpc().getRenxing());
+		bv = rand * (offNpc.getNpc().getBaoji()+10)/(10+defNpc.getNpc().getRenxing());
 		if( Float.compare(bv,1.0f)<0 ){
 			bv = 0;
 		}
@@ -368,10 +373,10 @@ public class BattleService {
 			sbh = fd * offNpc.getNpc().getXixue() / 100;
 		}
 		action.setXixue(sbh);
-		int tempHealth = (int)sbh + offNpc.getNpc().getHealth();
-		//武将最大生命是多少，在哪里看？
-		tempHealth = tempHealth>offNpc.getNpc().getHealth()?offNpc.getNpc().getHealth():tempHealth;
-		offNpc.getNpc().setHealth( tempHealth );
+		long tempHealth = sbh + offNpc.getNpc().getHealth();
+		//武将最大生命是
+		tempHealth = tempHealth>offNpc.getStartHealth()?offNpc.getStartHealth():tempHealth;
+		offNpc.getNpc().setHealth( (int)tempHealth );
 		action.setDoerHP(tempHealth);
 		
 		//9、反弹值
@@ -380,7 +385,7 @@ public class BattleService {
 		rbd = rbd<defNpc.getNpc().getHealth() ? rbd: defNpc.getNpc().getHealth();
 		action.setReflection(rbd);
 		tempHealth = (int)rbd>offNpc.getNpc().getHealth()? 0 : (offNpc.getNpc().getHealth()-(int)rbd);
-		offNpc.getNpc().setHealth( tempHealth );
+		offNpc.getNpc().setHealth( (int)tempHealth );
 		action.setDoerHP(tempHealth);
 		
 		//如果消耗nuqi，剩余怒气看技能10
@@ -440,6 +445,8 @@ public class BattleService {
 
 	}
 	
+	//aimPos:攻击目标位置：1默认（指单个目标，前排与攻击者对应位置）,
+	//2随机目标，3前排随机目标，4后排随机目标，5随机纵列目标，6全体目标
 	private int[] getAttackPos(int[] target, int attackerPos, int attackNum, int aimPos){
 		
 		if(target.length==0){
@@ -476,7 +483,12 @@ public class BattleService {
 			break;
 		//随机选取attackNum个目标
 		case 2:
-			rand = RandomUtil.random(0, 5, attackNum );
+			if( attackNum >= 6 || target.length<=attackNum ){
+				return target;
+			}
+			else{
+				rand = RandomUtil.random(0, 5, attackNum );
+			}
 			//如果随机到阵亡武将，则重新随机
 			while(true){
 				isRightRand = true;
@@ -497,7 +509,7 @@ public class BattleService {
 				for(int i:ret){
 					ret[i] = n[i];
 				}
-				rand = RandomUtil.random(0, 2, attackNum);
+				rand = RandomUtil.random(0, 5, attackNum);
 			}			
 			break;
 		//随机选取前排attackNum个目标

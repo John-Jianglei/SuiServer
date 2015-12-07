@@ -14,6 +14,7 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 
 	private NpcInfoVo npc;
 	private int nuqi;
+	private long startHealth;
 	private int lastStatus;			//上回合是否被晕
 	private int status;
 	private boolean hasRelive;		//是否复活过
@@ -45,6 +46,13 @@ public class NpcBattleVo extends BaseObject implements Serializable{
 	public void setNuqi(int nuqi) {
 		this.nuqi = nuqi;
 	}	
+	
+	public long getStartHealth() {
+		return startHealth;
+	}
+	public void setStartHealth(long startHealth) {
+		this.startHealth = startHealth;
+	}
 	
 	public int getlastStatus() {
 		return lastStatus;
