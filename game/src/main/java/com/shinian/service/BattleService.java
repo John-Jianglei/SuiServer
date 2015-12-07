@@ -197,7 +197,11 @@ public class BattleService {
 		ActionVo action = new ActionVo();
 
 		action.setDoer(offNpc.getNpc().getPosition());
+		action.setDoerHP(offNpc.getNpc().getHealth());
+		action.setDoerNuqi(offNpc.getNuqi());
 		action.setDoee(defNpc.getNpc().getPosition());
+		action.setDoeeHP(defNpc.getNpc().getHealth());
+		action.setDoeeNuqi(defNpc.getNuqi());
 		
 		NpcInfoDao npcinfodao = new NpcInfoDao();
 		NpcInfoVo npcvo = npcinfodao.getNpcInfoById(offNpc.getNpc().getId());
@@ -222,6 +226,9 @@ public class BattleService {
 			hv = 0;
 			action.setImpact(0);
 			action.setReflection(0);
+			if( (0x0001 & action.getAct()) ==0 ){
+				action.setAct(action.getAct()+0x0001);
+			}
 			return action;
 		}
 		else if( Float.compare(hv,1.0f)>=0 && Float.compare(hv,2.0f)<0 ){
@@ -290,6 +297,12 @@ public class BattleService {
 		
 		d04 = (long)(( d01 + d02 + d03 )*bv);
 		
+		if(Float.compare(bv,1.0f)>=0){
+			if( (0x0002 & action.getAct()) ==0 ){
+				action.setAct(action.getAct()+0x0002);
+			}
+		}
+		
 		//6、最终伤害
 		long fd = 0;
 		fd = (long)(( d01 + d02 + d03 )*bv*hv) +(long)( d01 + d02 + d03);
@@ -314,7 +327,7 @@ public class BattleService {
 		//武将受到攻击，怒气值上升
 		if( defNpc.getNuqi()+50<=100 ){
 			defNpc.setNuqi(defNpc.getNuqi()+50);
-			action.setDoeeNuqi(defNpc.getNuqi()+50);
+			action.setDoeeNuqi(defNpc.getNuqi());
 		}
 		else{
 			defNpc.setNuqi(100);
@@ -324,9 +337,11 @@ public class BattleService {
 		
 		if( fd >= defNpc.getNpc().getHealth() ){
 			defNpc.getNpc().setHealth(0);
+			action.setDoeeHP(0);
 		}
 		else{
 			defNpc.getNpc().setHealth( (int)(defNpc.getNpc().getHealth()-fd) );
+			action.setDoeeHP(defNpc.getNpc().getHealth());
 		}
 		
 		//7、是否被晕
@@ -354,7 +369,8 @@ public class BattleService {
 		}
 		action.setXixue(sbh);
 		int tempHealth = (int)sbh + offNpc.getNpc().getHealth();
-		tempHealth = tempHealth>offNpc.getNpc().getHealthBase()?offNpc.getNpc().getHealthBase():tempHealth;
+		//武将最大生命是多少，在哪里看？
+		tempHealth = tempHealth>offNpc.getNpc().getHealth()?offNpc.getNpc().getHealth():tempHealth;
 		offNpc.getNpc().setHealth( tempHealth );
 		action.setDoerHP(tempHealth);
 		
@@ -365,7 +381,7 @@ public class BattleService {
 		action.setReflection(rbd);
 		tempHealth = (int)rbd>offNpc.getNpc().getHealth()? 0 : (offNpc.getNpc().getHealth()-(int)rbd);
 		offNpc.getNpc().setHealth( tempHealth );
-		action.setDoeeHP(tempHealth);
+		action.setDoerHP(tempHealth);
 		
 		//如果消耗nuqi，剩余怒气看技能10
 		if(offNpc.getNuqi()==100){
