@@ -446,7 +446,37 @@ public class NpcInfoVo extends BaseObject implements Serializable{
 		this.baoji = baoji;
 	}
 	
-
 	
+	public void enableYuanfen1(){
+		this.yuanfen1 = Math.abs(this.yuanfen1);
+	}
+
+	public void enableYuanfen2(){
+		this.yuanfen2 = Math.abs(this.yuanfen2);
+	}
+
+	public void enableYuanfen3(){
+		this.yuanfen3 = Math.abs(this.yuanfen3);
+	}
+
+	public void enableYuanfen4(){
+		this.yuanfen4 = Math.abs(this.yuanfen4);
+	}
+
+	public void disableYuanfen1(){
+		this.yuanfen1 = -Math.abs(this.yuanfen1);
+	}
+
+	public void disableYuanfen2(){
+		this.yuanfen2 = -Math.abs(this.yuanfen2);
+	}
+
+	public void disableYuanfen3(){
+		this.yuanfen3 = -Math.abs(this.yuanfen3);
+	}
+
+	public void disableYuanfen4(){
+		this.yuanfen4 = -Math.abs(this.yuanfen4);
+	}
 	
 }

@@ -175,6 +175,8 @@ public class RedisCacheUtil {
 
 	public YuanfenInfoRedisVo getYuanfenInfoByComId(int comId)
 	{
+		comId = Math.abs(comId);
+		
 		YuanfenInfoRedisVo pvo = new YuanfenInfoRedisVo();
 		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
 		try{
