@@ -17,6 +17,7 @@ import com.shinian.vo.CommonReqVo;
 import com.shinian.vo.MessageRespVo;
 import com.shinian.vo.PropInfoReqVo;
 import com.shinian.vo.PropInfoRedisVo;
+import com.shinian.vo.YuanfenInfoRedisVo;
 import com.shinian.vo.PropInfoVo;
 import com.shinian.vo.NpcInfoVo;
 import com.shinian.vo.YuanfenInfoRedisVo;
@@ -57,7 +58,9 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 		}
 		
 		Set<Integer> npcSet = new HashSet<Integer>();
+		Set<Integer> setYuanfen = new HashSet<Integer>();
 		npcSet.clear();
+		setYuanfen.clear();
 
 		// synthesize props: anv = bnv + pv 
 		List<PropInfoVo> plist = propInfoService.getPropListOfNpc(id);	// synthesize props
@@ -67,7 +70,8 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 
 
 		// synthesize yuanfen: anv = anv + bnv*yv
-		npcSet.addAll(checkYuanfen(npc, mpArmy, plist));
+		setYuanfen = checkYuanfen(npc, army, plist);
+		npcSet.addAll(setYuanfen);
 		
 		if (npc.getYuanfen1() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen1());
 		if (npc.getYuanfen2() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen2());
@@ -83,12 +87,58 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 		return npc;
 	}
 	
-	private Set<Integer> checkYuanfen(NpcInfoVo npc, Map<Integer, NpcInfoVo> army, List<PropInfoVo> plist)
+	private Set<Integer> checkYuanfen(NpcInfoVo npc, List<NpcInfoVo> army, List<PropInfoVo> plist)
 	{
 		Set<Integer> npcSet = new HashSet<Integer>();
 		npcSet.clear();
 		
-		
+		YuanfenInfoRedisVo yfrv1 = redisCacheUtil.getYuanfenInfoByComId(Math.abs(npc.getYuanfen1()));
+		switch(yfrv1.getCategory()){
+		case YUANFEN_CATEGORY_NPC:
+			for (NpcInfoVo p:army){
+				if (p.getComId() == yfrv1.getObjId()){
+					npc.enableYuanfen1();
+					npcSet.add(npc.getId());
+					
+					YuanfenInfoRedisVo y1 = redisCacheUtil.getYuanfenInfoByComId(Math.abs(p.getYuanfen1()));
+					if ((y1.getCategory() == YUANFEN_CATEGORY_NPC) && (y1.getObjId() == npc.getComId())) {
+						p.enableYuanfen1();
+						npcSet.add(p.getId());
+					}
+					
+					YuanfenInfoRedisVo y2 = redisCacheUtil.getYuanfenInfoByComId(Math.abs(p.getYuanfen2()));
+					if ((y2.getCategory() == YUANFEN_CATEGORY_NPC) && (y2.getObjId() == npc.getComId())) {
+						p.enableYuanfen2();
+						npcSet.add(p.getId());
+					}
+					
+					YuanfenInfoRedisVo y3 = redisCacheUtil.getYuanfenInfoByComId(Math.abs(p.getYuanfen3()));
+					if ((y3.getCategory() == YUANFEN_CATEGORY_NPC) && (y3.getObjId() == npc.getComId())) {
+						p.enableYuanfen3();
+						npcSet.add(p.getId());
+					}
+					
+					YuanfenInfoRedisVo y4 = redisCacheUtil.getYuanfenInfoByComId(Math.abs(p.getYuanfen4()));
+					if ((y4.getCategory() == YUANFEN_CATEGORY_NPC) && (y4.getObjId() == npc.getComId())) {
+						p.enableYuanfen4();
+						npcSet.add(p.getId());
+					}
+				}
+			}
+			break;
+			
+		case YUANFEN_CATEGORY_PROP:
+			for (PropInfoVo p:plist){
+				if (p.getComId() == yfrv1.getObjId()){
+					npc.enableYuanfen1();
+					npcSet.add(npc.getId());
+				}
+			}
+			break;
+			
+		default:
+			break;
+		}
 		
 		return npcSet; 
 	}
