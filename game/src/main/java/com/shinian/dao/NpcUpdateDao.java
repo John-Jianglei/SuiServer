@@ -78,7 +78,7 @@ public class NpcUpdateDao{
 	
 	public int setNpcInfobyId(int level, int attack, int health, int npcId){
 		
-		String sql = "update game_npc_info set `level` = ? , `attack` = ?, `health` = ? where id = ?";
+		String sql = "update game_npc_info set `level` = ? , `attackBase` = ?, `healthBase` = ? where id = ?";
 		int row = WebConstant.gameJdbc.getJdbcTemplate().update(sql, level, attack, health, npcId);		
 
 		return row;

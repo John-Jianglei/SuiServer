@@ -189,6 +189,8 @@ public class NpcUpdateService {
 		updateNpcVo.setExpCardList(expCardList);
 		updateNpcVo.setId(npcId);
 		updateNpcVo.setUid(Uid);
+		updateNpcVo.setHealth(newHealth);
+		updateNpcVo.setAttack(newAttack);
 		
 		result.setData(updateNpcVo);		
 		result.setCode(Message.MSG_CODE_OK);
