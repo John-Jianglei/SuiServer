@@ -46,8 +46,8 @@ public class SyncNatureDao {
 	
 	public int updateNpcNature(NpcInfoVo npc)
 	{
-		String sql = "update game_npc_info set `health` = ?, `attack` = ?,  `hujia` = ?,  `pojia` = ?,  `fachuan` = ?,  `fakang` = ?,  `baoji` = ?,  `renxing` = ?,  `mingzhong` = ?,  `shanbi` = ?,  `xixue` = ?,  `fantan` = ?,  `jiyun` = ?,  `kangyun` = ?,  `gedang` = ?,  `gedangPoss` = ?,  `reduce` = ? where `id` = ?";
-		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, npc.getHealth(),  npc.getAttack(),  npc.getHujia(),  npc.getPojia(),  npc.getFachuan(),  npc.getFakang(),  npc.getBaoji(),  npc.getRenxing(),  npc.getMingzhong(),  npc.getShanbi(),  npc.getXixue(),  npc.getFantan(),  npc.getJiyun(),  npc.getKangyun(),  npc.getGedang(),  npc.getGedangPoss(),  npc.getReduce(),  npc.getId());
+		String sql = "update game_npc_info set `health` = ?, `attack` = ?,  `hujia` = ?,  `pojia` = ?,  `fachuan` = ?,  `fakang` = ?,  `baoji` = ?,  `renxing` = ?,  `mingzhong` = ?,  `shanbi` = ?,  `xixue` = ?,  `fantan` = ?,  `jiyun` = ?,  `kangyun` = ?,  `gedang` = ?,  `gedangPoss` = ?,  `reduce` = ?, `yuanfen1` = ?, `yuanfen2` = ?, `yuanfen3` = ?, `yuanfen4` = ? where `id` = ?";
+		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, npc.getHealth(),  npc.getAttack(),  npc.getHujia(),  npc.getPojia(),  npc.getFachuan(),  npc.getFakang(),  npc.getBaoji(),  npc.getRenxing(),  npc.getMingzhong(),  npc.getShanbi(),  npc.getXixue(),  npc.getFantan(),  npc.getJiyun(),  npc.getKangyun(),  npc.getGedang(),  npc.getGedangPoss(),  npc.getReduce(), npc.getYuanfen1(), npc.getYuanfen2(), npc.getYuanfen3(), npc.getYuanfen4(), npc.getId());
 	}
 	
 }
