@@ -10,10 +10,18 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.alibaba.fastjson.JSON;
 import com.shinian.dao.SyncNatureDao;
 import com.shinian.util.Message;
+import com.shinian.vo.CommonReqVo;
 import com.shinian.vo.JinengRedisVo;
+import com.shinian.vo.MessageRespVo;
+import com.shinian.vo.NpcInfoRedisVo;
+import com.shinian.vo.NpcInfoReqVo;
+import com.shinian.vo.PlayerInfoVo;
 import com.shinian.vo.PropInfoRedisVo;
 import com.shinian.vo.YuanfenInfoRedisVo;
 import com.shinian.vo.PropInfoVo;
@@ -351,7 +359,22 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 		default:
 			return;
 		}
-		
 	}
 	
+	
+	public MessageRespVo testRefreshArmy(HttpServletRequest request, HttpServletResponse response,String jsonStr)
+	{
+		MessageRespVo result = new MessageRespVo();
+
+		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
+		NpcInfoVo nrv = JSON.parseObject(gcrv.getData().toString(),NpcInfoVo.class);
+		result.setTs(gcrv.getTs());
+		
+		List<NpcInfoVo> piv = refreshArmy(nrv.getUid());
+				
+		result.setData(piv);		
+		result.setCode(Message.MSG_CODE_OK);
+		
+		return result;
+	}
 }
