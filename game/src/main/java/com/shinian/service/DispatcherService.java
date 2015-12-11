@@ -44,6 +44,9 @@ public class DispatcherService {
 	@Autowired
 	NpcJinjieService npcJinjieService;
 	
+	@Autowired
+	SyncNatureService syncNatureService;
+	
 
 	
 	
@@ -120,6 +123,11 @@ public class DispatcherService {
 			case 9006:
 				result = battleService.makeWar(request, response, jsonStr);	
 				break;
+				
+			case 9007:
+				result = syncNatureService.testRefreshArmy(request, response, jsonStr);	
+				break;
+				
 				
 			default:
 				CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);

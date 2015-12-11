@@ -10,12 +10,18 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.alibaba.fastjson.JSON;
 import com.shinian.dao.SyncNatureDao;
 import com.shinian.util.Message;
 import com.shinian.vo.CommonReqVo;
+import com.shinian.vo.JinengRedisVo;
 import com.shinian.vo.MessageRespVo;
-import com.shinian.vo.PropInfoReqVo;
+import com.shinian.vo.NpcInfoRedisVo;
+import com.shinian.vo.NpcInfoReqVo;
+import com.shinian.vo.PlayerInfoVo;
 import com.shinian.vo.PropInfoRedisVo;
 import com.shinian.vo.YuanfenInfoRedisVo;
 import com.shinian.vo.PropInfoVo;
@@ -23,6 +29,7 @@ import com.shinian.vo.NpcInfoVo;
 import com.shinian.redis.RedisCacheUtil;
 import com.shinian.service.PlayerInfoService;
 import com.shinian.util.Nature;
+import com.shinian.util.Constant;
 
 
 
@@ -64,52 +71,136 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 			if (npc.getYuanfen2() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen2());
 			if (npc.getYuanfen3() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen3());
 			if (npc.getYuanfen4() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen4());
-
+			
+			// synthesize skills
+			if (npc.isSkill1()) updateArmyNatureBySkill(npc, army, npc.getSkill1());
+			if (npc.isSkill2()) updateArmyNatureBySkill(npc, army, npc.getSkill2());
+			if (npc.isSkill3()) updateArmyNatureBySkill(npc, army, npc.getSkill3());
+			if (npc.isSkill4()) updateArmyNatureBySkill(npc, army, npc.getSkill4());
+			if (npc.isSkill5()) updateArmyNatureBySkill(npc, army, npc.getSkill5());
+			if (npc.isSkill6()) updateArmyNatureBySkill(npc, army, npc.getSkill6());
+			if (npc.isSkill7()) updateArmyNatureBySkill(npc, army, npc.getSkill7());
+			if (npc.isSkill8()) updateArmyNatureBySkill(npc, army, npc.getSkill8());
+			if (npc.isSkill9()) updateArmyNatureBySkill(npc, army, npc.getSkill9());
+			if (npc.isSkill10()) updateArmyNatureBySkill(npc, army, npc.getSkill10());
+			if (npc.isSkill11()) updateArmyNatureBySkill(npc, army, npc.getSkill11());
+		}
+		
+		for (NpcInfoVo p : army) syncNatureDao.updateNpcNature(p); 
+		
+		return army;
+	}
+	
+	public List<NpcInfoVo> refreshArmy(String uid, NpcInfoVo npc)
+	{
+		List<NpcInfoVo> army = refreshArmy(uid);
+		
+		if (npc.getPosition() >= Constant.CON_ARMY_SIZE){
+			List<PropInfoVo> plist = propInfoService.getPropListOfNpc(npc.getId());	// synthesize props
+			for (PropInfoVo prop:plist){
+				updateNpcNatureByProp(npc, prop.getComId());
+			}
+			
+			syncNatureDao.updateNpcNature(npc);
+			army.add(npc);
 		}
 		
 		return army;
 	}
 	
-	public NpcInfoVo syncNpcById(int id)		
+	private void updateArmyNatureBySkill(NpcInfoVo npc, List<NpcInfoVo> army, int skill)
 	{
-		NpcInfoVo npc = npcInfoService.getNpcInfoById(id);
-		List<NpcInfoVo> army = armyInfoService.getArmyOnBattle(npc.getUid());
+		JinengRedisVo jnvo = redisCacheUtil.getJinengInfoById(Math.abs(skill));
 		
-		Map<Integer, NpcInfoVo> mpArmy = new HashMap<Integer, NpcInfoVo>();  
-		for (NpcInfoVo p : army){
-			mpArmy.put(p.getId(), p);
+		switch(jnvo.getAdd_health()){
+		case Constant.CON_ARMY_POSITION_NULL:
+			break;
+			
+		case Constant.CON_ARMY_POSITION_SELF:
+			npc.setAttack(npc.getAttack() + npc.getAttackBase() * jnvo.getAdd_health() / 100);
+			npc.setHealth(npc.getHealth() + npc.getHealthBase() * jnvo.getAdd_health() / 100);
+			break;
+			
+		case Constant.CON_ARMY_POSITION_FRONT:
+			for (NpcInfoVo p : army){
+				if (p.getPosition() < (Constant.CON_ARMY_SIZE)/2){
+					p.setAttack(p.getAttack() + p.getAttackBase() * jnvo.getAdd_health() / 100);
+					p.setHealth(p.getHealth() + p.getHealthBase() * jnvo.getAdd_health() / 100);
+				}
+			}
+			break;
+			
+		case Constant.CON_ARMY_POSITION_REAR:
+			for (NpcInfoVo p : army){
+				if (p.getPosition() > (Constant.CON_ARMY_SIZE)/2 - 1){
+					p.setAttack(p.getAttack() + p.getAttackBase() * jnvo.getAdd_health() / 100);
+					p.setHealth(p.getHealth() + p.getHealthBase() * jnvo.getAdd_health() / 100);
+				}
+			}
+			break;
+			
+		case Constant.CON_ARMY_POSITION_ALL:
+			for (NpcInfoVo p : army){
+				p.setAttack(p.getAttack() + p.getAttackBase() * jnvo.getAdd_health() / 100);
+				p.setHealth(p.getHealth() + p.getHealthBase() * jnvo.getAdd_health() / 100);
+			}
+			break;
+			
+		default:
+			break;
 		}
 		
-		Set<Integer> npcSet = new HashSet<Integer>();
-		Set<Integer> setYuanfen = new HashSet<Integer>();
-		npcSet.clear();
-		setYuanfen.clear();
-
-		// synthesize props: anv = bnv + pv 
-		List<PropInfoVo> plist = propInfoService.getPropListOfNpc(id);	// synthesize props
-		for (PropInfoVo prop:plist){
-			updateNpcNatureByProp(npc, prop.getComId());
+		switch(jnvo.getShuxing_type()){
+		case Constant.CON_ARMY_POSITION_NULL:
+			break;
+			
+		case Constant.CON_ARMY_POSITION_SELF:
+			npc.setPojia(npc.getPojia() + jnvo.getAdd_pojia());
+			npc.setFachuan(npc.getFachuan() + jnvo.getAdd_fachuan());
+			npc.setBaoji(npc.getBaoji() + jnvo.getAdd_baoji());
+			npc.setMingzhong(npc.getMingzhong() + jnvo.getAdd_mingzhong());
+			npc.setShanbi(npc.getShanbi() + jnvo.getAdd_shanbi());
+			break;
+			
+		case Constant.CON_ARMY_POSITION_FRONT:
+			for (NpcInfoVo p : army){
+				if (p.getPosition() < (Constant.CON_ARMY_SIZE)/2){
+					p.setPojia(p.getPojia() + jnvo.getAdd_pojia());
+					p.setFachuan(p.getFachuan() + jnvo.getAdd_fachuan());
+					p.setBaoji(p.getBaoji() + jnvo.getAdd_baoji());
+					p.setMingzhong(p.getMingzhong() + jnvo.getAdd_mingzhong());
+					p.setShanbi(p.getShanbi() + jnvo.getAdd_shanbi());				
+				}
+			}
+			break;
+			
+		case Constant.CON_ARMY_POSITION_REAR:
+			for (NpcInfoVo p : army){
+				if (p.getPosition() > (Constant.CON_ARMY_SIZE)/2 - 1){
+					p.setPojia(p.getPojia() + jnvo.getAdd_pojia());
+					p.setFachuan(p.getFachuan() + jnvo.getAdd_fachuan());
+					p.setBaoji(p.getBaoji() + jnvo.getAdd_baoji());
+					p.setMingzhong(p.getMingzhong() + jnvo.getAdd_mingzhong());
+					p.setShanbi(p.getShanbi() + jnvo.getAdd_shanbi());				
+				}
+			}
+			break;
+			
+		case Constant.CON_ARMY_POSITION_ALL:
+			for (NpcInfoVo p : army){
+				p.setPojia(p.getPojia() + jnvo.getAdd_pojia());
+				p.setFachuan(p.getFachuan() + jnvo.getAdd_fachuan());
+				p.setBaoji(p.getBaoji() + jnvo.getAdd_baoji());
+				p.setMingzhong(p.getMingzhong() + jnvo.getAdd_mingzhong());
+				p.setShanbi(p.getShanbi() + jnvo.getAdd_shanbi());			
+			}
+			break;
+			
+		default:
+			break;
 		}
-
-
-		// synthesize yuanfen: anv = anv + bnv*yv
-//		setYuanfen = checkYuanfen(npc, army, plist);
-//		npcSet.addAll(setYuanfen);
-		
-		if (npc.getYuanfen1() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen1());
-		if (npc.getYuanfen2() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen2());
-		if (npc.getYuanfen3() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen3());
-		if (npc.getYuanfen4() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen4());
-		
-		
-		// synthesize skills
-		
-		
-		
-		syncNatureDao.updateNpcNature(npc);
-		return npc;
 	}
-	
+		
 	private void checkYuanfen(NpcInfoVo npc, List<NpcInfoVo> army, List<PropInfoVo> plist)
 	{
 		YuanfenInfoRedisVo yfrv1 = redisCacheUtil.getYuanfenInfoByComId(npc.getYuanfen1());
@@ -268,32 +359,22 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 		default:
 			return;
 		}
-		
 	}
 	
-}
+	
+	public MessageRespVo testRefreshArmy(HttpServletRequest request, HttpServletResponse response,String jsonStr)
+	{
+		MessageRespVo result = new MessageRespVo();
 
-/*					
-YuanfenInfoRedisVo y1 = redisCacheUtil.getYuanfenInfoByComId(Math.abs(p.getYuanfen1()));
-if ((y1.getCategory() == YUANFEN_CATEGORY_NPC) && (y1.getObjId() == npc.getComId())) {
-	p.enableYuanfen1();
-	npcSet.add(p.getId());
+		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
+		NpcInfoVo nrv = JSON.parseObject(gcrv.getData().toString(),NpcInfoVo.class);
+		result.setTs(gcrv.getTs());
+		
+		List<NpcInfoVo> piv = refreshArmy(nrv.getUid());
+				
+		result.setData(piv);		
+		result.setCode(Message.MSG_CODE_OK);
+		
+		return result;
+	}
 }
-
-YuanfenInfoRedisVo y2 = redisCacheUtil.getYuanfenInfoByComId(Math.abs(p.getYuanfen2()));
-if ((y2.getCategory() == YUANFEN_CATEGORY_NPC) && (y2.getObjId() == npc.getComId())) {
-	p.enableYuanfen2();
-	npcSet.add(p.getId());
-}
-
-YuanfenInfoRedisVo y3 = redisCacheUtil.getYuanfenInfoByComId(Math.abs(p.getYuanfen3()));
-if ((y3.getCategory() == YUANFEN_CATEGORY_NPC) && (y3.getObjId() == npc.getComId())) {
-	p.enableYuanfen3();
-	npcSet.add(p.getId());
-}
-
-YuanfenInfoRedisVo y4 = redisCacheUtil.getYuanfenInfoByComId(Math.abs(p.getYuanfen4()));
-if ((y4.getCategory() == YUANFEN_CATEGORY_NPC) && (y4.getObjId() == npc.getComId())) {
-	p.enableYuanfen4();
-	npcSet.add(p.getId());
-*/

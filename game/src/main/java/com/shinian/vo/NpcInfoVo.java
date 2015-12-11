@@ -49,17 +49,17 @@ public class NpcInfoVo extends BaseObject implements Serializable{
 	private  int gedangPossBase;
 	private  int reduceBase;
 	
-	private	 boolean skill1;
-	private	 boolean skill2;
-	private	 boolean skill3;
-	private	 boolean skill4;
-	private	 boolean skill5;
-	private	 boolean skill6;
-	private	 boolean skill7;
-	private	 boolean skill8;
-	private	 boolean skill9;
-	private	 boolean skill10;
-	private	 boolean skill11;
+	private	 int skill1;
+	private	 int skill2;
+	private	 int skill3;
+	private	 int skill4;
+	private	 int skill5;
+	private	 int skill6;
+	private	 int skill7;
+	private	 int skill8;
+	private	 int skill9;
+	private	 int skill10;
+	private	 int skill11;
 	
 	private int yuanfen1;
 	private int yuanfen2;
@@ -99,71 +99,139 @@ public class NpcInfoVo extends BaseObject implements Serializable{
 	}	
 	
 	public boolean isSkill1() {
-		return skill1;
+		return (skill1 > 0) ? true : false;
 	}
 	public void setSkill1(boolean skill1) {
-		this.skill1 = skill1;
+		this.skill1 = (skill1) ? Math.abs(this.skill1) : -Math.abs(this.skill1);
 	}
 	public boolean isSkill2() {
-		return skill2;
+		return (skill2 > 0) ? true : false;
 	}
 	public void setSkill2(boolean skill2) {
-		this.skill2 = skill2;
+		this.skill2 = (skill2) ? Math.abs(this.skill2) : -Math.abs(this.skill2);
 	}
 	public boolean isSkill3() {
-		return skill3;
+		return (skill3 > 0) ? true : false;
 	}
 	public void setSkill3(boolean skill3) {
-		this.skill3 = skill3;
+		this.skill3 = (skill3) ? Math.abs(this.skill3) : -Math.abs(this.skill3);
 	}
 	public boolean isSkill4() {
-		return skill4;
+		return (skill4 > 0) ? true : false;
 	}
 	public void setSkill4(boolean skill4) {
-		this.skill4 = skill4;
+		this.skill4 = (skill4) ? Math.abs(this.skill4) : -Math.abs(this.skill4);
 	}
 	public boolean isSkill5() {
-		return skill5;
+		return (skill5 > 0) ? true : false;
 	}
 	public void setSkill5(boolean skill5) {
-		this.skill5 = skill5;
+		this.skill5 = (skill5) ? Math.abs(this.skill5) : -Math.abs(this.skill5);
 	}
 	public boolean isSkill6() {
-		return skill6;
+		return (skill6 > 0) ? true : false;
 	}
 	public void setSkill6(boolean skill6) {
-		this.skill6 = skill6;
+		this.skill6 = (skill6) ? Math.abs(this.skill6) : -Math.abs(this.skill6);
 	}
 	public boolean isSkill7() {
-		return skill7;
+		return (skill7 > 0) ? true : false;
 	}
 	public void setSkill7(boolean skill7) {
-		this.skill7 = skill7;
+		this.skill7 = (skill7) ? Math.abs(this.skill7) : -Math.abs(this.skill7);
 	}
 	public boolean isSkill8() {
-		return skill8;
+		return (skill8 > 0) ? true : false;
 	}
 	public void setSkill8(boolean skill8) {
-		this.skill8 = skill8;
+		this.skill8 = (skill8) ? Math.abs(this.skill8) : -Math.abs(this.skill8);
 	}
 	public boolean isSkill9() {
-		return skill9;
+		return (skill9 > 0) ? true : false;
 	}
 	public void setSkill9(boolean skill9) {
-		this.skill9 = skill9;
+		this.skill9 = (skill9) ? Math.abs(this.skill9) : -Math.abs(this.skill9);
 	}
 	public boolean isSkill10() {
-		return skill10;
+		return (skill10 > 0) ? true : false;
 	}
 	public void setSkill10(boolean skill10) {
-		this.skill10 = skill10;
+		this.skill10 = (skill10) ? Math.abs(this.skill10) : -Math.abs(this.skill10);
 	}
 	public boolean isSkill11() {
-		return skill11;
+		return (skill11 > 0) ? true : false;
 	}
 	public void setSkill11(boolean skill11) {
+		this.skill11 = (skill11) ? Math.abs(this.skill11) : -Math.abs(this.skill11);
+	}
+	
+	public int getSkill1() {
+		return skill1;
+	}
+	public void setSkill1(int skill1) {
+		this.skill1 = skill1;
+	}
+	public int getSkill2() {
+		return skill2;
+	}
+	public void setSkill2(int skill2) {
+		this.skill2 = skill2;
+	}
+	public int getSkill3() {
+		return skill3;
+	}
+	public void setSkill3(int skill3) {
+		this.skill3 = skill3;
+	}
+	public int getSkill4() {
+		return skill4;
+	}
+	public void setSkill4(int skill4) {
+		this.skill4 = skill4;
+	}
+	public int getSkill5() {
+		return skill5;
+	}
+	public void setSkill5(int skill5) {
+		this.skill5 = skill5;
+	}
+	public int getSkill6() {
+		return skill6;
+	}
+	public void setSkill6(int skill6) {
+		this.skill6 = skill6;
+	}
+	public int getSkill7() {
+		return skill7;
+	}
+	public void setSkill7(int skill7) {
+		this.skill7 = skill7;
+	}
+	public int getSkill8() {
+		return skill8;
+	}
+	public void setSkill8(int skill8) {
+		this.skill8 = skill8;
+	}
+	public int getSkill9() {
+		return skill9;
+	}
+	public void setSkill9(int skill9) {
+		this.skill9 = skill9;
+	}
+	public int getSkill10() {
+		return skill10;
+	}
+	public void setSkill10(int skill10) {
+		this.skill10 = skill10;
+	}
+	public int getSkill11() {
+		return skill11;
+	}
+	public void setSkill11(int skill11) {
 		this.skill11 = skill11;
 	}
+	
 	public int getId() {
 		return id;
 	}
