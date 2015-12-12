@@ -101,70 +101,50 @@ public class NpcInfoVo extends BaseObject implements Serializable{
 	public boolean isSkill1() {
 		return (skill1 > 0) ? true : false;
 	}
-	public void setSkill1(boolean skill1) {
-		this.skill1 = (skill1) ? Math.abs(this.skill1) : -Math.abs(this.skill1);
-	}
+
 	public boolean isSkill2() {
 		return (skill2 > 0) ? true : false;
 	}
-	public void setSkill2(boolean skill2) {
-		this.skill2 = (skill2) ? Math.abs(this.skill2) : -Math.abs(this.skill2);
-	}
+
 	public boolean isSkill3() {
 		return (skill3 > 0) ? true : false;
 	}
-	public void setSkill3(boolean skill3) {
-		this.skill3 = (skill3) ? Math.abs(this.skill3) : -Math.abs(this.skill3);
-	}
+
 	public boolean isSkill4() {
 		return (skill4 > 0) ? true : false;
 	}
-	public void setSkill4(boolean skill4) {
-		this.skill4 = (skill4) ? Math.abs(this.skill4) : -Math.abs(this.skill4);
-	}
+
 	public boolean isSkill5() {
 		return (skill5 > 0) ? true : false;
 	}
-	public void setSkill5(boolean skill5) {
-		this.skill5 = (skill5) ? Math.abs(this.skill5) : -Math.abs(this.skill5);
-	}
+
 	public boolean isSkill6() {
 		return (skill6 > 0) ? true : false;
 	}
-	public void setSkill6(boolean skill6) {
-		this.skill6 = (skill6) ? Math.abs(this.skill6) : -Math.abs(this.skill6);
-	}
+
 	public boolean isSkill7() {
 		return (skill7 > 0) ? true : false;
 	}
-	public void setSkill7(boolean skill7) {
-		this.skill7 = (skill7) ? Math.abs(this.skill7) : -Math.abs(this.skill7);
-	}
+
 	public boolean isSkill8() {
 		return (skill8 > 0) ? true : false;
 	}
-	public void setSkill8(boolean skill8) {
-		this.skill8 = (skill8) ? Math.abs(this.skill8) : -Math.abs(this.skill8);
-	}
+
 	public boolean isSkill9() {
 		return (skill9 > 0) ? true : false;
 	}
-	public void setSkill9(boolean skill9) {
-		this.skill9 = (skill9) ? Math.abs(this.skill9) : -Math.abs(this.skill9);
-	}
+
 	public boolean isSkill10() {
 		return (skill10 > 0) ? true : false;
 	}
-	public void setSkill10(boolean skill10) {
-		this.skill10 = (skill10) ? Math.abs(this.skill10) : -Math.abs(this.skill10);
-	}
+
 	public boolean isSkill11() {
 		return (skill11 > 0) ? true : false;
 	}
-	public void setSkill11(boolean skill11) {
+/*	public void setSkill11(boolean skill11) {
 		this.skill11 = (skill11) ? Math.abs(this.skill11) : -Math.abs(this.skill11);
 	}
-	
+*/	
 	public int getSkill1() {
 		return skill1;
 	}
@@ -547,4 +527,23 @@ public class NpcInfoVo extends BaseObject implements Serializable{
 		this.yuanfen4 = -Math.abs(this.yuanfen4);
 	}
 	
+	public void initNature(){
+		health = healthBase;
+		attack = attackBase;
+		hujia = hujiaBase;
+		pojia = pojiaBase;
+		fachuan = fachuanBase;
+		fakang = fakangBase;
+		baoji = baojiBase;
+		renxing = renxingBase;
+		mingzhong = mingzhongBase;
+		shanbi = shanbiBase;
+		xixue = xixueBase;
+		fantan = fantanBase;
+		jiyun = jiyunBase;
+		kangyun = kangyunBase;
+		gedang = gedangBase;
+		gedangPoss = gedangPossBase;
+		reduce = reduceBase;
+	}
 }

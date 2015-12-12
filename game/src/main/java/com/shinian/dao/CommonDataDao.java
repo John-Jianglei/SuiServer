@@ -34,7 +34,7 @@ public class CommonDataDao  {
 				"`gedang`, `gedangPoss`, `reduce`, `talent`, `talentVal`, `attackStep`, " +
 				"`healthStep`, `levelupRate`, `pieces`, `maxPieces`, `desc`, `updateTime`, " +
 				"`status`, `pieceId`, `skill1`, `skill2`, `skill3`, `skill4`, `skill5`, " +
-				"`skill6`, `skill7`, `skill8`, `skill9`, `skill10`, `skill11` from common_npc_info where id = ? and status = 1";
+				"`skill6`, `skill7`, `skill8`, `skill9`, `skill10`, `skill11`, `yuanfen1`, `yuanfen2`, `yuanfen3`, `yuanfen4` from common_npc_info where id = ? and status = 1";
 		List<NpcInfoRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(NpcInfoRedisVo.class),new Object[]{comId});
 		if( null != list && list.size() > 0 )
 		{
