@@ -58,7 +58,10 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 		List<NpcInfoVo> army = armyInfoService.getArmyOnBattle(uid);
 
 		for (NpcInfoVo npc : army){
-			// synthesize props: anv = bnv + pv 
+			//	initialize Nature: anv = bnv
+			npc.initNature();
+			
+			// synthesize props: anv = anv + pv 
 			List<PropInfoVo> plist = propInfoService.getPropListOfNpc(npc.getId());	// synthesize props
 			for (PropInfoVo prop:plist){
 				updateNpcNatureByProp(npc, prop.getComId());
@@ -204,75 +207,86 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 	private void checkYuanfen(NpcInfoVo npc, List<NpcInfoVo> army, List<PropInfoVo> plist)
 	{
 		YuanfenInfoRedisVo yfrv1 = redisCacheUtil.getYuanfenInfoByComId(npc.getYuanfen1());
-		switch(yfrv1.getCategory()){
-		case Nature.YUANFEN_CATEGORY_NPC:
-			for (NpcInfoVo p:army)
-				if (p.getComId() == yfrv1.getObjId()) npc.enableYuanfen1();
+		if (yfrv1 != null){
+			switch(yfrv1.getCategory()){
+			case Nature.YUANFEN_CATEGORY_NPC:
+				for (NpcInfoVo p:army)
+					if (p.getComId() == yfrv1.getObjId()) npc.enableYuanfen1();
 
-			break;
-			
-		case Nature.YUANFEN_CATEGORY_PROP:
-			for (PropInfoVo p:plist)
-				if (p.getComId() == yfrv1.getObjId()) npc.enableYuanfen1();
-					
-			break;
-			
-		default:
-			break;
+				break;
+				
+			case Nature.YUANFEN_CATEGORY_PROP:
+				for (PropInfoVo p:plist)
+					if (p.getComId() == yfrv1.getObjId()) npc.enableYuanfen1();
+						
+				break;
+				
+			default:
+				break;
+			}			
 		}
+
 		
 		YuanfenInfoRedisVo yfrv2 = redisCacheUtil.getYuanfenInfoByComId(npc.getYuanfen2());
-		switch(yfrv2.getCategory()){
-		case Nature.YUANFEN_CATEGORY_NPC:
-			for (NpcInfoVo p:army)
-				if (p.getComId() == yfrv2.getObjId()) npc.enableYuanfen2();
+		if (yfrv2 != null){
+			switch(yfrv2.getCategory()){
+			case Nature.YUANFEN_CATEGORY_NPC:
+				for (NpcInfoVo p:army)
+					if (p.getComId() == yfrv2.getObjId()) npc.enableYuanfen2();
 
-			break;
-			
-		case Nature.YUANFEN_CATEGORY_PROP:
-			for (PropInfoVo p:plist)
-				if (p.getComId() == yfrv2.getObjId()) npc.enableYuanfen2();
-					
-			break;
-			
-		default:
-			break;
+				break;
+				
+			case Nature.YUANFEN_CATEGORY_PROP:
+				for (PropInfoVo p:plist)
+					if (p.getComId() == yfrv2.getObjId()) npc.enableYuanfen2();
+						
+				break;
+				
+			default:
+				break;
+			}
 		}
+
 		
 		YuanfenInfoRedisVo yfrv3 = redisCacheUtil.getYuanfenInfoByComId(npc.getYuanfen3());
-		switch(yfrv3.getCategory()){
-		case Nature.YUANFEN_CATEGORY_NPC:
-			for (NpcInfoVo p:army)
-				if (p.getComId() == yfrv3.getObjId()) npc.enableYuanfen3();
+		if (yfrv2 != null){
+			switch(yfrv3.getCategory()){
+			case Nature.YUANFEN_CATEGORY_NPC:
+				for (NpcInfoVo p:army)
+					if (p.getComId() == yfrv3.getObjId()) npc.enableYuanfen3();
 
-			break;
-			
-		case Nature.YUANFEN_CATEGORY_PROP:
-			for (PropInfoVo p:plist)
-				if (p.getComId() == yfrv3.getObjId()) npc.enableYuanfen3();
-					
-			break;
-			
-		default:
-			break;
+				break;
+				
+			case Nature.YUANFEN_CATEGORY_PROP:
+				for (PropInfoVo p:plist)
+					if (p.getComId() == yfrv3.getObjId()) npc.enableYuanfen3();
+						
+				break;
+				
+			default:
+				break;
+			}		
 		}
+
 		
 		YuanfenInfoRedisVo yfrv4 = redisCacheUtil.getYuanfenInfoByComId(npc.getYuanfen4());
-		switch(yfrv4.getCategory()){
-		case Nature.YUANFEN_CATEGORY_NPC:
-			for (NpcInfoVo p:army)
-				if (p.getComId() == yfrv4.getObjId()) npc.enableYuanfen4();
+		if (yfrv2 != null){
+			switch(yfrv4.getCategory()){
+			case Nature.YUANFEN_CATEGORY_NPC:
+				for (NpcInfoVo p:army)
+					if (p.getComId() == yfrv4.getObjId()) npc.enableYuanfen4();
 
-			break;
-			
-		case Nature.YUANFEN_CATEGORY_PROP:
-			for (PropInfoVo p:plist)
-				if (p.getComId() == yfrv4.getObjId()) npc.enableYuanfen4();
-					
-			break;
-			
-		default:
-			break;
+				break;
+				
+			case Nature.YUANFEN_CATEGORY_PROP:
+				for (PropInfoVo p:plist)
+					if (p.getComId() == yfrv4.getObjId()) npc.enableYuanfen4();
+						
+				break;
+				
+			default:
+				break;
+			}
 		}
 	}
 	
@@ -283,82 +297,84 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 		npc.setHealth(npc.getHealth() + npc.getHealthBase() * yf.getAddHealth() / 100);
 	}
 	
-	private void updateNpcNatureByProp(NpcInfoVo npc, int propComId)
+	private int updateNpcNatureByProp(NpcInfoVo npc, int propComId)
 	{
 		PropInfoRedisVo prop = redisCacheUtil.getPropInfoByComId(propComId);
+		if (prop == null) return -1;
 		
 		switch(prop.getNature()){
 		case Nature.NT_ATT_HEALTH:
-			npc.setHealth(npc.getHealthBase() + prop.getVal());
+			npc.setHealth(npc.getHealth() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_ATTACK: 
-			npc.setAttack(npc.getAttackBase() + prop.getVal());
+			npc.setAttack(npc.getAttack() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_HUJIA:
-			npc.setHujia(npc.getHujiaBase() + prop.getVal());
+			npc.setHujia(npc.getHujia() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_POJIA:
-			npc.setPojia(npc.getPojiaBase() + prop.getVal());
+			npc.setPojia(npc.getPojia() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_FACHUAN:
-			npc.setFachuan(npc.getFachuanBase() + prop.getVal());
+			npc.setFachuan(npc.getFachuan() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_FAKANG:
-			npc.setFakang(npc.getFakangBase() + prop.getVal());
+			npc.setFakang(npc.getFakang() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_BAOJI:
-			npc.setBaoji(npc.getBaojiBase() + prop.getVal());
+			npc.setBaoji(npc.getBaoji() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_RENXING:
-			npc.setRenxing(npc.getRenxingBase() + prop.getVal());
+			npc.setRenxing(npc.getRenxing() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_MINGZHONG:
-			npc.setMingzhong(npc.getMingzhongBase() + prop.getVal());
+			npc.setMingzhong(npc.getMingzhong() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_SHANBI:
-			npc.setShanbi(npc.getShanbiBase() + prop.getVal());
+			npc.setShanbi(npc.getShanbi() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_XIXUE:
-			npc.setXixue(npc.getXixueBase() + prop.getVal());
+			npc.setXixue(npc.getXixue() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_FANTAN:
-			npc.setFantan(npc.getFantanBase() + prop.getVal());
+			npc.setFantan(npc.getFantan() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_JIYUN:
-			npc.setJiyun(npc.getJiyunBase() + prop.getVal());
+			npc.setJiyun(npc.getJiyun() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_KANGYUN:
-			npc.setKangyun(npc.getKangyunBase() + prop.getVal());
+			npc.setKangyun(npc.getKangyun() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_GEDANG:
-			npc.setGedang(npc.getGedangBase() + prop.getVal());
+			npc.setGedang(npc.getGedang() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_GEDANGPOSS:
-			npc.setGedangPoss(npc.getGedangPossBase() + prop.getVal());
+			npc.setGedangPoss(npc.getGedangPoss() + prop.getVal());
 			break;
 			
 		case Nature.NT_ATT_REDUCE:
-			npc.setReduce(npc.getReduceBase() + prop.getVal());
+			npc.setReduce(npc.getReduce() + prop.getVal());
 			break;
 			
 		default:
-			return;
+			break;
 		}
+		return 0;
 	}
 	
 	

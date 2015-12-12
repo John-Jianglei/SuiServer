@@ -41,7 +41,7 @@ public class NpcAddDao {
 	}
 	
 	private int insert(final NpcInfoVo npc){
-		final String sql = "insert into game_npc_info(`comId`, `uid`, `position`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce`) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		final String sql = "insert into game_npc_info(`comId`, `uid`, `position`, `healthBase`, `attackBase`, `hujiaBase`, `pojiaBase`, `fachuanBase`, `fakangBase`, `baojiBase`, `renxingBase`, `mingzhongBase`, `shanbiBase`, `xixueBase`, `fantanBase`, `jiyunBase`, `kangyunBase`, `gedangBase`, `gedangPossBase`, `reduceBase`, `skill1`, `skill2`, `skill3`, `skill4`, `skill5`, `skill6`, `skill7`, `skill8`, `skill9`, `skill10`, `skill11`, `yuanfen1`, `yuanfen2`, `yuanfen3`, `yuanfen4`) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		WebConstant.gameJdbc.getJdbcTemplate().update(new PreparedStatementCreator(){
 			@Override
@@ -51,23 +51,39 @@ public class NpcAddDao {
                 ps.setInt(1, npc.getComId()); 
                 ps.setString(2, npc.getUid()); 
                 ps.setInt(3, npc.getPosition()); 
-                ps.setInt(4, npc.getHealth()); 
-                ps.setInt(5, npc.getAttack()); 
-                ps.setInt(6, npc.getHujia()); 
-                ps.setInt(7, npc.getPojia()); 
-                ps.setInt(8, npc.getFachuan()); 
-                ps.setInt(9, npc.getFakang()); 
-                ps.setInt(10, npc.getBaoji()); 
-                ps.setInt(11, npc.getRenxing()); 
-                ps.setInt(12, npc.getMingzhong()); 
-                ps.setInt(13, npc.getShanbi()); 
-                ps.setInt(14, npc.getXixue()); 
-                ps.setInt(15, npc.getFantan()); 
-                ps.setInt(16, npc.getJiyun()); 
-                ps.setInt(17, npc.getKangyun()); 
-                ps.setInt(18, npc.getGedang()); 
-                ps.setInt(19, npc.getGedangPoss()); 
-                ps.setInt(20, npc.getReduce());
+                ps.setInt(4, npc.getHealthBase()); 
+                ps.setInt(5, npc.getAttackBase()); 
+                ps.setInt(6, npc.getHujiaBase()); 
+                ps.setInt(7, npc.getPojiaBase()); 
+                ps.setInt(8, npc.getFachuanBase()); 
+                ps.setInt(9, npc.getFakangBase()); 
+                ps.setInt(10, npc.getBaojiBase()); 
+                ps.setInt(11, npc.getRenxingBase()); 
+                ps.setInt(12, npc.getMingzhongBase()); 
+                ps.setInt(13, npc.getShanbiBase()); 
+                ps.setInt(14, npc.getXixueBase()); 
+                ps.setInt(15, npc.getFantanBase()); 
+                ps.setInt(16, npc.getJiyunBase()); 
+                ps.setInt(17, npc.getKangyunBase()); 
+                ps.setInt(18, npc.getGedangBase()); 
+                ps.setInt(19, npc.getGedangPossBase()); 
+                ps.setInt(20, npc.getReduceBase());
+                ps.setInt(21, npc.getSkill1());
+                ps.setInt(22, npc.getSkill2());
+                ps.setInt(23, npc.getSkill3());
+                ps.setInt(24, npc.getSkill4());
+                ps.setInt(25, npc.getSkill5());
+                ps.setInt(26, npc.getSkill6());
+                ps.setInt(27, npc.getSkill7());
+                ps.setInt(28, npc.getSkill8());
+                ps.setInt(29, npc.getSkill9());
+                ps.setInt(30, npc.getSkill10());
+                ps.setInt(31, npc.getSkill11());
+                ps.setInt(32, npc.getYuanfen1());
+                ps.setInt(33, npc.getYuanfen2());
+                ps.setInt(34, npc.getYuanfen3());
+                ps.setInt(35, npc.getYuanfen4());
+                
                 return ps;
             }					
         }, keyHolder);
