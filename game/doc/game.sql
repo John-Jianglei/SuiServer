@@ -170,3 +170,6 @@ alter table game_npc_info Add column  `kangyunBase` int(11) NOT NULL DEFAULT '0'
 alter table game_npc_info Add column  `gedangBase` int(11) NOT NULL DEFAULT '0' ;
 alter table game_npc_info Add column  `gedangPossBase` int(11) NOT NULL DEFAULT '0' ;
 alter table game_npc_info Add column  `reduceBase` int(11) NOT NULL DEFAULT '0' ;
+
+/*测试进阶造数据SQL*/
+insert into game_npc_info (`id`, `comId`, `uid`, `position`, `health`, `attack`, `hujia`) values (15,113,'1-1',-1,300,200,200);

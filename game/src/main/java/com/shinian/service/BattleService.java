@@ -1,37 +1,34 @@
 package com.shinian.service;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Random;
-
 import com.alibaba.fastjson.JSON;
 import com.shinian.dao.NpcInfoDao;
+import com.shinian.dao.PassDao;
 import com.shinian.dao.PropInfoDao;
+import com.shinian.redis.RedisCacheUtil;
+import com.shinian.util.Constant;
 import com.shinian.util.Message;
+import com.shinian.util.RandomUtil;
+import com.shinian.vo.ActionVo;
+import com.shinian.vo.BattleReqVo;
+import com.shinian.vo.BattleReturnVo;
 import com.shinian.vo.CommonReqVo;
 import com.shinian.vo.JinengRedisVo;
 import com.shinian.vo.MessageRespVo;
-import com.shinian.vo.BattleReqVo;
+import com.shinian.vo.NpcBattleVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcInfoVo;
-import com.shinian.vo.NpcBattleVo;
-import com.shinian.vo.ActionVo;
+import com.shinian.vo.PassZhanyiVo;
 import com.shinian.vo.RewardVo;
-import com.shinian.vo.BattleReturnVo;
-import com.shinian.vo.PropInfoRedisVo;
-import com.shinian.vo.PropInfoVo;
-import com.shinian.redis.RedisCacheUtil;
-import com.shinian.service.PlayerInfoService;
-import com.shinian.util.RandomUtil;
-import com.shinian.util.Constant;
 
 @Service
 public class BattleService {
@@ -46,11 +43,81 @@ public class BattleService {
 	PropInfoDao propInfoDao;
 	
 	@Autowired
+	PassDao passDao;
+	
+	@Autowired
 	RedisCacheUtil redisCacheUtil;
 
 	private NpcBattleVo[] offArmy;
 	private NpcBattleVo[] defArmy;
 	
+	public BattleReturnVo pve( String uid, int battleId ){
+		
+		BattleReturnVo batRtn = new BattleReturnVo();		
+		PassZhanyiVo pzyv = passDao.getPassZhanyiById(battleId);
+		
+		List<NpcInfoVo> oArmy = armyInfoService.getArmyOnBattle(uid);
+		List<NpcInfoVo> dArmy = new ArrayList<NpcInfoVo>();
+		NpcInfoVo[] npciv = new NpcInfoVo[6];
+		NpcInfoRedisVo[] defv = new NpcInfoRedisVo[6];
+		
+		for( int i=0; i<6; i++ ){
+			switch(i){
+			case 0:
+				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId0());
+				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
+				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
+				dArmy.add(npciv[i]);
+				break;
+			case 1:
+				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId1());
+				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
+				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
+				dArmy.add(npciv[i]);
+				break;
+			case 2:
+				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId2());
+				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
+				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
+				dArmy.add(npciv[i]);
+				break;
+			case 3:
+				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId3());
+				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
+				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
+				dArmy.add(npciv[i]);
+				break;
+			case 4:
+				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId4());
+				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
+				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
+				dArmy.add(npciv[i]);
+				break;
+			case 5:
+				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId5());
+				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
+				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
+				dArmy.add(npciv[i]);
+				break;
+			}
+		}
+		
+		List<ActionVo> lav = battle(offArmy, defArmy);
+		List<RewardVo> rewardlist = postWar();
+		
+		batRtn.setOffArmy(oArmy);
+		batRtn.setDefArmy(dArmy);
+		batRtn.setActions(lav);
+		batRtn.setRewards(rewardlist);
+		
+		return batRtn;
+	}
 	
 	public MessageRespVo makeWar(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
@@ -166,7 +233,7 @@ public class BattleService {
 		return bool;
 	}
 	
-	private NpcBattleVo[] initBattleArmy(List<NpcInfoVo> army)
+	public NpcBattleVo[] initBattleArmy(List<NpcInfoVo> army)
 	{
 		NpcBattleVo[] result = new NpcBattleVo[Constant.CON_ARMY_SIZE];
 		for (NpcInfoVo npc:army){
