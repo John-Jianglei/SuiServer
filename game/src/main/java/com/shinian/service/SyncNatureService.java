@@ -105,6 +105,13 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 		List<NpcInfoVo> army = refreshArmy(uid);
 		
 		if (npc.getPosition() >= Constant.CON_ARMY_SIZE){
+			//	initialize Nature: anv = bnv
+			npc.initNature();
+			npc.disableYuanfen1();
+			npc.disableYuanfen2();
+			npc.disableYuanfen3();
+			npc.disableYuanfen4();
+
 			List<PropInfoVo> plist = propInfoService.getPropListOfNpc(npc.getId());	// synthesize props
 			for (PropInfoVo prop:plist){
 				updateNpcNatureByProp(npc, prop.getComId());
