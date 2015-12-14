@@ -56,11 +56,17 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 	public List<NpcInfoVo> refreshArmy(String uid)
 	{
 		List<NpcInfoVo> army = armyInfoService.getArmyOnBattle(uid);
+		
+		//	initialize Nature: anv = bnv
+		for (NpcInfoVo npc : army) {
+			npc.initNature();
+			npc.disableYuanfen1();
+			npc.disableYuanfen2();
+			npc.disableYuanfen3();
+			npc.disableYuanfen4();
+		}
 
 		for (NpcInfoVo npc : army){
-			//	initialize Nature: anv = bnv
-			npc.initNature();
-			
 			// synthesize props: anv = anv + pv 
 			List<PropInfoVo> plist = propInfoService.getPropListOfNpc(npc.getId());	// synthesize props
 			for (PropInfoVo prop:plist){
@@ -76,17 +82,17 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 			if (npc.getYuanfen4() > 0) updateNpcNatureByYuanfen(npc, npc.getYuanfen4());
 			
 			// synthesize skills
-			if (npc.isSkill1()) updateArmyNatureBySkill(npc, army, npc.getSkill1());
-			if (npc.isSkill2()) updateArmyNatureBySkill(npc, army, npc.getSkill2());
-			if (npc.isSkill3()) updateArmyNatureBySkill(npc, army, npc.getSkill3());
-			if (npc.isSkill4()) updateArmyNatureBySkill(npc, army, npc.getSkill4());
-			if (npc.isSkill5()) updateArmyNatureBySkill(npc, army, npc.getSkill5());
-			if (npc.isSkill6()) updateArmyNatureBySkill(npc, army, npc.getSkill6());
-			if (npc.isSkill7()) updateArmyNatureBySkill(npc, army, npc.getSkill7());
-			if (npc.isSkill8()) updateArmyNatureBySkill(npc, army, npc.getSkill8());
-			if (npc.isSkill9()) updateArmyNatureBySkill(npc, army, npc.getSkill9());
-			if (npc.isSkill10()) updateArmyNatureBySkill(npc, army, npc.getSkill10());
-			if (npc.isSkill11()) updateArmyNatureBySkill(npc, army, npc.getSkill11());
+			if (npc.hasSkill1()) updateArmyNatureBySkill(npc, army, npc.getSkill1());
+			if (npc.hasSkill2()) updateArmyNatureBySkill(npc, army, npc.getSkill2());
+			if (npc.hasSkill3()) updateArmyNatureBySkill(npc, army, npc.getSkill3());
+			if (npc.hasSkill4()) updateArmyNatureBySkill(npc, army, npc.getSkill4());
+			if (npc.hasSkill5()) updateArmyNatureBySkill(npc, army, npc.getSkill5());
+			if (npc.hasSkill6()) updateArmyNatureBySkill(npc, army, npc.getSkill6());
+			if (npc.hasSkill7()) updateArmyNatureBySkill(npc, army, npc.getSkill7());
+			if (npc.hasSkill8()) updateArmyNatureBySkill(npc, army, npc.getSkill8());
+			if (npc.hasSkill9()) updateArmyNatureBySkill(npc, army, npc.getSkill9());
+			if (npc.hasSkill10()) updateArmyNatureBySkill(npc, army, npc.getSkill10());
+			if (npc.hasSkill11()) updateArmyNatureBySkill(npc, army, npc.getSkill11());
 		}
 		
 		for (NpcInfoVo p : army) syncNatureDao.updateNpcNature(p); 
@@ -99,6 +105,13 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 		List<NpcInfoVo> army = refreshArmy(uid);
 		
 		if (npc.getPosition() >= Constant.CON_ARMY_SIZE){
+			//	initialize Nature: anv = bnv
+			npc.initNature();
+			npc.disableYuanfen1();
+			npc.disableYuanfen2();
+			npc.disableYuanfen3();
+			npc.disableYuanfen4();
+
 			List<PropInfoVo> plist = propInfoService.getPropListOfNpc(npc.getId());	// synthesize props
 			for (PropInfoVo prop:plist){
 				updateNpcNatureByProp(npc, prop.getComId());

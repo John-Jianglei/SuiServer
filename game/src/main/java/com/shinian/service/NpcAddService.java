@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.shinian.dao.NpcAddDao;
+import com.shinian.util.Constant;
 import com.shinian.util.Message;
 import com.shinian.vo.CommonReqVo;
 import com.shinian.vo.MessageRespVo;
@@ -33,6 +34,8 @@ public class NpcAddService {
 	@Autowired
 	RedisCacheUtil redisCacheUtil;
 
+	@Autowired
+	SyncNatureService syncNatureService;
 	
 	public MessageRespVo addNpcToPlayer(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
@@ -55,7 +58,10 @@ public class NpcAddService {
 			return result;
 		}
 
-		NpcInfoVo piv = npcAddDao.addNpcToPlayer(nrv.getUid(), npc);		
+		NpcInfoVo piv = npcAddDao.addNpcToPlayer(nrv.getUid(), npc);
+		if (piv.getPosition() < Constant.CON_ARMY_SIZE){
+			syncNatureService.refreshArmy(piv.getUid());
+		}
 		result.setData(piv);		
 		result.setCode(Message.MSG_CODE_OK);
 		

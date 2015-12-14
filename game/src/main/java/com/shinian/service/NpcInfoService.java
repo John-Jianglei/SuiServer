@@ -34,6 +34,9 @@ public class NpcInfoService {
 	@Autowired
 	ArmyInfoService armyInfoService;
 	
+	@Autowired
+	SyncNatureService syncNatureService;
+	
 	public MessageRespVo getCommNpcInfo(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
 		MessageRespVo result = new MessageRespVo();

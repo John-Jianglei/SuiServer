@@ -98,47 +98,47 @@ public class NpcInfoVo extends BaseObject implements Serializable{
 		this.yuanfen4 = yuanfen4;
 	}	
 	
-	public boolean isSkill1() {
+	public boolean hasSkill1() {
 		return (skill1 > 0) ? true : false;
 	}
 
-	public boolean isSkill2() {
+	public boolean hasSkill2() {
 		return (skill2 > 0) ? true : false;
 	}
 
-	public boolean isSkill3() {
+	public boolean hasSkill3() {
 		return (skill3 > 0) ? true : false;
 	}
 
-	public boolean isSkill4() {
+	public boolean hasSkill4() {
 		return (skill4 > 0) ? true : false;
 	}
 
-	public boolean isSkill5() {
+	public boolean hasSkill5() {
 		return (skill5 > 0) ? true : false;
 	}
 
-	public boolean isSkill6() {
+	public boolean hasSkill6() {
 		return (skill6 > 0) ? true : false;
 	}
 
-	public boolean isSkill7() {
+	public boolean hasSkill7() {
 		return (skill7 > 0) ? true : false;
 	}
 
-	public boolean isSkill8() {
+	public boolean hasSkill8() {
 		return (skill8 > 0) ? true : false;
 	}
 
-	public boolean isSkill9() {
+	public boolean hasSkill9() {
 		return (skill9 > 0) ? true : false;
 	}
 
-	public boolean isSkill10() {
+	public boolean hasSkill10() {
 		return (skill10 > 0) ? true : false;
 	}
 
-	public boolean isSkill11() {
+	public boolean hasSkill11() {
 		return (skill11 > 0) ? true : false;
 	}
 /*	public void setSkill11(boolean skill11) {

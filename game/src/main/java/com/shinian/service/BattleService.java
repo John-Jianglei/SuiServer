@@ -241,7 +241,7 @@ public class BattleService {
 				result[npc.getPosition()] = new NpcBattleVo();
 				result[npc.getPosition()].setNpc(npc);
 				result[npc.getPosition()].setStartHealth(npc.getHealth());
-				if( npc.isSkill4() ){
+				if( npc.hasSkill4() ){
 					result[npc.getPosition()].setNuqi(redisCacheUtil.getJinengInfoById(npc.getComId()).getInit_nuqi());
 				}
 			}
@@ -382,12 +382,12 @@ public class BattleService {
 		//武将死亡事件发生
 		if( fd >= defNpc.getNpc().getHealth() ){
 			// 根据技能9，判断是否无敌
-			if( offNpc.getNpc().isSkill9() && offNpc.isHasWudi()==false ){				
+			if( offNpc.getNpc().hasSkill9() && offNpc.isHasWudi()==false ){				
 				offNpc.setHasWudi(true);
 				return action;				
 			}
 			//判断被攻击目标是否复活，技能7
-			if( offNpc.getNpc().isSkill7() && offNpc.isHasRelive()==false ){			
+			if( offNpc.getNpc().hasSkill7() && offNpc.isHasRelive()==false ){			
 				//恢复生命和怒气值	
 				offNpc.getNpc().setHealth(npcvo.getHealth());
 				offNpc.setNuqi(100);
@@ -457,7 +457,7 @@ public class BattleService {
 		
 		//如果消耗nuqi，剩余怒气看技能10
 		if(offNpc.getNuqi()==100){
-			if( offNpc.getNpc().isSkill10() ){
+			if( offNpc.getNpc().hasSkill10() ){
 				offNpc.setNuqi(redisCacheUtil.getJinengInfoById(nivo.getSkill10()).getRemain_nuqi());
 				action.setDoerNuqi(offNpc.getNuqi());
 			}
