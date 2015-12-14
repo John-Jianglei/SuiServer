@@ -303,10 +303,11 @@ public class RedisCacheUtil {
 	
 	public JinengRedisVo getJinengInfoById(int id)
 	{
+		id = Math.abs(id);
 		JinengRedisVo jnvo = new JinengRedisVo();
 		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
 		try{
-			String prefix = RedisKeyDefine.KEY_COMMON_NPC_EXPERIENCE;
+			String prefix = RedisKeyDefine.KEY_COMMON_NPC_JINENG;
 			String key = String.format(prefix, id);
 
 			if(jedis.exists(key)){
