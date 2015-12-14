@@ -100,10 +100,12 @@ public class NpcInfoService {
 		}
 		
 		int currentPosition = reqNpc.getPosition();
+//		List<NpcInfoVo> list;
 		
 		NpcInfoVo tpNpc = getNpcByPosition(nrv.getUid(), nrv.getTargetPosition()); 		//Npc on target position
 		if (null == tpNpc){
 			npcInfoDao.setNpcPosition(nrv.getId(), nrv.getTargetPosition());
+//			list = syncNatureService.refreshArmy(reqNpc.getUid());
 		}
 		else if(tpNpc.getId() != nrv.getId()){
 			npcInfoDao.setNpcPosition(nrv.getId(), tpNpc.getPosition());
