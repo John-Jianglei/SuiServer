@@ -100,10 +100,21 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 		return army;
 	}
 	
-	public List<NpcInfoVo> refreshArmy(String uid, NpcInfoVo npc)
+	public List<NpcInfoVo> refreshArmy(String uid, List<NpcInfoVo> npcList)
 	{
 		List<NpcInfoVo> army = refreshArmy(uid);
-		
+		for (NpcInfoVo npc:npcList){
+			if (npc.getPosition() >= Constant.CON_ARMY_SIZE){
+				npc = refreshNpc(npc);
+				army.add(npc);
+			}
+		}
+
+		return army;
+	}
+	
+	public NpcInfoVo refreshNpc(NpcInfoVo npc)
+	{
 		if (npc.getPosition() >= Constant.CON_ARMY_SIZE){
 			//	initialize Nature: anv = bnv
 			npc.initNature();
@@ -118,10 +129,9 @@ public class SyncNatureService {		//	update the actual nature, which synthesizes
 			}
 			
 			syncNatureDao.updateNpcNature(npc);
-			army.add(npc);
 		}
 		
-		return army;
+		return npc;
 	}
 	
 	private void updateArmyNatureBySkill(NpcInfoVo npc, List<NpcInfoVo> army, int skill)

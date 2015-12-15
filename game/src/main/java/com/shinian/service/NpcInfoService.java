@@ -1,5 +1,6 @@
 package com.shinian.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -99,20 +100,25 @@ public class NpcInfoService {
 			return result;
 		}
 		
+		List<NpcInfoVo> npcList = new ArrayList<NpcInfoVo>();
+		npcList.add(reqNpc);
+		
 		int currentPosition = reqNpc.getPosition();
-//		List<NpcInfoVo> list;
 		
 		NpcInfoVo tpNpc = getNpcByPosition(nrv.getUid(), nrv.getTargetPosition()); 		//Npc on target position
 		if (null == tpNpc){
 			npcInfoDao.setNpcPosition(nrv.getId(), nrv.getTargetPosition());
-//			list = syncNatureService.refreshArmy(reqNpc.getUid());
 		}
 		else if(tpNpc.getId() != nrv.getId()){
 			npcInfoDao.setNpcPosition(nrv.getId(), tpNpc.getPosition());
 			npcInfoDao.setNpcPosition(tpNpc.getId(), currentPosition);
+			
+			npcList.add(tpNpc);
 		}
 		
-		List<NpcInfoVo> list = armyInfoService.getArmy(nrv.getUid());
+		List<NpcInfoVo> list = syncNatureService.refreshArmy(reqNpc.getUid(), npcList);
+		
+//		List<NpcInfoVo> list = armyInfoService.getArmy(nrv.getUid());
 		
 		if(list == null || list.size() == 0){
 			result.setCode(Message.MSG_CODE_NPC_NOT_EXIST);
