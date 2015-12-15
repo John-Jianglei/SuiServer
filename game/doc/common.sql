@@ -113,13 +113,14 @@ CREATE TABLE `common_npc_info` (
   `gedang` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始格挡',
   `gedangPoss` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始格挡概率',
   `reduce` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始伤害减小',
-  `talent` varchar(16) COMMENT '武将初始天赋名',
+  `talent` varchar(16) DEFAULT NULL COMMENT '武将初始天赋名',
   `talentVal` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始天赋值',
   `attackStep` int(11) NOT NULL DEFAULT '0' COMMENT '攻击力升级step',
   `healthStep` int(11) NOT NULL DEFAULT '0' COMMENT '生命升级Step',
   `levelupRate` int(11) NOT NULL DEFAULT '0' COMMENT '进阶材料需求系数',
   `pieces` int(11) NOT NULL DEFAULT '0' COMMENT '组合需要碎片数',
   `maxPieces` int(11) NOT NULL DEFAULT '0' COMMENT '最大可用公共碎片数',
+  `pieceId` int(11) NOT NULL,
   `skill1` int(11) NOT NULL DEFAULT '0' COMMENT '技能1',
   `skill2` int(11) NOT NULL DEFAULT '0' COMMENT '技能2',
   `skill3` int(11) NOT NULL DEFAULT '0' COMMENT '技能3',
@@ -135,7 +136,7 @@ CREATE TABLE `common_npc_info` (
   `yuanfen2` int(11) NOT NULL DEFAULT '0' COMMENT '缘份2',
   `yuanfen3` int(11) NOT NULL DEFAULT '0' COMMENT '缘份3',
   `yuanfen4` int(11) NOT NULL DEFAULT '0' COMMENT '缘份4',
-  `desc` varchar(512) COMMENT '武将列传',
+  `desc` varchar(512) DEFAULT NULL COMMENT '武将列传',
   `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '0:无效;1:有效',
   PRIMARY KEY (`id`)
@@ -183,3 +184,66 @@ CREATE TABLE `common_yuanfen_info` (
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '0:无效;1:有效',
   PRIMARY KEY (`comId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='缘份信息表';
+
+
+DROP TABLE IF EXISTS `common_jineng`;
+CREATE TABLE `common_jineng` (
+  `id` int(11) NOT NULL,
+  `desc` varchar(255) DEFAULT NULL,
+  `jineng_level` int(11) DEFAULT NULL,
+  `need_pinjie` int(11) DEFAULT NULL,
+  `init_nuqi` int(11) DEFAULT NULL,
+  `need_nuqi` int(11) DEFAULT NULL,
+  `consum_nuqi` int(11) DEFAULT NULL,
+  `remain_nuqi` int(11) DEFAULT NULL,
+  `attack_num` int(11) DEFAULT NULL,
+  `mubiao_pos` int(11) DEFAULT NULL,
+  `damage_type` int(11) DEFAULT NULL,
+  `damage_min` int(11) DEFAULT NULL,
+  `damage_max` int(11) DEFAULT NULL,
+  `add_health_type` int(11) DEFAULT NULL,
+  `add_health` int(11) DEFAULT NULL,
+  `shuxing_type` int(11) DEFAULT NULL,
+  `add_damage` int(11) DEFAULT NULL,
+  `add_tianming` int(11) DEFAULT NULL,
+  `is_relive` tinyint(1) DEFAULT NULL,
+  `is_wudi` tinyint(1) DEFAULT NULL,
+  `add_pojia` int(11) DEFAULT NULL,
+  `add_fachuan` int(11) DEFAULT NULL,
+  `add_baoji` int(11) DEFAULT NULL,
+  `add_mingzhong` int(11) DEFAULT NULL,
+  `add_shanbi` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='技能信息表';
+
+
+-- ----------------------------
+-- Table structure for `common_rpc_jinjie_material`
+-- ----------------------------
+DROP TABLE IF EXISTS `common_rpc_jinjie_material`;
+CREATE TABLE `common_rpc_jinjie_material` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category` int(2) DEFAULT NULL,
+  `nextpinjie` int(2) DEFAULT NULL,
+  `silver` bigint(20) DEFAULT NULL,
+  `jinjiedan` int(11) DEFAULT NULL,
+  `fivecolorstone` int(11) DEFAULT NULL,
+  `tigertally` int(11) DEFAULT NULL,
+  `eviltally` int(11) DEFAULT NULL,
+  `ploughtally` int(11) DEFAULT NULL,
+  `sttally` int(11) DEFAULT NULL,
+  `suitangmedal` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8  COMMENT='武将升级材料';
+
+
+
+DROP TABLE IF EXISTS `common_wujiang_experience`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `common_wujiang_experience` (
+  `level` int(3) NOT NULL COMMENT 'level',
+  `experience` int(11) NOT NULL COMMENT '经验',
+  PRIMARY KEY (`level`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='武将升级经验表';
+
