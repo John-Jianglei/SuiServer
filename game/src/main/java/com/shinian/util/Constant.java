@@ -15,6 +15,9 @@ public class Constant implements Serializable{
 	public final static int CON_ARMY_POSITION_ALL = 4;
 	
 	public final static int CON_BATTLE_MAX_SEQUENCE = 100;
+	public final static int CON_BATTLE_MAX_REWARDSTAR = 3;
+
+
 	
 
 	

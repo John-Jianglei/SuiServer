@@ -147,14 +147,13 @@ public class BattleService {
 		defArmy = initBattleArmy(dArmy);
 		
 		List<ActionVo> lav = battle(offArmy, defArmy);
-		List<RewardVo> rewardlist = postWar();
+		RewardVo reward = postWar(offArmy);
 				
 		BattleReturnVo re = new BattleReturnVo();
 		
-		re.setOffArmy(oArmy);
 		re.setDefArmy(dArmy);
 		re.setActions(lav);
-		re.setRewards(rewardlist);
+		re.setRewards(reward);
 		
 		result.setData(re);		
 		result.setCode(Message.MSG_CODE_OK);
@@ -220,19 +219,40 @@ public class BattleService {
 		
 	}
 	
-	private List<RewardVo> postWar()
+	private int rewardStar(NpcBattleVo[] army)
 	{
-		List<RewardVo> rl = null;
-		return rl;
+		int total = 0;
+		int alive = 0;
+		for (int i = 0; i < Constant.CON_ARMY_SIZE; i++){
+			if (army[i] != null){
+				total++;
+				if (army[i].getNpc().getHealth() > 0) alive++;
+			}
+		}
+		
+		if (alive == 0) return 0;
+		if (total == alive) return Constant.CON_BATTLE_MAX_REWARDSTAR;
+		return ((total - alive) > 1) ? 1 : 2;
+	}
+	
+	private RewardVo postWar(NpcBattleVo[] army)
+	{
+		RewardVo rw = new RewardVo();
+		rw.setStar(rewardStar(army));
+		
+		return rw;
 	}
 		
 	private boolean isSurvived(NpcBattleVo[] army)
 	{
-		boolean bool = true;
-		for (int i = 0; i < Constant.CON_ARMY_SIZE; i++)
-			if (army[i] != null) bool = bool && (army[i].getNpc().getHealth() > 0) ;
+		int alive = 0;
+		for (int i = 0; i < Constant.CON_ARMY_SIZE; i++){
+			if (army[i] != null){
+				if (army[i].getNpc().getHealth() > 0) alive++;
+			}
+		}
 		
-		return bool;
+		return (alive > 0) ? true : false;
 	}
 	
 	public NpcBattleVo[] initBattleArmy(List<NpcInfoVo> army)
