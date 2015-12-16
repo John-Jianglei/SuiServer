@@ -19,30 +19,119 @@ public class PassZhanyiVo  extends BaseObject implements Serializable{
 	private int battleCount;	//可扫荡次数
 	private int exp;			//获得经验
 	private int sliver;			//获得银两
-	private int comType1;		//奖励物品1类型
-	private int comId11;		//奖励物品1 ID
-	private int comNum1;		//奖励物品1数量
+	private int rewardType1;	//奖励物品1类型
+	
+	public int getRewardType1() {
+		return rewardType1;
+	}
+	public void setRewardType1(int rewardType1) {
+		this.rewardType1 = rewardType1;
+	}
+	public int getRewardId11() {
+		return rewardId11;
+	}
+	public void setRewardId11(int rewardId11) {
+		this.rewardId11 = rewardId11;
+	}
+	public int getRewardNum1() {
+		return rewardNum1;
+	}
+	public void setRewardNum1(int rewardNum1) {
+		this.rewardNum1 = rewardNum1;
+	}
+	public int getRewardP1() {
+		return rewardP1;
+	}
+	public void setRewardP1(int rewardP1) {
+		this.rewardP1 = rewardP1;
+	}
+	public int getRewardType2() {
+		return rewardType2;
+	}
+	public void setRewardType2(int rewardType2) {
+		this.rewardType2 = rewardType2;
+	}
+	public int getRewardId12() {
+		return rewardId12;
+	}
+	public void setRewardId12(int rewardId12) {
+		this.rewardId12 = rewardId12;
+	}
+	public int getRewardNum2() {
+		return rewardNum2;
+	}
+	public void setRewardNum2(int rewardNum2) {
+		this.rewardNum2 = rewardNum2;
+	}
+	public int getRewardP2() {
+		return rewardP2;
+	}
+	public void setRewardP2(int rewardP2) {
+		this.rewardP2 = rewardP2;
+	}
+	public int getRewardType3() {
+		return rewardType3;
+	}
+	public void setRewardType3(int rewardType3) {
+		this.rewardType3 = rewardType3;
+	}
+	public int getRewardId13() {
+		return rewardId13;
+	}
+	public void setRewardId13(int rewardId13) {
+		this.rewardId13 = rewardId13;
+	}
+	public int getRewardNum3() {
+		return rewardNum3;
+	}
+	public void setRewardNum3(int rewardNum3) {
+		this.rewardNum3 = rewardNum3;
+	}
+	public int getRewardP3() {
+		return rewardP3;
+	}
+	public void setRewardP3(int rewardP3) {
+		this.rewardP3 = rewardP3;
+	}
+	public int getRewardType4() {
+		return rewardType4;
+	}
+	public void setRewardType4(int rewardType4) {
+		this.rewardType4 = rewardType4;
+	}
+	public int getRewardId14() {
+		return rewardId14;
+	}
+	public void setRewardId14(int rewardId14) {
+		this.rewardId14 = rewardId14;
+	}
+	public int getRewardNum4() {
+		return rewardNum4;
+	}
+	public void setRewardNum4(int rewardNum4) {
+		this.rewardNum4 = rewardNum4;
+	}
+	public int getRewardP4() {
+		return rewardP4;
+	}
+	public void setRewardP4(int rewardP4) {
+		this.rewardP4 = rewardP4;
+	}
+	private int rewardId11;		//奖励物品1 ID
+	private int rewardNum1;		//奖励物品1数量
 	private int	rewardP1;		//奖励物品1概率(0-100)，数据库中没有定义，后补
-	private int comType2;		//奖励物品2类型
-	private int comId12;		//奖励物品2 ID
-	private int comNum2;		//奖励物品2数量
+	private int rewardType2;		//奖励物品2类型
+	private int rewardId12;		//奖励物品2 ID
+	private int rewardNum2;		//奖励物品2数量
 	private int	rewardP2;		//奖励物品2概率(0-100)，数据库中没有定义，后补
-	private int comType3;		//奖励物品3类型
-	private int comId13;		//奖励物品3 ID
-	private int comNum3;		//奖励物品3数量
+	private int rewardType3;		//奖励物品3类型
+	private int rewardId13;		//奖励物品3 ID
+	private int rewardNum3;		//奖励物品3数量
 	private int	rewardP3;		//奖励物品3概率(0-100)，数据库中没有定义，后补
-	private int comType4;		//奖励物品4类型
-	private int comId14;		//奖励物品4 ID
-	private int comNum4;		//奖励物品4数量
+	private int rewardType4;		//奖励物品4类型
+	private int rewardId14;		//奖励物品4 ID
+	private int rewardNum4;		//奖励物品4数量
 	private int	rewardP4;		//奖励物品4概率(0-100)，数据库中没有定义，后补
-	private int comType5;		//奖励物品5类型
-	private int comId15;		//奖励物品5 ID
-	private int comNum5;		//奖励物品5数量
-	private int	rewardP5;		//奖励物品5概率(0-100)，数据库中没有定义，后补
-	private int comType6;		//奖励物品6类型
-	private int comId16;		//奖励物品6 ID
-	private int comNum6;		//奖励物品6数量
-	private int	rewardP6;		//奖励物品6概率(0-100)，数据库中没有定义，后补
 	
 	public int getId() {
 		return id;
@@ -116,152 +205,7 @@ public class PassZhanyiVo  extends BaseObject implements Serializable{
 	public void setSliver(int sliver) {
 		this.sliver = sliver;
 	}
-	public int getComType1() {
-		return comType1;
-	}
-	public void setComType1(int comType1) {
-		this.comType1 = comType1;
-	}
-	public int getComId11() {
-		return comId11;
-	}
-	public void setComId11(int comId11) {
-		this.comId11 = comId11;
-	}
-	public int getComNum1() {
-		return comNum1;
-	}
-	public void setComNum1(int comNum1) {
-		this.comNum1 = comNum1;
-	}
-	public int getRewardP1() {
-		return rewardP1;
-	}
-	public void setRewardP1(int rewardP1) {
-		this.rewardP1 = rewardP1;
-	}
-	public int getComType2() {
-		return comType2;
-	}
-	public void setComType2(int comType2) {
-		this.comType2 = comType2;
-	}
-	public int getComId12() {
-		return comId12;
-	}
-	public void setComId12(int comId12) {
-		this.comId12 = comId12;
-	}
-	public int getComNum2() {
-		return comNum2;
-	}
-	public void setComNum2(int comNum2) {
-		this.comNum2 = comNum2;
-	}
-	public int getRewardP2() {
-		return rewardP2;
-	}
-	public void setRewardP2(int rewardP2) {
-		this.rewardP2 = rewardP2;
-	}
-	public int getComType3() {
-		return comType3;
-	}
-	public void setComType3(int comType3) {
-		this.comType3 = comType3;
-	}
-	public int getComId13() {
-		return comId13;
-	}
-	public void setComId13(int comId13) {
-		this.comId13 = comId13;
-	}
-	public int getComNum3() {
-		return comNum3;
-	}
-	public void setComNum3(int comNum3) {
-		this.comNum3 = comNum3;
-	}
-	public int getRewardP3() {
-		return rewardP3;
-	}
-	public void setRewardP3(int rewardP3) {
-		this.rewardP3 = rewardP3;
-	}
-	public int getComType4() {
-		return comType4;
-	}
-	public void setComType4(int comType4) {
-		this.comType4 = comType4;
-	}
-	public int getComId14() {
-		return comId14;
-	}
-	public void setComId14(int comId14) {
-		this.comId14 = comId14;
-	}
-	public int getComNum4() {
-		return comNum4;
-	}
-	public void setComNum4(int comNum4) {
-		this.comNum4 = comNum4;
-	}
-	public int getRewardP4() {
-		return rewardP4;
-	}
-	public void setRewardP4(int rewardP4) {
-		this.rewardP4 = rewardP4;
-	}
-	public int getComType5() {
-		return comType5;
-	}
-	public void setComType5(int comType5) {
-		this.comType5 = comType5;
-	}
-	public int getComId15() {
-		return comId15;
-	}
-	public void setComId15(int comId15) {
-		this.comId15 = comId15;
-	}
-	public int getComNum5() {
-		return comNum5;
-	}
-	public void setComNum5(int comNum5) {
-		this.comNum5 = comNum5;
-	}
-	public int getRewardP5() {
-		return rewardP5;
-	}
-	public void setRewardP5(int rewardP5) {
-		this.rewardP5 = rewardP5;
-	}
-	public int getComType6() {
-		return comType6;
-	}
-	public void setComType6(int comType6) {
-		this.comType6 = comType6;
-	}
-	public int getComId16() {
-		return comId16;
-	}
-	public void setComId16(int comId16) {
-		this.comId16 = comId16;
-	}
-	public int getComNum6() {
-		return comNum6;
-	}
-	public void setComNum6(int comNum6) {
-		this.comNum6 = comNum6;
-	}
-	public int getRewardP6() {
-		return rewardP6;
-	}
-	public void setRewardP6(int rewardP6) {
-		this.rewardP6 = rewardP6;
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+
+	
 
 }

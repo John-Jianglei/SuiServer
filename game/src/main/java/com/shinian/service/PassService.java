@@ -21,6 +21,7 @@ import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcInfoVo;
 import com.shinian.vo.PassVo;
 import com.shinian.vo.PassZhanyiVo;
+import com.shinian.vo.RewardVo;
 
 @Service
 public class PassService {
@@ -54,6 +55,13 @@ public class PassService {
 		//扫荡
 		if(passVo.getA()==0){
 			
+			List<RewardVo> rewardlist;
+			int com1P, com2P, com3P, com4P;
+			for(int i=0; i<3; i++){
+				
+			}
+			
+			
 		}
 		//战斗
 		else{
@@ -65,6 +73,13 @@ public class PassService {
 		result.setCode(Message.MSG_CODE_OK);
 	
 		return result;
+	}
+	
+	//扫荡
+	private List<RewardVo> cleanout()
+	{
+		List<RewardVo> rl = null;
+		return rl;
 	}
 	
 }

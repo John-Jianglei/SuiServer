@@ -61,6 +61,7 @@ public class BattleService {
 		NpcInfoVo[] npciv = new NpcInfoVo[6];
 		NpcInfoRedisVo[] defv = new NpcInfoRedisVo[6];
 		
+		//得到防御方阵容
 		for( int i=0; i<6; i++ ){
 			switch(i){
 			case 0:
@@ -195,6 +196,7 @@ public class BattleService {
 				if (targets.length > 0) seq++;
 				for (int j=0; j < targets.length; j++){
 					int target = targets[j];
+					int tempPos = offArmy[target].getNpc().getPosition();
 					if (offArmy[target].getNpc().getHealth() > 0){
 //						ActionVo action = defArmy[i].attackAction(offArmy[target]);
 						ActionVo action = getAttackAction(defArmy[i], offArmy[target]);
