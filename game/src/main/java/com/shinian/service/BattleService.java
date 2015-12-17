@@ -110,12 +110,11 @@ public class BattleService {
 		}
 		
 		List<ActionVo> lav = battle(offArmy, defArmy);
-		List<RewardVo> rewardlist = postWar();
+		RewardVo reward = postWar(offArmy);
 		
-		batRtn.setOffArmy(oArmy);
 		batRtn.setDefArmy(dArmy);
 		batRtn.setActions(lav);
-		batRtn.setRewards(rewardlist);
+		batRtn.setRewards(reward);
 		
 		return batRtn;
 	}

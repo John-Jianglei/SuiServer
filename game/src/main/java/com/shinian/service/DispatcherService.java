@@ -47,6 +47,9 @@ public class DispatcherService {
 	@Autowired
 	SyncNatureService syncNatureService;
 	
+	@Autowired
+	TestService testService;
+	
 
 	
 	
@@ -128,6 +131,9 @@ public class DispatcherService {
 				result = syncNatureService.testRefreshArmy(request, response, jsonStr);	
 				break;
 				
+			case 9008:
+				result = testService.getArmoryRedisVo(request, response, jsonStr);	
+				break;
 				
 			default:
 				CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);

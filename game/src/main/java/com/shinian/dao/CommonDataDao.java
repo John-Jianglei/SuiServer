@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
+import com.shinian.vo.ArmoryRedisVo;
 import com.shinian.vo.JinengRedisVo;
 import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
@@ -112,5 +113,17 @@ public class CommonDataDao  {
 		return null;		
 	
 	}
+	
+	public ArmoryRedisVo getArmoryByComId(final int comId)
+	{
+		final String sql = "select `id`, `name`, `category`, `star`, `initSliver`, `sliverStep`, `attack`, `attackStep`, `attackStepJinglian`, `addAttack`, `addAttackGaoji`, `health`, `healthStep`, `healthStepJinglian`, `addHealth`, `addHealthGaoji`, `pojia`, `hujia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce`, `pojiaGaoji`, `hujiaGaoji`, `fachuanGaoji`, `fakangGaoji`, `baojiGaoji`, `renxingGaoji`, `mingzhongGaoji`, `shanbiGaoji`, `xixueGaoji`, `fantanGaoji`, `jiyunGaoji`, `kangyunGaoji`, `gedangGaoji`, `gedangPossGaoji`, `reduceGaoji`, `pieceId`, `pieces`, `minPieces`, `desc`, `updateTime`, `status` from common_armory_info where id = ? and status = 1";
+		List<ArmoryRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(ArmoryRedisVo.class),new Object[]{comId});
+		if( null != list && list.size() > 0 )
+		{
+			return list.get(0);
+		}
+		return null;
+	}
+	
 	
 }

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 
-public class PropInfoRedisVo implements Serializable{
+public class PropInfoRedisVo extends BaseObject implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private  int comId;		// ID from common_prop_info;
