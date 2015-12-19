@@ -173,3 +173,16 @@ alter table game_npc_info Add column  `reduceBase` int(11) NOT NULL DEFAULT '0' 
 
 /*测试进阶造数据SQL*/
 insert into game_npc_info (`id`, `comId`, `uid`, `position`, `health`, `attack`, `hujia`) values (15,113,'1-1',-1,300,200,200);
+
+DROP TABLE IF EXISTS `game_armory_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `game_armory_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `comId` int(11) NOT NULL COMMENT 'common表中装备的id',
+  `uid` varchar(50) NOT NULL COMMENT '角色id',
+  `npcId` int(11) NOT NULL DEFAULT '-1' COMMENT '装备该装备的武将id, -1代表null',
+  `position` int(3) NOT NULL DEFAULT '0' COMMENT '装备摆放位置，只有当npcId不为空时有效',
+  `amount` int(11) NOT NULL DEFAULT '1' COMMENT '装备数量',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='装备信息表';
