@@ -39,7 +39,7 @@ public class ArmoryDao {
                 PreparedStatement ps = conn.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
                 
                 ps.setInt(1, armory.getComId()); 
-                ps.setString(2, armory.getUid()); 
+                ps.setString(2, uid); 
                 ps.setInt(3, armory.getNpcId()); 
                 ps.setInt(4, armory.getLoaded()); 
                 ps.setInt(5, armory.getAmount()); 
