@@ -205,3 +205,29 @@ CREATE TABLE `game_armory_info` (
   `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',  
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='装备信息表';
+
+
+DROP TABLE IF EXISTS `game_npc_piece`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `game_npc_piece` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `comId` int(11) NOT NULL COMMENT 'common中的id',
+  `uid` varchar(50) NOT NULL COMMENT '角色id',
+  `amount` int(11) NOT NULL DEFAULT '1' COMMENT '碎片数量',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',  
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='武将碎片信息表';
+
+
+DROP TABLE IF EXISTS `game_armory_piece`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `game_armory_piece` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `comId` int(11) NOT NULL COMMENT 'common中的id',
+  `uid` varchar(50) NOT NULL COMMENT '角色id',
+  `amount` int(11) NOT NULL DEFAULT '1' COMMENT '碎片数量',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',  
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='武将碎片信息表';
