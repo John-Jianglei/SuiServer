@@ -371,4 +371,9 @@ public class RedisCacheUtil {
 		return null;
 	}
 	
+	public boolean isArmoryComIdExist(int comId)
+	{
+		ArmoryRedisVo v = getArmoryByComId(comId);
+		return (v != null) ? true : false;
+	}
 }

@@ -50,6 +50,8 @@ public class DispatcherService {
 	@Autowired
 	TestService testService;
 	
+	@Autowired
+	ArmoryService armoryService; 	
 
 	
 	
@@ -105,6 +107,10 @@ public class DispatcherService {
 				
 			case 1010:
 				result = battleService.makeWar(request, response, jsonStr);///
+				break;
+				
+			case 1012:
+				result = armoryService.addArmoryToPlayer(request, response, jsonStr);///	add armory to Player, not loaded to any npc
 				break;
 				
 			case 9002:

@@ -50,5 +50,7 @@ public class Message implements Serializable{
 	public final static int MSG_CODE_TEST_NOT_EXIST = 313;
 	public final static String MSG_TEST_NOT_EXIST = "测试对象不存在";
 	
+	public final static int MSG_CODE_ARMORY_NOT_EXIST = 314;
+	public final static String MSG_ARMORY_NOT_EXIST = "装备不存在";
 
 }

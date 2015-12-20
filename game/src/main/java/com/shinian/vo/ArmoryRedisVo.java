@@ -502,4 +502,30 @@ public class ArmoryRedisVo extends BaseObject implements Serializable{
 					"desc", "updateTime", "status"};
 		}
 		
+		
+		public ArmoryVo initGameArmory(){
+			ArmoryVo amry = new ArmoryVo();
+			
+			amry.setComId(this.id);
+			amry.setHealth(this.health);
+			amry.setAttack(this.attack);
+			amry.setHujia(this.hujia);
+			amry.setPojia(this.pojia);
+			amry.setFachuan(this.fachuan);
+			amry.setFakang(this.fakang);
+			amry.setBaoji(this.baoji);
+			amry.setRenxing(this.renxing);
+			amry.setMingzhong(this.mingzhong);
+			amry.setShanbi(this.shanbi);
+			amry.setXixue(this.xixue);
+			amry.setFantan(this.fantan);
+			amry.setJiyun(this.jiyun);
+			amry.setKangyun(this.kangyun);
+			amry.setGedang(this.gedang);
+			amry.setGedangPoss(this.gedangPoss);
+			amry.setReduce(this.reduce);
+
+			
+			return amry;
+		}
 }
