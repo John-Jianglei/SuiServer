@@ -47,6 +47,11 @@ public class DispatcherService {
 	@Autowired
 	SyncNatureService syncNatureService;
 	
+	@Autowired
+	TestService testService;
+	
+	@Autowired
+	ArmoryService armoryService; 	
 
 	
 	
@@ -104,6 +109,10 @@ public class DispatcherService {
 				result = battleService.makeWar(request, response, jsonStr);///
 				break;
 				
+			case 1012:
+				result = armoryService.addArmoryToPlayer(request, response, jsonStr);///	add armory to Player, not loaded to any npc
+				break;
+				
 			case 9002:
 				result = propInfoService.getCommPropInfo(request, response, jsonStr);	///get common property info
 				break;
@@ -128,6 +137,9 @@ public class DispatcherService {
 				result = syncNatureService.testRefreshArmy(request, response, jsonStr);	
 				break;
 				
+			case 9008:
+				result = testService.getArmoryRedisVo(request, response, jsonStr);	
+				break;
 				
 			default:
 				CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);

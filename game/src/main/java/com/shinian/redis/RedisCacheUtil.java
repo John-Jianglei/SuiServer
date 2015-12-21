@@ -19,6 +19,7 @@ import com.shinian.vo.PassNameRedisVo;
 import com.shinian.vo.PassZhanyiRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
 import com.shinian.vo.YuanfenInfoRedisVo;
+import com.shinian.vo.ArmoryRedisVo;
 
 
 @Component
@@ -337,6 +338,47 @@ public class RedisCacheUtil {
 		return null;
 	}
 	
+
+	public ArmoryRedisVo getArmoryByComId(int comId)
+	{
+		ArmoryRedisVo pvo = new ArmoryRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_COMMON_ARMORY_INFO;
+			String key = String.format(prefix, comId);
+
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, pvo.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					pvo.fromList(list);
+					return pvo;
+				}
+			}
+			else{
+				ArmoryRedisVo v = commonDataService.getArmoryByComId(comId);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
+	}
+	
+	public boolean isArmoryComIdExist(int comId)
+	{
+		ArmoryRedisVo v = getArmoryByComId(comId);
+		return (v != null) ? true : false;
+	}
+
 	public PassNameRedisVo getPassNameInfoById(int id)
 	{
 		id = Math.abs(id);
@@ -408,3 +450,4 @@ public class RedisCacheUtil {
 	}
 	
 }
+
