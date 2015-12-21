@@ -1,7 +1,6 @@
 package com.shinian.redis;
 
 import java.util.List;
-
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -16,6 +15,8 @@ import com.shinian.vo.JinengRedisVo;
 import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcUpdateRedisVo;
+import com.shinian.vo.PassNameRedisVo;
+import com.shinian.vo.PassZhanyiRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
 import com.shinian.vo.YuanfenInfoRedisVo;
 
@@ -320,6 +321,76 @@ public class RedisCacheUtil {
 			}
 			else{
 				JinengRedisVo v = commonDataService.getJinengInfoById(id);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
+	}
+	
+	public PassNameRedisVo getPassNameInfoById(int id)
+	{
+		id = Math.abs(id);
+		PassNameRedisVo jnvo = new PassNameRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_COMMON_PASS_NAME;
+			String key = String.format(prefix, id);
+
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, jnvo.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					jnvo.fromList(list);
+					return jnvo;
+				}
+			}
+			else{
+				PassNameRedisVo v = commonDataService.getPassNameInfoById(id);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
+	}
+	
+	public PassZhanyiRedisVo getPassZhanyiInfoById(int id)
+	{
+		id = Math.abs(id);
+		PassZhanyiRedisVo jnvo = new PassZhanyiRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_COMMON_PASS_ZHANYI;
+			String key = String.format(prefix, id);
+
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, jnvo.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					jnvo.fromList(list);
+					return jnvo;
+				}
+			}
+			else{
+				PassZhanyiRedisVo v = commonDataService.getPassZhanyiInfoById(id);
 				if(v != null){
 					jedis.hmset(key, v.toMap());
 				}

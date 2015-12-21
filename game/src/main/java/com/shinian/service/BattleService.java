@@ -27,7 +27,7 @@ import com.shinian.vo.MessageRespVo;
 import com.shinian.vo.NpcBattleVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcInfoVo;
-import com.shinian.vo.PassZhanyiVo;
+import com.shinian.vo.PassZhanyiRedisVo;
 import com.shinian.vo.RewardVo;
 
 @Service
@@ -54,7 +54,7 @@ public class BattleService {
 	public BattleReturnVo pve( String uid, int battleId ){
 		
 		BattleReturnVo batRtn = new BattleReturnVo();		
-		PassZhanyiVo pzyv = passDao.getPassZhanyiById(battleId);
+		PassZhanyiRedisVo pzyv = redisCacheUtil.getPassZhanyiInfoById(battleId);
 		
 		List<NpcInfoVo> oArmy = armyInfoService.getArmyOnBattle(uid);
 		List<NpcInfoVo> dArmy = new ArrayList<NpcInfoVo>();
@@ -110,12 +110,11 @@ public class BattleService {
 		}
 		
 		List<ActionVo> lav = battle(offArmy, defArmy);
-		List<RewardVo> rewardlist = postWar();
+		RewardVo reward = postWar(offArmy);
 		
-		batRtn.setOffArmy(oArmy);
 		batRtn.setDefArmy(dArmy);
 		batRtn.setActions(lav);
-		batRtn.setRewards(rewardlist);
+		batRtn.setRewards(reward);
 		
 		return batRtn;
 	}

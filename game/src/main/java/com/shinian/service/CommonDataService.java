@@ -11,6 +11,8 @@ import com.shinian.vo.JinengRedisVo;
 import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcUpdateRedisVo;
+import com.shinian.vo.PassNameRedisVo;
+import com.shinian.vo.PassZhanyiRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
 import com.shinian.vo.YuanfenInfoRedisVo;
 
@@ -54,5 +56,14 @@ public class CommonDataService {
 		return commonDataDao.getJinengInfoById(id);
 	}
 	
+	public PassNameRedisVo getPassNameInfoById(int id)
+	{
+		return commonDataDao.getPassNameInfoById(id);
+	}
+	
+	public PassZhanyiRedisVo getPassZhanyiInfoById(int id)
+	{
+		return commonDataDao.getPassZhanyiInfoById(id);
+	}
 	
 }

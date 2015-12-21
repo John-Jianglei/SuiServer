@@ -47,4 +47,7 @@ public class Message implements Serializable{
 	public final static int MSG_CODE_SEL_NPC_ERROR = 312;
 	public final static String MSG_SEL_NPC_ERROR = "选择武将错误";
 	
+	public final static int MSG_CODE_SWEEP_ZERO = 313;
+	public final static String MSG_SWEEP_ZERO = "可扫荡的次数不足";
+	
 }

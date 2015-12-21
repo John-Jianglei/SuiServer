@@ -16,6 +16,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
+import com.shinian.vo.PassLogVo;
 import com.shinian.vo.PlayerInfoVo;
 
 @Repository
@@ -32,8 +33,31 @@ public class PlayerInfoDao{
 			return true;
 	} 
 	
-	
-	
+	public int updatePlayer(final PlayerInfoVo piv)
+	{
+		final String sql = "update game_pass_log set `level`=?,`current_exp`=?,`vip_level`=?," +
+				"`silver`=?,`fame`=?,`gold`=?,`current_strength`=? where `uid`=? ";
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		WebConstant.gameJdbc.getJdbcTemplate().update(new PreparedStatementCreator(){
+			@Override
+            public PreparedStatement createPreparedStatement(Connection conn) throws SQLException{
+                PreparedStatement ps = conn.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+                
+                ps.setInt(1, piv.getLevel());
+                ps.setInt(2, piv.getCurrent_exp()); 
+                ps.setInt(3, piv.getVip_Level()); 
+                ps.setInt(4, piv.getSilver()); 
+                ps.setInt(5, piv.getFame()); 
+                ps.setInt(6, piv.getGold());
+                ps.setDate(7, (java.sql.Date) new Date());
+                ps.setString(8, piv.getUid());
+                
+                return ps;
+            }					
+        }, keyHolder);
+    
+        return keyHolder.getKey().intValue();
+	}	
 	
 	
 	public int insertPlayer(String uid, String name, int gender){
