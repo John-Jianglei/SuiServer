@@ -13,7 +13,22 @@ public class ArmoryReqVo extends BaseObject implements Serializable{
 	private int category;
 	private String uid;		
 	private int amount;
+	private int npcId;
+	private int id;			//	armory id from game_armory_info;
 	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getNpcId() {
+		return npcId;
+	}
+	public void setNpcId(int npcId) {
+		this.npcId = npcId;
+	}
 	public int getCategory() {
 		return category;
 	}

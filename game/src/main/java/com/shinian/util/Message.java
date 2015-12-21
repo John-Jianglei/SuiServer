@@ -54,4 +54,9 @@ public class Message implements Serializable{
 	public final static String MSG_ARMORY_NOT_EXIST = "装备不存在";
 	
 	public final static int MSG_CODE_SWEEP_ZERO = 315;
-	public final static String MSG_SWEEP_ZERO = "可扫荡的次数不足";}
+	public final static String MSG_SWEEP_ZERO = "可扫荡的次数不足";
+
+	public final static int MSG_CODE_ARMORY_NOT_MATCH_NPC = 316;
+	public final static String MSG_ARMORY_NOT_MATCH_NPC = "穿越了吧";
+
+}
