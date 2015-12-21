@@ -10,9 +10,16 @@ public class ArmoryReqVo extends BaseObject implements Serializable{
 
 	private int action;		//	1: add property;
 	private int comId;
+	private int category;
 	private String uid;		
 	private int amount;
 	
+	public int getCategory() {
+		return category;
+	}
+	public void setCategory(int category) {
+		this.category = category;
+	}
 	public String getToken() {
 		return token;
 	}

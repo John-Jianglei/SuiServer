@@ -22,6 +22,13 @@ import com.shinian.vo.PropInfoVo;
 @Repository
 public class ArmoryDao {
 	
+	public List<ArmoryVo> getArmoryList(String uid){
+		final String sql = "select `id`, `comId`, `uid`, `npcId`, `loaded`, `amount`, `gaoji`, `updateTime`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_armory_info where `uid` = ?";
+		List<ArmoryVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(ArmoryVo.class),new Object[]{uid});
+		
+		return list;
+	}
+	
 	public ArmoryVo addArmoryToPlayer(String uid, ArmoryVo armory){
 		int rt = insert(uid, armory);
 		armory.setId(rt);
