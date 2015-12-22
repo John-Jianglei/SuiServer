@@ -35,28 +35,36 @@ public class PlayerInfoDao{
 	
 	public int updatePlayer(final PlayerInfoVo piv)
 	{
-		final String sql = "update game_pass_log set `level`=?,`current_exp`=?,`vip_level`=?," +
-				"`silver`=?,`fame`=?,`gold`=?,`current_strength`=? where `uid`=? ";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-		WebConstant.gameJdbc.getJdbcTemplate().update(new PreparedStatementCreator(){
-			@Override
-            public PreparedStatement createPreparedStatement(Connection conn) throws SQLException{
-                PreparedStatement ps = conn.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
-                
-                ps.setInt(1, piv.getLevel());
-                ps.setInt(2, piv.getCurrent_exp()); 
-                ps.setInt(3, piv.getVip_Level()); 
-                ps.setInt(4, piv.getSilver()); 
-                ps.setInt(5, piv.getFame()); 
-                ps.setInt(6, piv.getGold());
-                ps.setDate(7, (java.sql.Date) new Date());
-                ps.setString(8, piv.getUid());
-                
-                return ps;
-            }					
-        }, keyHolder);
-    
-        return keyHolder.getKey().intValue();
+		final String sql = "update game_player_info set `level`=?,`current_exp`=?,`vip_level`=?," +
+				"`silver`=?,`fame`=?,`gold`=?,`update_time`=now(),`current_strength`=? where `uid`=? ";
+
+		int row = WebConstant.gameJdbc.getJdbcTemplate().update(sql, piv.getLevel(), piv.getCurrent_exp(),
+				piv.getVip_Level(), piv.getSilver(), piv.getFame(), piv.getGold(), piv.getCurrent_strength(),
+				piv.getUid() );	
+
+		return row;
+//		KeyHolder keyHolder = new GeneratedKeyHolder();
+//		WebConstant.gameJdbc.getJdbcTemplate().update(new PreparedStatementCreator(){
+//			@Override
+//            public PreparedStatement createPreparedStatement(Connection conn) throws SQLException{
+//                PreparedStatement ps = conn.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+//                
+//                ps.setInt(1, piv.getLevel());
+//                ps.setInt(2, piv.getCurrent_exp()); 
+//                ps.setInt(3, piv.getVip_Level()); 
+//                ps.setInt(4, piv.getSilver()); 
+//                ps.setInt(5, piv.getFame()); 
+//                ps.setInt(6, piv.getGold());
+//                //ps.setString(7, "2015-12-22");
+//                ps.setDate(8, new Date(new java.util.Date().getTime()));
+//                ps.setInt(8, piv.getCurrent_strength());                
+//                ps.setString(9, piv.getUid());
+//                
+//                return ps;
+//            }					
+//        }, keyHolder);
+//    
+//        return keyHolder.getKey().intValue();
 	}	
 	
 	
@@ -68,7 +76,7 @@ public class PlayerInfoDao{
 	}
 		
 	public PlayerInfoVo getPlayerInfoByUid(String uid){
-		String sql = "select id, name from game_player_info where uid = ?";
+		String sql = "select `uid`, `name`, `level`, `current_exp`, `vip_level`, `silver`, `fame`, `gold`, `current_strength` from game_player_info where uid = ?";
 		List<PlayerInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(PlayerInfoVo.class), new Object[]{uid});
 		

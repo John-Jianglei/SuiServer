@@ -150,11 +150,10 @@ public class CommonDataDao  {
 	
 	public PassZhanyiRedisVo getPassZhanyiInfoById(int id){
 		
-		final String sql = " select `name`,`comId0`,`comId1`,`comId2`,`comId3`,`comId4`,`comId5`," +
+		final String sql = " select `id`,`name`,`comId0`,`comId1`,`comId2`,`comId3`,`comId4`,`comId5`," +
 		"`attackTimes`,`battleCount`,`exp`,`sliver`,`rewardType1`,`rewardId1`,`rewardNum1`,`rewardP1`," +
 		"`rewardType2`,`rewardId2`,`rewardNum2`,`rewardP2`,`rewardType3`,`rewardId3`,`rewardNum3`," +
-		"`rewardP3`,`rewardType4`,`rewardId4`,`rewardNum4`,`rewardP4`,`rewardType5`,`rewardId15`," +
-		"`rewardNum5`,`rewardP5` from common_pass_zhanyi where id = ?";
+		"`rewardP3`,`rewardType4`,`rewardId4`,`rewardNum4`,`rewardP4` from common_pass_zhanyi where id = ?";
 
 		//long exp = WebConstant.commonJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{id});		
 		

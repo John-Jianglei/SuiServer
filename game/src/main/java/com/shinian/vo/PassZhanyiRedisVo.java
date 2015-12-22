@@ -219,6 +219,7 @@ public class PassZhanyiRedisVo extends BaseObject implements Serializable{
 		this.comId3 = Integer.parseInt(list.get(idx++));
 		this.comId4 = Integer.parseInt(list.get(idx++));
 		this.comId5 = Integer.parseInt(list.get(idx++));
+		this.attackTimes = Integer.parseInt(list.get(idx++));
 		this.battleCount = Integer.parseInt(list.get(idx++));
 		this.exp = Integer.parseInt(list.get(idx++));
 		this.sliver = Integer.parseInt(list.get(idx++));
@@ -257,7 +258,7 @@ public class PassZhanyiRedisVo extends BaseObject implements Serializable{
 		map.put("exp", 		        		this.exp + "");
 		map.put("sliver",              		this.sliver + "");
 		map.put("rewardType1", 		        this.rewardType1 + "");
-		map.put("rewardId11",              	this.rewardId1 + "");
+		map.put("rewardId1",              	this.rewardId1 + "");
 		map.put("rewardNum1", 		        this.rewardNum1 + "");
 		map.put("rewardP1",              	this.rewardP1 + "");
 		map.put("rewardType2", 		        this.rewardType2 + "");
@@ -280,8 +281,7 @@ public class PassZhanyiRedisVo extends BaseObject implements Serializable{
 		return new String[] {"id", "name", "comId0", "comId1", "comId2", "comId3", "comId4", "comId5"
 				, "attackTimes", "battleCount", "exp", "sliver", "rewardType1", "rewardId1", "rewardNum1"
 				, "rewardP1", "rewardType2", "rewardId2", "rewardNum2", "rewardP2", "rewardType3"
-				, "rewardId3", "rewardNum3","rewardP3", "rewardType4", "rewardId4", "rewardNum4"
-				,"rewardP4", "rewardType5", "rewardId15", "rewardNum5","rewardP5"};
+				, "rewardId3", "rewardNum3","rewardP3", "rewardType4", "rewardId4", "rewardNum4","rewardP4"};
 	}
 
 }

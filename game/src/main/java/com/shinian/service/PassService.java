@@ -213,7 +213,7 @@ public class PassService {
 		PassLogVo plv= passDao.getPassLog( passVo.getBattle(), passVo.getUid(), date );
 		//如果没有则插入一条记录
 		if( plv==null ){
-
+			plv = new PassLogVo();
 			plv.setBattleId(passVo.getBattle());
 			plv.setUid(passVo.getUid());
 			plv.setDate(date);
@@ -226,7 +226,7 @@ public class PassService {
 		if( SweepTimes==0 ){
 			SweepTimes = plv.getCount()<piv.getCurrent_strength()?plv.getCount():piv.getCurrent_strength();
 		}
-		if( SweepTimes==0 ){
+		if( SweepTimes==0 || piv.getCurrent_strength()<=0 ){
 			return null;
 		}
 		

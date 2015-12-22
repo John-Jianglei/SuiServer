@@ -66,48 +66,75 @@ public class BattleService {
 			switch(i){
 			case 0:
 				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId0());
+				if( defv[i]==null ){
+					break;
+				}
 				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setPosition(i);
 				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
 				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
 				dArmy.add(npciv[i]);
 				break;
 			case 1:
 				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId1());
+				if( defv[i]==null ){
+					break;
+				}
 				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setPosition(i);
 				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
 				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
 				dArmy.add(npciv[i]);
 				break;
 			case 2:
 				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId2());
+				if( defv[i]==null ){
+					break;
+				}
 				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setPosition(i);
 				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
 				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
 				dArmy.add(npciv[i]);
 				break;
 			case 3:
 				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId3());
+				if( defv[i]==null ){
+					break;
+				}
 				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setPosition(i);
 				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
 				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
 				dArmy.add(npciv[i]);
 				break;
 			case 4:
 				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId4());
+				if( defv[i]==null ){
+					break;
+				}
 				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setPosition(i);
 				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
 				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
 				dArmy.add(npciv[i]);
 				break;
 			case 5:
 				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId5());
+				if( defv[i]==null ){
+					break;
+				}
 				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setPosition(i);
 				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
 				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
 				dArmy.add(npciv[i]);
 				break;
 			}
 		}
+		
+		offArmy = initBattleArmy(oArmy);
+		defArmy = initBattleArmy(dArmy);
 		
 		List<ActionVo> lav = battle(offArmy, defArmy);
 		RewardVo reward = postWar(offArmy);
@@ -163,6 +190,9 @@ public class BattleService {
 	
 	public List<ActionVo> battle(NpcBattleVo[] offArmy, NpcBattleVo[] defArmy)
 	{
+		if( null==offArmy || null==defArmy ){
+			return null;
+		}
 		List<ActionVo> replay = new ArrayList<ActionVo>();
 		
 		int seq = 0;

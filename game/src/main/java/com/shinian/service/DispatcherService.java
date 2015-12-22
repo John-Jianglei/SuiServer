@@ -51,8 +51,10 @@ public class DispatcherService {
 	TestService testService;
 	
 	@Autowired
-	ArmoryService armoryService; 	
-
+	ArmoryService armoryService;
+	
+	@Autowired
+	PassService passService; 
 	
 	
 	private static Logger log = Logger.getLogger("game");
@@ -107,6 +109,10 @@ public class DispatcherService {
 				
 			case 1010:
 				result = battleService.makeWar(request, response, jsonStr);///
+				break;
+				
+			case 1011:
+				result = passService.pass(request, response, jsonStr);		/// 关卡
 				break;
 				
 			case 1012:

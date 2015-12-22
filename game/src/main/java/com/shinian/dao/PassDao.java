@@ -91,7 +91,7 @@ public class PassDao {
 		
 		final String sql = " select `uid`, `" + passStarsColName + "` as `passStars`, `"
 				+ battleStarsColName + "` as `battleStars`, `" + battleIdName + "` as " +
-				"`battle` where `uid`=? and `" + battleIdName + "`=?";
+				"`battle` from game_pass where `uid`=? and `" + battleIdName + "`=?";
 		List<PassVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(PassVo.class),new Object[]{uid,battleId});
 		
 		if(list != null && list.size() > 0){
