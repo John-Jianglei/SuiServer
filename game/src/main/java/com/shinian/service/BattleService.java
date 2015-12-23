@@ -137,11 +137,11 @@ public class BattleService {
 		defArmy = initBattleArmy(dArmy);
 		
 		List<ActionVo> lav = battle(offArmy, defArmy);
-		RewardVo reward = postWar(offArmy);
+//		RewardVo reward = postWar(offArmy);
 		
 		batRtn.setDefArmy(dArmy);
 		batRtn.setActions(lav);
-		batRtn.setRewards(reward);
+		batRtn.setStar(rewardStar(offArmy));
 		
 		return batRtn;
 	}
@@ -173,13 +173,14 @@ public class BattleService {
 		defArmy = initBattleArmy(dArmy);
 		
 		List<ActionVo> lav = battle(offArmy, defArmy);
-		RewardVo reward = postWar(offArmy);
+//		RewardVo reward = postWar(offArmy);
 				
 		BattleReturnVo re = new BattleReturnVo();
 		
 		re.setDefArmy(dArmy);
 		re.setActions(lav);
-		re.setRewards(reward);
+//		re.setStar(reward);
+		re.setStar(rewardStar(offArmy));
 		
 		result.setData(re);		
 		result.setCode(Message.MSG_CODE_OK);
