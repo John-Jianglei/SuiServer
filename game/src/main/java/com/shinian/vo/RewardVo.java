@@ -7,7 +7,7 @@ public class RewardVo extends BaseObject implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private String token;
-	private int star;
+//	private int star;
 	private List<DropRewardVo> dropRewardlist;
 	private int playerExp;
 	
@@ -22,12 +22,6 @@ public class RewardVo extends BaseObject implements Serializable{
 	}
 	public void setDropRewardlist(List<DropRewardVo> dropRewardlist) {
 		this.dropRewardlist = dropRewardlist;
-	}
-	public int getStar() {
-		return star;
-	}
-	public void setStar(int star) {
-		this.star = star;
 	}
 	public String getToken() {
 		return token;
