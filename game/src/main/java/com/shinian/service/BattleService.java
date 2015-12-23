@@ -268,7 +268,7 @@ public class BattleService {
 	private RewardVo postWar(NpcBattleVo[] army)
 	{
 		RewardVo rw = new RewardVo();
-		rw.setStar(rewardStar(army));
+//		rw.setStar(rewardStar(army));
 		
 		return rw;
 	}
