@@ -38,6 +38,7 @@ public class LoginService {
 		if(piv == null){
 			result.setCode(Message.MSG_CODE_PLAYER_NOT_EXIST);
 			result.setMsg(Message.MSG_PLAYER_NOT_EXIST);
+			return result;
 		}
 		
 		//测试redis数据

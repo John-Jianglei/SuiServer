@@ -10,10 +10,13 @@ import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
 import com.shinian.vo.ArmoryRedisVo;
+import com.shinian.vo.CombatPowerCoffiRedisVo;
 import com.shinian.vo.JinengRedisVo;
 import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcUpdateRedisVo;
+import com.shinian.vo.PassNameRedisVo;
+import com.shinian.vo.PassZhanyiRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
 import com.shinian.vo.YuanfenInfoRedisVo;
 
@@ -114,6 +117,7 @@ public class CommonDataDao  {
 	
 	}
 	
+
 	public ArmoryRedisVo getArmoryByComId(final int comId)
 	{
 		final String sql = "select `id`, `name`, `category`, `star`, `initSliver`, `sliverStep`, `attack`, `attackStep`, `attackStepJinglian`, `addAttack`, `addAttackGaoji`, `health`, `healthStep`, `healthStepJinglian`, `addHealth`, `addHealthGaoji`, `pojia`, `hujia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce`, `pojiaGaoji`, `hujiaGaoji`, `fachuanGaoji`, `fakangGaoji`, `baojiGaoji`, `renxingGaoji`, `mingzhongGaoji`, `shanbiGaoji`, `xixueGaoji`, `fantanGaoji`, `jiyunGaoji`, `kangyunGaoji`, `gedangGaoji`, `gedangPossGaoji`, `reduceGaoji`, `pieceId`, `pieces`, `minPieces`, `desc`, `updateTime`, `status` from common_armory_info where id = ? and status = 1";
@@ -124,6 +128,61 @@ public class CommonDataDao  {
 		}
 		return null;
 	}
+
+	public PassNameRedisVo getPassNameInfoById(int id){
+		
+		final String sql = " select `name`,`pt1`,`pt2`,`pt3`,`pt4`,`pt5`,`pt6`,`pt7`,`pt8`,`pt9`,`pt10`," +
+		"`pt11`,`pt12`,`pt13`,`pt14`,`pt15`,`pt16`,`pt17`,`pt18`,`ptSliver`,`ptGold`,`ptFame`,`em1`," +
+		"`em2`,`em3`,`em4`,`em5`,`em6`,`em7`,`em8`,`em9`,`em10`,`em11`,`em12`,`em13`,`em14`,`em15`,`em16`" +
+		"`em17`,`em18`,`emSliver`,`emGold`,`emFame`,`dy1`,`dy2`,`dy3`,`dy4`,`dy5`,`dy6`,`dy7`,`dy8`," +
+		"`dy9`,`dy10`,`dy11`,`dy12`,`dy13`,`dy14`,`dy15`,`dy16`,`dy17`,`dy18`,`dySliver`,`dyGold`,`dyFame`" +
+		"from common_pass_name where id = ?";
+
+		//long exp = WebConstant.commonJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{id});		
+		
+		List<PassNameRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(PassNameRedisVo.class),new Object[]{id});	
+		
+		if(list != null && list.size() > 0){
+			return list.get(0);
+		}
+		return null;		
+	
+	}
+	
+	public PassZhanyiRedisVo getPassZhanyiInfoById(int id){
+		
+		final String sql = " select `id`,`name`,`comId0`,`comId1`,`comId2`,`comId3`,`comId4`,`comId5`," +
+		"`attackTimes`,`battleCount`,`exp`,`sliver`,`rewardType1`,`rewardId1`,`rewardNum1`,`rewardP1`," +
+		"`rewardType2`,`rewardId2`,`rewardNum2`,`rewardP2`,`rewardType3`,`rewardId3`,`rewardNum3`," +
+		"`rewardP3`,`rewardType4`,`rewardId4`,`rewardNum4`,`rewardP4` from common_pass_zhanyi where id = ?";
+
+		//long exp = WebConstant.commonJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{id});		
+		
+		List<PassZhanyiRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(PassZhanyiRedisVo.class),new Object[]{id});	
+		
+		if(list != null && list.size() > 0){
+			return list.get(0);
+		}
+		return null;		
+	
+	}
+	
+	public CombatPowerCoffiRedisVo getCombatPowerCoffiById(int id){
+	
+		final String sql = " select `id`,`attackC`,`healthC`,`basePower`,`pojiaC`,`hujiaC`,`fachuanC`," +
+				"`fakangC`,`baojiC`,`renxingC`,`mingzhongC`,`shanbiC`,`xixueC`,`fantanC`,`jiyunC`," +
+				"`kangyunC`,`gedangC`,`reduceC` from common_power_coffi where id = ?";
+				
+		List<CombatPowerCoffiRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,
+				ParameterizedBeanPropertyRowMapper.newInstance(CombatPowerCoffiRedisVo.class),
+				new Object[]{id});	
+		
+		if(list != null && list.size() > 0){
+			return list.get(0);
+		}
+		return null;
+	}
 	
 	
 }
+

@@ -16,7 +16,20 @@ public class PlayerInfoVo extends BaseObject implements Serializable{
 	private int fame;
 	private int gold;
 	private int current_strength;
+	private	long combatPower;
 		
+	public int getVip_level() {
+		return vip_level;
+	}
+	public void setVip_level(int vip_level) {
+		this.vip_level = vip_level;
+	}
+	public long getCombatPower() {
+		return combatPower;
+	}
+	public void setCombatPower(long combatPower) {
+		this.combatPower = combatPower;
+	}
 	public String getUid() {
 		return uid;
 	}

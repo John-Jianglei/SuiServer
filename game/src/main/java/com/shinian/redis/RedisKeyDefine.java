@@ -10,6 +10,11 @@ public final class RedisKeyDefine {
 	public static final String KEY_COMMON_NPC_JINJIE_MATERIAL = "common:jinjie:%s";
 	public static final String KEY_COMMON_NPC_EXPERIENCE = "common:npc:experience:%s";	
 	public static final String KEY_COMMON_NPC_JINENG = "common:npc:jineng:%s";
+	
 	public static final String KEY_COMMON_ARMORY_INFO = "common:armory:%s";
+	public static final String KEY_COMMON_PASS_NAME = "common:pass:name:%s";
+	public static final String KEY_COMMON_PASS_ZHANYI = "common:pass:zhanyi:%s";
+	public static final String KEY_COMMON_COMBAT_POWER_COFFI = "common:combat:power:coffi:%s";
 	
 }
+	

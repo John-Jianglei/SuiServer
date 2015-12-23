@@ -39,7 +39,58 @@ public class ArmoryService {
 	
 	@Autowired
 	RedisCacheUtil redisCacheUtil;
+	
+	@Autowired
+	NpcInfoService npcInfoService;
 
+	//	Input: npcId, id(id of the game_armory_info)
+	public MessageRespVo loadArmoryToNpc(HttpServletRequest request, HttpServletResponse response,String jsonStr)
+	{
+		MessageRespVo result = new MessageRespVo();
+
+		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
+		ArmoryReqVo nrv = JSON.parseObject(gcrv.getData().toString(),ArmoryReqVo.class);
+		result.setTs(gcrv.getTs());
+		
+		NpcInfoVo npc = npcInfoService.getNpcInfoById(nrv.getNpcId());
+		if (npc == null){
+			result.setCode(Message.MSG_CODE_NPC_NOT_EXIST);
+			result.setMsg(Message.MSG_NPC_NOT_EXIST);
+			return result;
+		}
+
+		ArmoryVo armory = armoryDao.getArmoryById(nrv.getId());
+		if (armory == null){
+			result.setCode(Message.MSG_CODE_ARMORY_NOT_EXIST);
+			result.setMsg(Message.MSG_ARMORY_NOT_EXIST);
+			return result;
+		}
+		
+		if (npc.getUid() != armory.getUid()){
+			result.setCode(Message.MSG_CODE_ARMORY_NOT_MATCH_NPC);
+			result.setMsg(Message.MSG_ARMORY_NOT_MATCH_NPC);
+			return result;
+		}
+		
+		int category = redisCacheUtil.getArmoryByComId(armory.getComId()).getCategory();
+		List<ArmoryVo> armoryList = armoryDao.getLoadedArmorys(nrv.getNpcId());
+		
+		for (ArmoryVo a:armoryList){
+			if (category == redisCacheUtil.getArmoryByComId(a.getComId()).getCategory()) {
+				armoryDao.loadArmoryToNpc(nrv.getNpcId(), a.getId(), false);
+			}
+		}
+		
+		armoryDao.loadArmoryToNpc(nrv.getNpcId(), nrv.getId(), true);
+		armory.setLoaded(1);
+		armory.setNpcId(nrv.getNpcId());
+
+		result.setData(armory);		
+		result.setCode(Message.MSG_CODE_OK);
+		
+		return result;
+	}
+	
 	public MessageRespVo addArmoryToPlayer(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
 		MessageRespVo result = new MessageRespVo();

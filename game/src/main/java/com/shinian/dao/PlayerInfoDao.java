@@ -16,6 +16,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
+import com.shinian.vo.PassLogVo;
 import com.shinian.vo.PlayerInfoVo;
 
 @Repository
@@ -32,8 +33,40 @@ public class PlayerInfoDao{
 			return true;
 	} 
 	
-	
-	
+	public int updatePlayer(final PlayerInfoVo piv)
+	{
+		final String sql = "update game_player_info set `level`=?,`current_exp`=?,`vip_level`=?," +
+				"`silver`=?,`fame`=?,`gold`=?,`update_time`=now(),`current_strength`=?," +
+				"`combatPower`=? where `uid`=? ";
+
+		int row = WebConstant.gameJdbc.getJdbcTemplate().update(sql, piv.getLevel(), piv.getCurrent_exp(),
+				piv.getVip_Level(), piv.getSilver(), piv.getFame(), piv.getGold(), piv.getCurrent_strength(),
+				piv.getCombatPower(), piv.getUid() );	
+
+		return row;
+//		KeyHolder keyHolder = new GeneratedKeyHolder();
+//		WebConstant.gameJdbc.getJdbcTemplate().update(new PreparedStatementCreator(){
+//			@Override
+//            public PreparedStatement createPreparedStatement(Connection conn) throws SQLException{
+//                PreparedStatement ps = conn.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+//                
+//                ps.setInt(1, piv.getLevel());
+//                ps.setInt(2, piv.getCurrent_exp()); 
+//                ps.setInt(3, piv.getVip_Level()); 
+//                ps.setInt(4, piv.getSilver()); 
+//                ps.setInt(5, piv.getFame()); 
+//                ps.setInt(6, piv.getGold());
+//                //ps.setString(7, "2015-12-22");
+//                ps.setDate(8, new Date(new java.util.Date().getTime()));
+//                ps.setInt(8, piv.getCurrent_strength());                
+//                ps.setString(9, piv.getUid());
+//                
+//                return ps;
+//            }					
+//        }, keyHolder);
+//    
+//        return keyHolder.getKey().intValue();
+	}	
 	
 	
 	public int insertPlayer(String uid, String name, int gender){
@@ -44,7 +77,8 @@ public class PlayerInfoDao{
 	}
 		
 	public PlayerInfoVo getPlayerInfoByUid(String uid){
-		String sql = "select id, name from game_player_info where uid = ?";
+		String sql = "select `uid`, `name`, `level`, `current_exp`, `vip_level`, `silver`, `fame`, " +
+				"`gold`, `current_strength`, `combatPower` from game_player_info where uid = ?";
 		List<PlayerInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(PlayerInfoVo.class), new Object[]{uid});
 		

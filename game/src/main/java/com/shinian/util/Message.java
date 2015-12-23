@@ -46,11 +46,17 @@ public class Message implements Serializable{
 
 	public final static int MSG_CODE_SEL_NPC_ERROR = 312;
 	public final static String MSG_SEL_NPC_ERROR = "选择武将错误";
-	
+
 	public final static int MSG_CODE_TEST_NOT_EXIST = 313;
 	public final static String MSG_TEST_NOT_EXIST = "测试对象不存在";
 	
 	public final static int MSG_CODE_ARMORY_NOT_EXIST = 314;
 	public final static String MSG_ARMORY_NOT_EXIST = "装备不存在";
+	
+	public final static int MSG_CODE_SWEEP_ZERO = 315;
+	public final static String MSG_SWEEP_ZERO = "可扫荡的次数不足";
+
+	public final static int MSG_CODE_ARMORY_NOT_MATCH_NPC = 316;
+	public final static String MSG_ARMORY_NOT_MATCH_NPC = "穿越了吧";
 
 }

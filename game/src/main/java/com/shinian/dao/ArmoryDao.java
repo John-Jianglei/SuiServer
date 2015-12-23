@@ -22,11 +22,41 @@ import com.shinian.vo.PropInfoVo;
 @Repository
 public class ArmoryDao {
 	
+	public ArmoryVo getArmoryById(int id)
+	{
+		final String sql = "select `id`, `comId`, `uid`, `npcId`, `loaded`, `amount`, `gaoji`, `updateTime`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_armory_info where `id` = ?";
+		List<ArmoryVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(ArmoryVo.class),new Object[]{id});
+		
+		if (list != null && list.size() > 0) return list.get(0);
+		return null;
+		
+	}
+	
+	public List<ArmoryVo> getLoadedArmorys(int npcId)
+	{
+		final String sql = "select `id`, `comId`, `uid`, `npcId`, `loaded`, `amount`, `gaoji`, `updateTime`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_armory_info where `npcId` = ? and `loaded` = 1";
+		List<ArmoryVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(ArmoryVo.class),new Object[]{npcId});
+		
+		if (list != null && list.size() > 0) return list;
+		return null;
+	}
+	
+	
+	//	loaded: true -- load the armory; false -- unload the armory
+	public int loadArmoryToNpc(int npcId, int id, boolean loaded)
+	{
+		String sql = "update game_armory_info set `npcId` = ?, `loaded` = ? where `id` = ?";
+		npcId = (loaded) ? npcId : -1;
+		int ldd = (loaded) ? 1 : 0;
+		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, npcId, ldd, id);
+	}
+	
 	public List<ArmoryVo> getArmoryList(String uid){
 		final String sql = "select `id`, `comId`, `uid`, `npcId`, `loaded`, `amount`, `gaoji`, `updateTime`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_armory_info where `uid` = ?";
 		List<ArmoryVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(ArmoryVo.class),new Object[]{uid});
 		
-		return list;
+		if (list != null && list.size() > 0) return list;
+		return null;
 	}
 	
 	public ArmoryVo addArmoryToPlayer(String uid, ArmoryVo armory){

@@ -27,7 +27,7 @@ import com.shinian.vo.MessageRespVo;
 import com.shinian.vo.NpcBattleVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcInfoVo;
-import com.shinian.vo.PassZhanyiVo;
+import com.shinian.vo.PassZhanyiRedisVo;
 import com.shinian.vo.RewardVo;
 
 @Service
@@ -54,7 +54,7 @@ public class BattleService {
 	public BattleReturnVo pve( String uid, int battleId ){
 		
 		BattleReturnVo batRtn = new BattleReturnVo();		
-		PassZhanyiVo pzyv = passDao.getPassZhanyiById(battleId);
+		PassZhanyiRedisVo pzyv = redisCacheUtil.getPassZhanyiInfoById(battleId);
 		
 		List<NpcInfoVo> oArmy = armyInfoService.getArmyOnBattle(uid);
 		List<NpcInfoVo> dArmy = new ArrayList<NpcInfoVo>();
@@ -66,42 +66,66 @@ public class BattleService {
 			switch(i){
 			case 0:
 				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId0());
+				if( defv[i]==null ){
+					break;
+				}
 				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setPosition(i);
 				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
 				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
 				dArmy.add(npciv[i]);
 				break;
 			case 1:
 				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId1());
+				if( defv[i]==null ){
+					break;
+				}
 				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setPosition(i);
 				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
 				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
 				dArmy.add(npciv[i]);
 				break;
 			case 2:
 				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId2());
+				if( defv[i]==null ){
+					break;
+				}
 				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setPosition(i);
 				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
 				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
 				dArmy.add(npciv[i]);
 				break;
 			case 3:
 				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId3());
+				if( defv[i]==null ){
+					break;
+				}
 				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setPosition(i);
 				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
 				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
 				dArmy.add(npciv[i]);
 				break;
 			case 4:
 				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId4());
+				if( defv[i]==null ){
+					break;
+				}
 				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setPosition(i);
 				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
 				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
 				dArmy.add(npciv[i]);
 				break;
 			case 5:
 				defv[i] = redisCacheUtil.getNpcInfoByComId(pzyv.getComId5());
+				if( defv[i]==null ){
+					break;
+				}
 				npciv[i] = defv[i].initGameNpc();
+				npciv[i].setPosition(i);
 				npciv[i].setAttack( pzyv.getAttackTimes() * defv[i].getAttack());
 				npciv[i].setHealth( pzyv.getAttackTimes() * defv[i].getHealth());
 				dArmy.add(npciv[i]);
@@ -109,12 +133,15 @@ public class BattleService {
 			}
 		}
 		
+		offArmy = initBattleArmy(oArmy);
+		defArmy = initBattleArmy(dArmy);
+		
 		List<ActionVo> lav = battle(offArmy, defArmy);
-		RewardVo reward = postWar(offArmy);
+//		RewardVo reward = postWar(offArmy);
 		
 		batRtn.setDefArmy(dArmy);
 		batRtn.setActions(lav);
-		batRtn.setRewards(reward);
+		batRtn.setStar(rewardStar(offArmy));
 		
 		return batRtn;
 	}
@@ -146,13 +173,14 @@ public class BattleService {
 		defArmy = initBattleArmy(dArmy);
 		
 		List<ActionVo> lav = battle(offArmy, defArmy);
-		RewardVo reward = postWar(offArmy);
+//		RewardVo reward = postWar(offArmy);
 				
 		BattleReturnVo re = new BattleReturnVo();
 		
 		re.setDefArmy(dArmy);
 		re.setActions(lav);
-		re.setRewards(reward);
+//		re.setStar(reward);
+		re.setStar(rewardStar(offArmy));
 		
 		result.setData(re);		
 		result.setCode(Message.MSG_CODE_OK);
@@ -163,6 +191,9 @@ public class BattleService {
 	
 	public List<ActionVo> battle(NpcBattleVo[] offArmy, NpcBattleVo[] defArmy)
 	{
+		if( null==offArmy || null==defArmy ){
+			return null;
+		}
 		List<ActionVo> replay = new ArrayList<ActionVo>();
 		
 		int seq = 0;
