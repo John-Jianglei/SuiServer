@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.shinian.dao.CommonDataDao;
 import com.shinian.vo.ArmoryRedisVo;
+import com.shinian.vo.CombatPowerCoffiRedisVo;
 import com.shinian.vo.JinengRedisVo;
 import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
@@ -68,4 +69,9 @@ public class CommonDataService {
 	public PassZhanyiRedisVo getPassZhanyiInfoById(int id){
 		return commonDataDao.getPassZhanyiInfoById(id);
 	}
+	
+	public CombatPowerCoffiRedisVo getCombatPowerCoffiById(int id){
+		return commonDataDao.getCombatPowerCoffiById(id);
+	}
+	
 }

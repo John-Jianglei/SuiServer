@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
 import com.shinian.vo.ArmoryRedisVo;
+import com.shinian.vo.CombatPowerCoffiRedisVo;
 import com.shinian.vo.JinengRedisVo;
 import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
@@ -166,6 +167,21 @@ public class CommonDataDao  {
 	
 	}
 	
+	public CombatPowerCoffiRedisVo getCombatPowerCoffiById(int id){
+	
+		final String sql = " select `id`,`attackC`,`healthC`,`basePower`,`pojiaC`,`hujiaC`,`fachuanC`," +
+				"`fakangC`,`baojiC`,`renxingC`,`mingzhongC`,`shanbiC`,`xixueC`,`fantanC`,`jiyunC`," +
+				"`kangyunC`,`gedangC`,`reduceC` from common_power_coffi where id = ?";
+				
+		List<CombatPowerCoffiRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,
+				ParameterizedBeanPropertyRowMapper.newInstance(CombatPowerCoffiRedisVo.class),
+				new Object[]{id});	
+		
+		if(list != null && list.size() > 0){
+			return list.get(0);
+		}
+		return null;
+	}
 	
 	
 }

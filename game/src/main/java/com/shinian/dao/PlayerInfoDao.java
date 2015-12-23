@@ -36,11 +36,12 @@ public class PlayerInfoDao{
 	public int updatePlayer(final PlayerInfoVo piv)
 	{
 		final String sql = "update game_player_info set `level`=?,`current_exp`=?,`vip_level`=?," +
-				"`silver`=?,`fame`=?,`gold`=?,`update_time`=now(),`current_strength`=? where `uid`=? ";
+				"`silver`=?,`fame`=?,`gold`=?,`update_time`=now(),`current_strength`=?," +
+				"`combatPower`=? where `uid`=? ";
 
 		int row = WebConstant.gameJdbc.getJdbcTemplate().update(sql, piv.getLevel(), piv.getCurrent_exp(),
 				piv.getVip_Level(), piv.getSilver(), piv.getFame(), piv.getGold(), piv.getCurrent_strength(),
-				piv.getUid() );	
+				piv.getCombatPower(), piv.getUid() );	
 
 		return row;
 //		KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -76,7 +77,8 @@ public class PlayerInfoDao{
 	}
 		
 	public PlayerInfoVo getPlayerInfoByUid(String uid){
-		String sql = "select `uid`, `name`, `level`, `current_exp`, `vip_level`, `silver`, `fame`, `gold`, `current_strength` from game_player_info where uid = ?";
+		String sql = "select `uid`, `name`, `level`, `current_exp`, `vip_level`, `silver`, `fame`, " +
+				"`gold`, `current_strength`, `combatPower` from game_player_info where uid = ?";
 		List<PlayerInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(PlayerInfoVo.class), new Object[]{uid});
 		
