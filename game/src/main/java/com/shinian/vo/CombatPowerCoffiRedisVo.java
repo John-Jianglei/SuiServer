@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+////战力计算公式:CombatPower= attack*attackC/100 + heatlth*healthC/100 + basePower*(pojiaC + hujiaC
+////						 + fachuanC + fakangC + baojiC + renxingC + mingzhongC + shanbiC 
+////						 + xixueC + fantanC + jiyunC + kangyunC + gedangC + reduceC )/100
+
 public class CombatPowerCoffiRedisVo extends BaseObject implements Serializable{	
 	private static final long serialVersionUID = 1L;
 

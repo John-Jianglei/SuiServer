@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2015-12-23 20:19:39
+Date: 2015-12-23 21:32:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `common_power_coffi`;
 CREATE TABLE `common_power_coffi` (
   `id` int(11) NOT NULL,
-  `attcakC` int(11) NOT NULL COMMENT '攻击系数，需除以100',
+  `attackC` int(11) NOT NULL COMMENT '攻击系数，需除以100',
   `healthC` int(11) NOT NULL COMMENT '生命系数，需除以100',
   `basePower` int(11) NOT NULL,
   `pojiaC` int(11) NOT NULL COMMENT '系数，需除以100',
