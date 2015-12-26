@@ -17,6 +17,13 @@ public class PlayerInfoVo extends BaseObject implements Serializable{
 	private int gold;
 	private int current_strength;
 	private	long combatPower;
+	private int	jingjiePos;	
+	private String jingjieTitle;
+	private int	abovePos1;
+	private int	abovePos2;
+	private int	abovePos3;
+	private int	abovePos4;
+	private int	abovePos5;
 		
 	public int getVip_level() {
 		return vip_level;
@@ -101,4 +108,48 @@ public class PlayerInfoVo extends BaseObject implements Serializable{
 	public void setGender(int gender) {
 		this.gender = gender;
 	}
+	
+	public int getJingjiePos() {
+		return jingjiePos;
+	}
+	public void setJingjiePos(int jingjiePos) {
+		this.jingjiePos = jingjiePos;
+	}
+	public String getJingjieTitle() {
+		return jingjieTitle;
+	}
+	public void setJingjieTitle(String jingjieTitle) {
+		this.jingjieTitle = jingjieTitle;
+	}
+	public int getAbovePos1() {
+		return abovePos1;
+	}
+	public void setAbovePos1(int abovePos1) {
+		this.abovePos1 = abovePos1;
+	}
+	public int getAbovePos2() {
+		return abovePos2;
+	}
+	public void setAbovePos2(int abovePos2) {
+		this.abovePos2 = abovePos2;
+	}
+	public int getAbovePos3() {
+		return abovePos3;
+	}
+	public void setAbovePos3(int abovePos3) {
+		this.abovePos3 = abovePos3;
+	}
+	public int getAbovePos4() {
+		return abovePos4;
+	}
+	public void setAbovePos4(int abovePos4) {
+		this.abovePos4 = abovePos4;
+	}
+	public int getAbovePos5() {
+		return abovePos5;
+	}
+	public void setAbovePos5(int abovePos5) {
+		this.abovePos5 = abovePos5;
+	}
+	
 }

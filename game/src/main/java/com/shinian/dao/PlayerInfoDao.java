@@ -78,7 +78,8 @@ public class PlayerInfoDao{
 		
 	public PlayerInfoVo getPlayerInfoByUid(String uid){
 		String sql = "select `uid`, `name`, `level`, `current_exp`, `vip_level`, `silver`, `fame`, " +
-				"`gold`, `current_strength`, `combatPower` from game_player_info where uid = ?";
+				"`gold`, `current_strength`, `combatPower`, `JingjiPos`, `JingjiTitle`, `abovePos1`, " +
+				"`abovePos2`, `abovePos3`,`abovePos4`,`abovePos5` from game_player_info where uid = ?";
 		List<PlayerInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(PlayerInfoVo.class), new Object[]{uid});
 		

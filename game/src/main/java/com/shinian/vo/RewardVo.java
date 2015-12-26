@@ -9,14 +9,14 @@ public class RewardVo extends BaseObject implements Serializable{
 	private String token;
 //	private int star;
 	private List<DropRewardVo> dropRewardlist;
-	private int playerExp;
-	
-	public int getPlayerExp() {
-		return playerExp;
-	}
-	public void setPlayerExp(int playerExp) {
-		this.playerExp = playerExp;
-	}
+//	private int playerExp;
+//	
+//	public int getPlayerExp() {
+//		return playerExp;
+//	}
+//	public void setPlayerExp(int playerExp) {
+//		this.playerExp = playerExp;
+//	}
 	public List<DropRewardVo> getDropRewardlist() {
 		return dropRewardlist;
 	}

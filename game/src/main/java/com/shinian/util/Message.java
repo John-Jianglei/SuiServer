@@ -58,5 +58,8 @@ public class Message implements Serializable{
 
 	public final static int MSG_CODE_ARMORY_NOT_MATCH_NPC = 316;
 	public final static String MSG_ARMORY_NOT_MATCH_NPC = "穿越了吧";
+	
+	public final static int MSG_CODE_JINGJI_ERROR = 317;
+	public final static String MSG_JINGJI_ERROR = "竞技排名错误";
 
 }

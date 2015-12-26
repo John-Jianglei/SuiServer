@@ -14,6 +14,7 @@ import com.shinian.service.CommonDataService;
 import com.shinian.vo.ArmoryRedisVo;
 import com.shinian.vo.CombatPowerCoffiRedisVo;
 import com.shinian.vo.JinengRedisVo;
+import com.shinian.vo.JingjiRedisVo;
 import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcUpdateRedisVo;
@@ -484,6 +485,41 @@ public class RedisCacheUtil {
 		
 		return null;
 	}
+	
+	public JingjiRedisVo getJingjiInfoByPos(int pos)
+	{
+		pos = Math.abs(pos);
+		JingjiRedisVo jnvo = new JingjiRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_COMMON_JINGJI;
+			String key = String.format(prefix, pos);
+
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, jnvo.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					jnvo.fromList(list);
+					return jnvo;
+				}
+			}
+			else{
+				JingjiRedisVo v = commonDataService.getJingjiInfoByPos(pos);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
+	}	
 	
 }
 

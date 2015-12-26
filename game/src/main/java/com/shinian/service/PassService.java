@@ -82,7 +82,8 @@ public class PassService {
 			//调用战斗函数
 			BattleReturnVo btlRtnv =  battleService.pve( passVo.getUid(), passVo.getBattle() );
 			pbrtnv.setBrv(btlRtnv);
-			int stars = btlRtnv.getReward().getStar();
+			//int stars = btlRtnv.getReward().getStar();
+			int stars = btlRtnv.getStar();
 			//胜利
 			if( stars >=1 && stars<=3 ){
 		
@@ -233,7 +234,7 @@ public class PassService {
 		for( int i=0; i<SweepTimes; i++ ){
 			RewardVo rv = new RewardVo();				
 			rv.setDropRewardlist( sweep( passVo.getBattle(), pzrv));
-			rv.setStar(3);
+			//rv.setStar(3);
 			rewardList.add(rv);
 		}
 		

@@ -10,6 +10,7 @@ import com.shinian.dao.CommonDataDao;
 import com.shinian.vo.ArmoryRedisVo;
 import com.shinian.vo.CombatPowerCoffiRedisVo;
 import com.shinian.vo.JinengRedisVo;
+import com.shinian.vo.JingjiRedisVo;
 import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcUpdateRedisVo;
@@ -73,5 +74,9 @@ public class CommonDataService {
 	public CombatPowerCoffiRedisVo getCombatPowerCoffiById(int id){
 		return commonDataDao.getCombatPowerCoffiById(id);
 	}
+	
+	public JingjiRedisVo getJingjiInfoByPos(int pos){
+		return commonDataDao.getJingjiInfoByPos(pos);
+	}	
 	
 }

@@ -12,6 +12,7 @@ import com.shinian.dao.impl.WebConstant;
 import com.shinian.vo.ArmoryRedisVo;
 import com.shinian.vo.CombatPowerCoffiRedisVo;
 import com.shinian.vo.JinengRedisVo;
+import com.shinian.vo.JingjiRedisVo;
 import com.shinian.vo.JinjieMaterialRedisVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcUpdateRedisVo;
@@ -182,6 +183,22 @@ public class CommonDataDao  {
 		}
 		return null;
 	}
+	
+	public JingjiRedisVo getJingjiInfoByPos(int pos){
+		
+		final String sql = " select `id`,`title`,`posTop`,`posBot`,`interval` " +
+				"from common_jingji where posTop >= ? and posBot < ? ";
+				
+		List<JingjiRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,
+				ParameterizedBeanPropertyRowMapper.newInstance(JingjiRedisVo.class),
+				new Object[]{pos,pos});	
+		
+		if(list != null && list.size() > 0){
+			return list.get(0);
+		}
+		return null;
+	}
+	
 	
 	
 }
