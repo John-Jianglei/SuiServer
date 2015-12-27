@@ -22,9 +22,15 @@ import com.shinian.vo.PropInfoVo;
 @Repository
 public class ArmoryDao {
 	
+	public int levelup(int id, int level, int attack, int health)
+	{
+		String sql = "update game_armory_info set `level` = ?, `attack` = ?, `health` = ? where `id` = ?";
+		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, level, attack, health, id);
+	}
+	
 	public ArmoryVo getArmoryById(int id)
 	{
-		final String sql = "select `id`, `comId`, `uid`, `npcId`, `loaded`, `amount`, `gaoji`, `updateTime`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_armory_info where `id` = ?";
+		final String sql = "select `id`, `comId`, `uid`, `npcId`, `pinjie`, `level`, `loaded`, `amount`, `gaoji`, `updateTime`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_armory_info where `id` = ?";
 		List<ArmoryVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(ArmoryVo.class),new Object[]{id});
 		
 		if (list != null && list.size() > 0) return list.get(0);
@@ -34,7 +40,7 @@ public class ArmoryDao {
 	
 	public List<ArmoryVo> getLoadedArmorys(int npcId)
 	{
-		final String sql = "select `id`, `comId`, `uid`, `npcId`, `loaded`, `amount`, `gaoji`, `updateTime`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_armory_info where `npcId` = ? and `loaded` = 1";
+		final String sql = "select `id`, `comId`, `uid`, `npcId`, `pinjie`, `level`, `loaded`, `amount`, `gaoji`, `updateTime`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_armory_info where `npcId` = ? and `loaded` = 1";
 		List<ArmoryVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(ArmoryVo.class),new Object[]{npcId});
 		
 		if (list != null && list.size() > 0) return list;
@@ -42,7 +48,7 @@ public class ArmoryDao {
 	}
 	
 	
-	//	loaded: true -- load the armory; false -- unload the armory
+	//	Input loaded: true -- load the armory; false -- unload the armory
 	public int loadArmoryToNpc(int npcId, int id, boolean loaded)
 	{
 		String sql = "update game_armory_info set `npcId` = ?, `loaded` = ? where `id` = ?";
@@ -52,7 +58,7 @@ public class ArmoryDao {
 	}
 	
 	public List<ArmoryVo> getArmoryList(String uid){
-		final String sql = "select `id`, `comId`, `uid`, `npcId`, `loaded`, `amount`, `gaoji`, `updateTime`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_armory_info where `uid` = ?";
+		final String sql = "select `id`, `comId`, `uid`, `npcId`, `pinjie`, `level`, `loaded`, `amount`, `gaoji`, `updateTime`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce` from game_armory_info where `uid` = ?";
 		List<ArmoryVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(ArmoryVo.class),new Object[]{uid});
 		
 		if (list != null && list.size() > 0) return list;
@@ -68,7 +74,7 @@ public class ArmoryDao {
 	}
 	
 	private int insert(final String uid, final ArmoryVo armory){
-		final String sql = "insert into game_armory_info(`comId`, `uid`, `npcId`, `loaded`, `amount`, `gaoji`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce`) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		final String sql = "insert into game_armory_info(`comId`, `uid`, `npcId`, `loaded`, `amount`, `gaoji`, `health`, `attack`, `hujia`, `pojia`, `fachuan`, `fakang`, `baoji`, `renxing`, `mingzhong`, `shanbi`, `xixue`, `fantan`, `jiyun`, `kangyun`, `gedang`, `gedangPoss`, `reduce`, `pinjie`, `level`) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		WebConstant.gameJdbc.getJdbcTemplate().update(new PreparedStatementCreator(){
 			@Override
@@ -98,6 +104,8 @@ public class ArmoryDao {
                 ps.setInt(21, armory.getGedang()); 
                 ps.setInt(22, armory.getGedangPoss()); 
                 ps.setInt(23, armory.getReduce()); 
+                ps.setInt(24, armory.getPinjie());
+                ps.setInt(25, armory.getLevel());
                 
                 return ps;
             }					

@@ -9,6 +9,8 @@ public class ArmoryVo extends BaseObject implements Serializable{
 		private int comId;
 		private String uid;
 		private int npcId;
+		private int pinjie;
+		private int level;
 		private int loaded;
 		private int amount;
 		private int gaoji;
@@ -32,6 +34,18 @@ public class ArmoryVo extends BaseObject implements Serializable{
 		private int gedangPoss;
 		private int reduce;
 		
+		public int getPinjie() {
+			return pinjie;
+		}
+		public void setPinjie(int pinjie) {
+			this.pinjie = pinjie;
+		}
+		public int getLevel() {
+			return level;
+		}
+		public void setLevel(int level) {
+			this.level = level;
+		}
 		public String getUpdateTime() {
 			return updateTime;
 		}

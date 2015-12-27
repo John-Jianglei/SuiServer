@@ -24,7 +24,7 @@ import com.shinian.vo.PlayerInfoVo;
 public class PlayerInfoService {
 		
 	@Autowired
-	PlayerInfoDao PlayerInfoDao;
+	PlayerInfoDao playerInfoDao;
 
 //	private static String regExUid = "^[0-9]+-[1-9]+$"; 
 	private static String regExUid = "^\\d+-\\d+$";
@@ -35,7 +35,21 @@ public class PlayerInfoService {
 		 
 		if (!m1.matches()) return false;
 		
-		return PlayerInfoDao.isUidExist(uid);
+		return playerInfoDao.isUidExist(uid);
 
 	}
+	
+	public boolean consumeSilver(PlayerInfoVo player, int silver)
+	{
+		if (player.getSilver() < silver) return false;
+		
+		silver = player.getSilver() - silver;
+		return playerInfoDao.updateSilver(player.getUid(), silver) > 0;
+	}
+	
+	public PlayerInfoVo getPlayerById(String uid)
+	{
+		return playerInfoDao.getPlayerInfoByUid(uid);
+	}
+	
 }

@@ -182,7 +182,9 @@ CREATE TABLE `game_armory_info` (
   `comId` int(11) NOT NULL COMMENT 'common表中装备的id',
   `uid` varchar(50) NOT NULL COMMENT '角色id',
   `npcId` int(11) NOT NULL DEFAULT '-1' COMMENT '装备该装备的武将id, -1代表null',
-  `loaded` int(3) NOT NULL DEFAULT '0' COMMENT '是否装备：0：未装备；1：装备',
+  `pinjie` int(11) NOT NULL DEFAULT '1' COMMENT '装备品阶',
+  `level` int(11) NOT NULL DEFAULT '1' COMMENT '装备等级',
+   `loaded` int(3) NOT NULL DEFAULT '0' COMMENT '是否装备：0：未装备；1：装备',
   `amount` int(11) NOT NULL DEFAULT '1' COMMENT '装备数量',
   `gaoji` int(3) NOT NULL DEFAULT '0' COMMENT '是否是高级，0: 非高级；1：高级',
   `health` int(11) NOT NULL DEFAULT '1' COMMENT '武将初始生命值',
@@ -230,4 +232,4 @@ CREATE TABLE `game_armory_piece` (
   `amount` int(11) NOT NULL DEFAULT '1' COMMENT '碎片数量',
   `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',  
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='武将碎片信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='装备碎片信息表';

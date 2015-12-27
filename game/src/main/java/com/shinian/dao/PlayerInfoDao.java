@@ -22,6 +22,12 @@ import com.shinian.vo.PlayerInfoVo;
 @Repository
 public class PlayerInfoDao{
 	
+	public int updateSilver(String uid, int silver)
+	{
+		String sql = "update game_player_info set `silver` = ? where `uid` = ?";
+		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, silver, uid);
+	}
+	
 	public boolean isUidExist(String uid){	
 		String sql = "select uid from game_player_info where uid = ?";
 		List<PlayerInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,

@@ -61,5 +61,9 @@ public class Message implements Serializable{
 	
 	public final static int MSG_CODE_JINGJI_ERROR = 317;
 	public final static String MSG_JINGJI_ERROR = "竞技排名错误";
+	
+	public final static int MSG_CODE_ARMORY_NOT_MEET_CRITERIA = 318;
+	public final static String MSG_ARMORY_NOT_MEET_CRITERIA  = "武器升级条件不满足";
+
 
 }
