@@ -88,18 +88,16 @@ public class ArmoryUpgradeService {
 	
 	private int getNextLevelAttack(ArmoryVo armory)
 	{
-		int attack = 0;
 		ArmoryRedisVo arv = redisCacheUtil.getArmoryByComId(armory.getComId());
 		
-		return attack;
+		return armory.getAttack() + arv.getAttackStep() + armory.getPinjie()*arv.getAttackStepJinglian();
 	}
 	
 	private int getNextLevelHealth(ArmoryVo armory)
 	{
-		int health = 0;
 		ArmoryRedisVo arv = redisCacheUtil.getArmoryByComId(armory.getComId());
 		
-		return health;
+		return armory.getHealth() + arv.getHealthStep() + armory.getPinjie()*arv.getHealthStepJinglian();
 	}
 		
 	private int getLevelupSilver(ArmoryVo armory)

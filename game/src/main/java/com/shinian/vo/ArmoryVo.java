@@ -13,7 +13,6 @@ public class ArmoryVo extends BaseObject implements Serializable{
 		private int level;
 		private int loaded;
 		private int amount;
-		private int gaoji;
 		private String updateTime;
 
 		private int health;
@@ -88,12 +87,7 @@ public class ArmoryVo extends BaseObject implements Serializable{
 		public void setAmount(int amount) {
 			this.amount = amount;
 		}
-		public int getGaoji() {
-			return gaoji;
-		}
-		public void setGaoji(int gaoji) {
-			this.gaoji = gaoji;
-		}
+
 		public int getHealth() {
 			return health;
 		}
