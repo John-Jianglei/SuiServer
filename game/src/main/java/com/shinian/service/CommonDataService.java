@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shinian.dao.CommonDataDao;
+import com.shinian.vo.ArmoryJinjieRedisVo;
 import com.shinian.vo.ArmoryRedisVo;
 import com.shinian.vo.CombatPowerCoffiRedisVo;
 import com.shinian.vo.JinengRedisVo;
@@ -37,6 +38,11 @@ public class CommonDataService {
 	public PropInfoRedisVo getPropInfoByComId(int comId)
 	{
 		return commonDataDao.getPropInfoByComId(comId);
+	}
+	
+	public ArmoryJinjieRedisVo getArmoryJinjieInfo(int star, int nextPinjie)
+	{
+		return commonDataDao.getArmoryJinjieInfo(star, nextPinjie);
 	}
 	
 	public YuanfenInfoRedisVo getYuanfenInfoByComId(int comId)

@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
+import com.shinian.vo.ArmoryJinjieRedisVo;
 import com.shinian.vo.ArmoryRedisVo;
 import com.shinian.vo.CombatPowerCoffiRedisVo;
 import com.shinian.vo.JinengRedisVo;
@@ -199,6 +200,19 @@ public class CommonDataDao  {
 		return null;
 	}
 	
+
+	public ArmoryJinjieRedisVo getArmoryJinjieInfo(int star, int nextPinjie)
+	{
+		final String sql = "select `id`, `star`, `category`, `nextPinjie`, `sliver`, `jinHuaStone`, `amber`, `xuantie`, `copper`, `madeng`, `pige` from common_armory_jinjie where `star` = ? and `nextPinjie` = ?";
+		
+		List<ArmoryJinjieRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql, ParameterizedBeanPropertyRowMapper.newInstance(ArmoryJinjieRedisVo.class),new Object[]{star, nextPinjie});
+		
+		if( null != list && list.size() > 0 ){
+			return list.get(0);
+		}
+		return null;
+	}
+
 	public JingjiRedisVo getJingjiInfoById(int id){
 		
 		final String sql = " select `id`,`title`,`posTop`,`posBot`,`interval` " +

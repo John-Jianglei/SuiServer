@@ -305,3 +305,20 @@ CREATE TABLE `common_armory_info` (
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '0:无效;1:有效',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='武器装备信息表';
+
+
+DROP TABLE IF EXISTS `common_armory_jinjie`;
+CREATE TABLE `common_armory_jinjie` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `star` int(11) NOT NULL DEFAULT '1' COMMENT '武器装备星级',
+  `category` int(11) NOT NULL DEFAULT '0' COMMENT '武器装备类型：0-所有 1-武器 2-装甲 3-马匹',
+  `nextPinjie` int(11) NOT NULL DEFAULT '0' COMMENT '进阶下一等级',
+  `sliver` int(11) NOT NULL DEFAULT '0' COMMENT '所需银两',
+  `jinHuaStone` int(11) NOT NULL DEFAULT '0' COMMENT '进化石',
+  `amber` int(11) NOT NULL DEFAULT '0' COMMENT '至尊虎魄',
+  `xuantie` int(11) NOT NULL DEFAULT '0' COMMENT '精炼玄铁',
+  `copper` int(11) NOT NULL DEFAULT '0' COMMENT '天外精铜',
+  `madeng` int(11) NOT NULL DEFAULT '0' COMMENT '不朽马蹬',
+  `pige` int(11) NOT NULL DEFAULT '0' COMMENT '精制皮革',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='装备进阶材料表';
