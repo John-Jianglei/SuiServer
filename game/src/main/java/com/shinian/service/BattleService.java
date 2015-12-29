@@ -51,6 +51,25 @@ public class BattleService {
 	private NpcBattleVo[] offArmy;
 	private NpcBattleVo[] defArmy;
 	
+	public BattleReturnVo pvp( String aUid, String dUid ){
+	
+		BattleReturnVo batRtn = new BattleReturnVo();
+		List<NpcInfoVo> oArmy = armyInfoService.getArmyOnBattle(aUid);
+		List<NpcInfoVo> dArmy = armyInfoService.getArmyOnBattle(dUid);
+		
+		offArmy = initBattleArmy(oArmy);
+		defArmy = initBattleArmy(dArmy);
+		
+		List<ActionVo> lav = battle(offArmy, defArmy);
+		
+		batRtn.setDefArmy(dArmy);
+		batRtn.setActions(lav);
+		batRtn.setStar(rewardStar(offArmy));
+		
+		return batRtn;
+		
+	}
+	
 	public BattleReturnVo pve( String uid, int battleId ){
 		
 		BattleReturnVo batRtn = new BattleReturnVo();		

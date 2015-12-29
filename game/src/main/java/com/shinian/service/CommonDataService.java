@@ -77,6 +77,10 @@ public class CommonDataService {
 	
 	public JingjiRedisVo getJingjiInfoByPos(int pos){
 		return commonDataDao.getJingjiInfoByPos(pos);
+	}
+	
+	public JingjiRedisVo getJingjiInfoById(int id){
+		return commonDataDao.getJingjiInfoById(id);
 	}	
 	
 }

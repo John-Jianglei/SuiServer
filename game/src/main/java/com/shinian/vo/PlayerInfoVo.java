@@ -17,14 +17,14 @@ public class PlayerInfoVo extends BaseObject implements Serializable{
 	private int gold;
 	private int current_strength;
 	private	long combatPower;
-	private int	jingjiePos;	
-	private String jingjieTitle;
+	private int	jingjiPos;	
+	private String jingjiTitle;
 	private int	abovePos1;
 	private int	abovePos2;
 	private int	abovePos3;
 	private int	abovePos4;
 	private int	abovePos5;
-		
+
 	public int getVip_level() {
 		return vip_level;
 	}
@@ -109,17 +109,17 @@ public class PlayerInfoVo extends BaseObject implements Serializable{
 		this.gender = gender;
 	}
 	
-	public int getJingjiePos() {
-		return jingjiePos;
+	public int getJingjiPos() {
+		return jingjiPos;
 	}
-	public void setJingjiePos(int jingjiePos) {
-		this.jingjiePos = jingjiePos;
+	public void setJingjiPos(int jingjiPos) {
+		this.jingjiPos = jingjiPos;
 	}
-	public String getJingjieTitle() {
-		return jingjieTitle;
+	public String getJingjiTitle() {
+		return jingjiTitle;
 	}
-	public void setJingjieTitle(String jingjieTitle) {
-		this.jingjieTitle = jingjieTitle;
+	public void setJingjiTitle(String jingjiTitle) {
+		this.jingjiTitle = jingjiTitle;
 	}
 	public int getAbovePos1() {
 		return abovePos1;

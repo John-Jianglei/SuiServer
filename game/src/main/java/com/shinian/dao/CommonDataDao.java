@@ -187,7 +187,7 @@ public class CommonDataDao  {
 	public JingjiRedisVo getJingjiInfoByPos(int pos){
 		
 		final String sql = " select `id`,`title`,`posTop`,`posBot`,`interval` " +
-				"from common_jingji where posTop >= ? and posBot < ? ";
+				"from common_jingji where posTop >= ? and posBot <= ? ";
 				
 		List<JingjiRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(JingjiRedisVo.class),
@@ -199,6 +199,20 @@ public class CommonDataDao  {
 		return null;
 	}
 	
+	public JingjiRedisVo getJingjiInfoById(int id){
+		
+		final String sql = " select `id`,`title`,`posTop`,`posBot`,`interval` " +
+				"from common_jingji where id= ?";
+				
+		List<JingjiRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,
+				ParameterizedBeanPropertyRowMapper.newInstance(JingjiRedisVo.class),
+				new Object[]{id});	
+		
+		if(list != null && list.size() > 0){
+			return list.get(0);
+		}
+		return null;
+	}	
 	
 	
 }

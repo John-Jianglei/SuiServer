@@ -521,5 +521,40 @@ public class RedisCacheUtil {
 		return null;
 	}	
 	
+	public JingjiRedisVo getJingjiInfoById(int id)
+	{
+		id = Math.abs(id);
+		JingjiRedisVo jnvo = new JingjiRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_COMMON_JINGJI;
+			String key = String.format(prefix, id);
+
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, jnvo.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					jnvo.fromList(list);
+					return jnvo;
+				}
+			}
+			else{
+				JingjiRedisVo v = commonDataService.getJingjiInfoById(id);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
+	}
+	
 }
 

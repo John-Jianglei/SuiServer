@@ -56,6 +56,9 @@ public class DispatcherService {
 	@Autowired
 	PassService passService; 
 	
+	@Autowired
+	JingjiService jingjiService; 
+	
 	
 	private static Logger log = Logger.getLogger("game");
 	
@@ -117,6 +120,14 @@ public class DispatcherService {
 				
 			case 1012:
 				result = armoryService.addArmoryToPlayer(request, response, jsonStr);///	add armory to Player, not loaded to any npc
+				break;
+				
+			case 1013:
+				result = jingjiService.JingjiBatttle(request, response, jsonStr);///	竞技场战斗
+				break;
+				
+			case 1014:
+				result = jingjiService.EnterJingji(request, response, jsonStr);///	初次进入竞技场
 				break;
 				
 			case 9002:
