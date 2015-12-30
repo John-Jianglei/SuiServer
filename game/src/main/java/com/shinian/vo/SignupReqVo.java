@@ -9,6 +9,7 @@ public class SignupReqVo extends BaseObject implements Serializable{
 	private String token;
 	private String name;
 	private int gender;
+	private int cm;				//阵营1唐2隋3反王
 	
 	public String getToken() {
 		return token;
@@ -37,5 +38,11 @@ public class SignupReqVo extends BaseObject implements Serializable{
 		this.gender = gender;
 	}
 	
-		
+	public int getCm() {
+		return cm;
+	}
+	public void setCm(int cm) {
+		this.cm = cm;
+	}
+	
 }

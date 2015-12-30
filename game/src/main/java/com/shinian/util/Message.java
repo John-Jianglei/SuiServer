@@ -65,5 +65,10 @@ public class Message implements Serializable{
 	public final static int MSG_CODE_ARMORY_NOT_MEET_CRITERIA = 318;
 	public final static String MSG_ARMORY_NOT_MEET_CRITERIA  = "武器升级条件不满足";
 
+	public final static int MSG_CODE_NO_CAMP = 319;
+	public final static String MSG_NO_CAMP = "没有选择阵营";
+	
+	public final static int MSG_CODE_ADD_PASS_FAIL = 320;
+	public final static String MSG_ADD_PASS_FAIL = "添加关卡信息失败";
 
 }

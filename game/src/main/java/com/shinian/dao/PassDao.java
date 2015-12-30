@@ -20,25 +20,38 @@ import com.shinian.vo.PassVo;
 public class PassDao {
 
 	//pass insert
-	public int insertPass(final GamePassVo gamePassVo)
+	public int insertPass(final int id, final int passId, final String uid)
 	{
-		final String sql = "insert into game_pass_log(`count`,`date`,`uid`,`battleId`) values(?, ?, ?, ?)";
+		final String sql = "insert into game_pass values(?, ?, ?, '0', '0', '0', '0', '0', '0', '10111', '0', '10112', " +
+				"'0', '10113', '0', '10121', '0', '10122', '0', '10123', '0', '10131', '0', '10132', '0', '10133', '0', " +
+				"'10141', '0', '10142', '0', '10143', '0', '10151', '0', '10152', '0', '10153', '0', '10161', '0', '10162', " +
+				"'0', '10163', '0', '20111', '0', '20112', '0', '20113', '0', '20121', '0', '20122', '0', '20123', '0', " +
+				"'20131', '0', '20132', '0', '20133', '0', '20141', '0', '20142', '0', '20143', '0', '20151', '0', '20152', " +
+				"'0', '20153', '0', '20161', '0', '20162', '0', '20163', '0', '30113', '0', '30123', '0', '30133', '0', " +
+				"'30143', '0', '30153', '0', '30163', '0')";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		WebConstant.gameJdbc.getJdbcTemplate().update(new PreparedStatementCreator(){
 			@Override
             public PreparedStatement createPreparedStatement(Connection conn) throws SQLException{
                 PreparedStatement ps = conn.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
                 
-//                ps.setInt(1, passLog.getCount()); 
-//                ps.setString(2, passLog.getDate()); 
-//                ps.setString(3, passLog.getUid());
-//                ps.setInt(4, passLog.getBattleId());
+                ps.setInt( 1, id );
+                ps.setInt( 2, passId );                	
+                ps.setString( 3, uid ); 
                 
                 return ps;
             }					
         }, keyHolder);
     
         return keyHolder.getKey().intValue();
+	}
+	
+	public int getPassCount()
+	{
+		final String sql = " select count(*) from game_pass";
+		int count = WebConstant.commonJdbc.getJdbcTemplate().queryForInt(sql,new Object[]{});
+		
+		return count;
 	}
 	
 	private String[] getPrfixByBattleId(int battleId){

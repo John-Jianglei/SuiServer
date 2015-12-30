@@ -41,7 +41,13 @@ public class NpcAddDao {
 	}
 	
 	private int insert(final NpcInfoVo npc){
-		final String sql = "insert into game_npc_info(`comId`, `uid`, `position`, `healthBase`, `attackBase`, `hujiaBase`, `pojiaBase`, `fachuanBase`, `fakangBase`, `baojiBase`, `renxingBase`, `mingzhongBase`, `shanbiBase`, `xixueBase`, `fantanBase`, `jiyunBase`, `kangyunBase`, `gedangBase`, `gedangPossBase`, `reduceBase`, `skill1`, `skill2`, `skill3`, `skill4`, `skill5`, `skill6`, `skill7`, `skill8`, `skill9`, `skill10`, `skill11`, `yuanfen1`, `yuanfen2`, `yuanfen3`, `yuanfen4`) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		final String sql = "insert into game_npc_info(`comId`, `uid`, `position`, `healthBase`, `attackBase`, `hujiaBase`, " +
+				"`pojiaBase`, `fachuanBase`, `fakangBase`, `baojiBase`, `renxingBase`, `mingzhongBase`, `shanbiBase`, " +
+				"`xixueBase`, `fantanBase`, `jiyunBase`, `kangyunBase`, `gedangBase`, `gedangPossBase`, `reduceBase`, " +
+				"`skill1`, `skill2`, `skill3`, `skill4`, `skill5`, `skill6`, `skill7`, `skill8`, `skill9`, `skill10`, " +
+				"`skill11`, `yuanfen1`, `yuanfen2`, `yuanfen3`, `yuanfen4`) " +
+				"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
+				"?, ?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		WebConstant.gameJdbc.getJdbcTemplate().update(new PreparedStatementCreator(){
 			@Override

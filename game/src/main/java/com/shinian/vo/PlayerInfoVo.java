@@ -24,7 +24,15 @@ public class PlayerInfoVo extends BaseObject implements Serializable{
 	private int	abovePos3;
 	private int	abovePos4;
 	private int	abovePos5;
+	private int camp;
 
+	public int getCamp() {
+		return camp;
+	}
+	public void setCamp(int camp) {
+		this.camp = camp;
+	}
+	
 	public int getVip_level() {
 		return vip_level;
 	}

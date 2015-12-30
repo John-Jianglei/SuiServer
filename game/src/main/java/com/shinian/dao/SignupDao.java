@@ -2,17 +2,10 @@ package com.shinian.dao;
 
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
@@ -24,6 +17,14 @@ public class SignupDao{
 	public int insertPlayer(String uid, String name, int gender){
 		String sql = "insert into game_player_info(uid, name, gender, create_time) values(?, ?, ?, ?)";
 		int row = WebConstant.gameJdbc.getJdbcTemplate().update(sql, uid, name, gender, new Date());
+
+		return row;
+	}
+	
+	public int insertPlayer(PlayerInfoVo piv){
+		String sql = "insert into game_player_info(uid, name, gender, sliver, fame, gold, create_time) values(?, ?, ?, ?, ?, ?, ? )";
+		int row = WebConstant.gameJdbc.getJdbcTemplate().update(sql, piv.getUid(), piv.getName(), piv.getGender(), piv.getSilver(),
+				piv.getFame(), piv.getGold(), new Date());
 
 		return row;
 	}
