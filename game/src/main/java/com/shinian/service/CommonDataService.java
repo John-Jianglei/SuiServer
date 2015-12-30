@@ -45,6 +45,11 @@ public class CommonDataService {
 		return commonDataDao.getArmoryJinjieInfo(star, nextPinjie);
 	}
 	
+	public List<YuanfenInfoRedisVo> getYuanfenInfoByNpcId(int npcId)
+	{
+		return commonDataDao.getYuanfenInfoByNpcId(npcId);
+	}
+	
 	public YuanfenInfoRedisVo getYuanfenInfoByComId(int comId)
 	{
 		return commonDataDao.getYuanfenInfoByComId(comId);

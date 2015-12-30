@@ -144,11 +144,12 @@ public class SignupService {
 		//2、给该用户生成关卡信息
 		int count = passDao.getPassCount();
 		for( int i=1; i<=15; i++ ){
-			if( 0== passDao.insertPass(count+1, 1, piv.getUid()) ){				
+			if( 0== passDao.insertPass(count+1, i, piv.getUid()) ){				
 				result.setCode(Message.MSG_CODE_ADD_PASS_FAIL);
 				result.setMsg(Message.MSG_ADD_PASS_FAIL);
 				return result;
 			}
+			count++;
 		}
 		
 		//result.setData(piv);		

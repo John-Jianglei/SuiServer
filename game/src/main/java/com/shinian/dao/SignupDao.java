@@ -22,7 +22,7 @@ public class SignupDao{
 	}
 	
 	public int insertPlayer(PlayerInfoVo piv){
-		String sql = "insert into game_player_info(uid, name, gender, sliver, fame, gold, create_time) values(?, ?, ?, ?, ?, ?, ? )";
+		String sql = "insert into game_player_info(uid, name, gender, silver, fame, gold, create_time) values(?, ?, ?, ?, ?, ?, ? )";
 		int row = WebConstant.gameJdbc.getJdbcTemplate().update(sql, piv.getUid(), piv.getName(), piv.getGender(), piv.getSilver(),
 				piv.getFame(), piv.getGold(), new Date());
 

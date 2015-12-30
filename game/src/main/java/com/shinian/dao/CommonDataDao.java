@@ -44,6 +44,26 @@ public class CommonDataDao  {
 		List<NpcInfoRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(NpcInfoRedisVo.class),new Object[]{comId});
 		if( null != list && list.size() > 0 )
 		{
+			List<YuanfenInfoRedisVo>  listYuanfen = getYuanfenInfoByNpcId(list.get(0).getComId());
+			if( null != listYuanfen ){
+				for( int i=0; i<listYuanfen.size(); i++ ){
+					switch(i){
+					case 0:
+						list.get(0).setYuanfen1(listYuanfen.get(0).getComId());
+						break;
+					case 1:
+						list.get(0).setYuanfen2(listYuanfen.get(1).getComId());
+						break;
+					case 2:
+						list.get(0).setYuanfen3(listYuanfen.get(2).getComId());
+						break;
+					case 3:
+						list.get(0).setYuanfen4(listYuanfen.get(3).getComId());
+						break;
+					}				
+				}
+			}
+
 			return list.get(0);
 		}
 		return null;
@@ -62,11 +82,24 @@ public class CommonDataDao  {
 	
 	public YuanfenInfoRedisVo getYuanfenInfoByComId(final int comId)
 	{
-		final String sql = " select `comId`, `name`, `npcId`, `category`, `objId`, `addAttack`, `addHealth`, `desc`, `updateTime`, `status` from common_yuanfen_info where comId = ? and status = 1";
+		final String sql = " select `comId`, `name`, `npcId`, `category`, `objId`, `addAttack`, `addHealth`, `desc`, " +
+				"`updateTime`, `status` from common_yuanfen_info where comId = ? and status = 1";
 		List<YuanfenInfoRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(YuanfenInfoRedisVo.class),new Object[]{comId});
 		if( null != list && list.size() > 0 )
 		{
 			return list.get(0);
+		}
+		return null;
+	}
+	
+	public List<YuanfenInfoRedisVo> getYuanfenInfoByNpcId(final int npcId)
+	{
+		final String sql = " select `comId`, `name`, `npcId`, `category`, `objId`, `addAttack`, `addHealth`, `desc`, " +
+				"`updateTime`, `status` from common_yuanfen_info where npcId = ? and status = 1 order by comId";
+		List<YuanfenInfoRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(YuanfenInfoRedisVo.class),new Object[]{npcId});
+		if( null != list && list.size() > 0 )
+		{
+			return list;
 		}
 		return null;
 	}
