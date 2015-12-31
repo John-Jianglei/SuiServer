@@ -21,6 +21,17 @@ public class Constant implements Serializable{
 	public final static int CON_ARMORY_WEAPON = 1;
 	public final static int CON_ARMORY_ARMOR = 2;
 	public final static int CON_ARMORY_HORSE = 3;
+	
+	public final static int ARMORY_JINJIE_MAX_GENERAL_PINJIE = 9;
+	
+	public final static int ARMORY_JINJIE_PROP_JINHUASTONE = 200;
+	public final static int ARMORY_JINJIE_PROP_AMBER = 201;
+	public final static int ARMORY_JINJIE_PROP_XUANTIE = 202;
+	public final static int ARMORY_JINJIE_PROP_COPPER = 203;
+	public final static int ARMORY_JINJIE_PROP_MADENG = 204;
+	public final static int ARMORY_JINJIE_PROP_PIGE = 205;
+	
+
 
 	
 

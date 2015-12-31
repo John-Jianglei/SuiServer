@@ -14,6 +14,7 @@ import com.shinian.dao.ArmoryDao;
 import com.shinian.dao.PropInfoDao;
 import com.shinian.util.Constant;
 import com.shinian.util.Message;
+import com.shinian.vo.ArmoryJinjieRedisVo;
 import com.shinian.vo.ArmoryRedisVo;
 import com.shinian.vo.ArmoryReqVo;
 import com.shinian.vo.ArmoryVo;
@@ -43,7 +44,119 @@ public class ArmoryUpgradeService {
 	
 	@Autowired
 	NpcInfoService npcInfoService;
+	
+	@Autowired
+	PropInfoService propInfoService;
 
+	//	Input: id(id of the game_armory_info)
+	public MessageRespVo jinjie(HttpServletRequest request, HttpServletResponse response,String jsonStr)
+	{
+		MessageRespVo result = new MessageRespVo();
+
+		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
+		ArmoryReqVo nrv = JSON.parseObject(gcrv.getData().toString(),ArmoryReqVo.class);
+		result.setTs(gcrv.getTs());
+		
+		ArmoryVo armory = armoryDao.getArmoryById(nrv.getId());
+		if (armory == null){
+			result.setCode(Message.MSG_CODE_ARMORY_NOT_EXIST);
+			result.setMsg(Message.MSG_ARMORY_NOT_EXIST);
+			return result;
+		}
+				
+		PlayerInfoVo player = playerInfoService.getPlayerById(armory.getUid());
+		if (player == null){
+			result.setCode(Message.MSG_CODE_PLAYER_NOT_EXIST);
+			result.setMsg(Message.MSG_PLAYER_NOT_EXIST);
+			return result;
+		}
+		
+		ArmoryJinjieRedisVo commJinjie = redisCacheUtil.getArmoryJinjieInfo(redisCacheUtil.getArmoryByComId(armory.getComId()).getStar(), armory.getPinjie()+1);
+		ArmoryJinjieRedisVo gameJinjie = getPropForArmoryJinjie(player);
+		
+		if (!meetJinjieCriteria(commJinjie, gameJinjie)){
+			result.setCode(Message.MSG_CODE_ARMORY_NOT_MEET_CRITERIA);
+			result.setMsg(Message.MSG_ARMORY_NOT_MEET_CRITERIA);
+			return result;
+		}
+		
+		consumePropForArmoryJinjie(player.getUid(), commJinjie);
+		
+		//	to be continued...
+		armory.setLevel(armory.getLevel() + 1);
+		armory.setAttack(getNextLevelAttack(armory));
+		armory.setHealth(getNextLevelHealth(armory));
+		armoryDao.levelup(armory.getId(), armory.getLevel(), armory.getAttack(), armory.getHealth());
+
+		result.setData(armory);		
+		result.setCode(Message.MSG_CODE_OK);
+		
+		return result;
+	}
+	
+	private void consumePropForArmoryJinjie(String uid, ArmoryJinjieRedisVo commJinjie)
+	{
+		propInfoService.consumePropertyOfPlayer(uid, Constant.ARMORY_JINJIE_PROP_JINHUASTONE, commJinjie.getJinHuaStone());
+		propInfoService.consumePropertyOfPlayer(uid, Constant.ARMORY_JINJIE_PROP_AMBER, commJinjie.getAmber());
+		propInfoService.consumePropertyOfPlayer(uid, Constant.ARMORY_JINJIE_PROP_XUANTIE, commJinjie.getXuantie());
+		propInfoService.consumePropertyOfPlayer(uid, Constant.ARMORY_JINJIE_PROP_COPPER, commJinjie.getCopper());
+		propInfoService.consumePropertyOfPlayer(uid, Constant.ARMORY_JINJIE_PROP_MADENG, commJinjie.getMadeng());
+		propInfoService.consumePropertyOfPlayer(uid, Constant.ARMORY_JINJIE_PROP_PIGE, commJinjie.getPige());	
+	}
+	
+	private boolean meetJinjieCriteria(ArmoryJinjieRedisVo commJinjie, ArmoryJinjieRedisVo gameJinjie)
+	{
+		return	(gameJinjie.getSliver()				> commJinjie.getSliver()			)
+				&& (gameJinjie.getJinHuaStone()		> commJinjie.getJinHuaStone()		)
+				&& (gameJinjie.getAmber()			> commJinjie.getAmber()				)
+				&& (gameJinjie.getXuantie()			> commJinjie.getXuantie()			)
+				&& (gameJinjie.getCopper()			> commJinjie.getCopper()			)
+				&& (gameJinjie.getMadeng()			> commJinjie.getMadeng()			)
+				&& (gameJinjie.getPige()			> commJinjie.getPige()				) ;
+	}
+	
+	private ArmoryJinjieRedisVo getPropForArmoryJinjie(PlayerInfoVo player)
+	{
+		ArmoryJinjieRedisVo ajv = new ArmoryJinjieRedisVo();
+		
+		ajv.setSliver(player.getSilver());
+		
+		List<PropInfoVo> list = propInfoService.getPropListOfPlayer(player.getUid());
+		for (PropInfoVo prop:list){
+			switch (prop.getComId()){
+			case Constant.ARMORY_JINJIE_PROP_JINHUASTONE:
+				ajv.setJinHuaStone(prop.getAmount());
+				break;
+				
+			case Constant.ARMORY_JINJIE_PROP_AMBER:
+				ajv.setAmber(prop.getAmount());
+				break;
+				
+			case Constant.ARMORY_JINJIE_PROP_XUANTIE:
+				ajv.setXuantie(prop.getAmount());
+				break;
+				
+			case Constant.ARMORY_JINJIE_PROP_COPPER:
+				ajv.setCopper(prop.getAmount());
+				break;
+				
+			case Constant.ARMORY_JINJIE_PROP_MADENG:
+				ajv.setMadeng(prop.getAmount());
+				break;
+				
+			case Constant.ARMORY_JINJIE_PROP_PIGE:
+				ajv.setPige(prop.getAmount());
+				break;
+				
+			default:
+				break;
+			}
+		}
+		
+		return ajv;
+	}
+	
+	
 	//	Input: id(id of the game_armory_info)
 	public MessageRespVo levelup(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
