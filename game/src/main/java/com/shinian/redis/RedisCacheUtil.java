@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
 import com.shinian.service.CommonDataService;
+import com.shinian.util.Constant;
 import com.shinian.vo.ArmoryJinjieRedisVo;
 import com.shinian.vo.ArmoryRedisVo;
 import com.shinian.vo.CombatPowerCoffiRedisVo;
@@ -524,13 +525,15 @@ public class RedisCacheUtil {
 	}	
 	
 
-	public ArmoryJinjieRedisVo getArmoryJinjieInfo(int star, int nextPinjie)
+	public ArmoryJinjieRedisVo getArmoryJinjieInfo(int star, int category, int nextPinjie)
 	{
+		if (!((nextPinjie == Constant.ARMORY_JINJIE_MAX_GENERAL_PINJIE+1) && (star==3 || star==4))) category = 0;
+
 		ArmoryJinjieRedisVo pvo = new ArmoryJinjieRedisVo();
 		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
 		try{
 			String prefix = RedisKeyDefine.KEY_COMMON_ARMORY_JINJIE;
-			String key = String.format(prefix, star, nextPinjie);
+			String key = String.format(prefix, star, category, nextPinjie);
 
 			if(jedis.exists(key)){
 				List<String> list = jedis.hmget(key, pvo.getFieldNames());

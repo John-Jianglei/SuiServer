@@ -70,5 +70,8 @@ public class Message implements Serializable{
 	
 	public final static int MSG_CODE_ADD_PASS_FAIL = 320;
 	public final static String MSG_ADD_PASS_FAIL = "添加关卡信息失败";
+	
+	public final static int MSG_CODE_ARMORY_JINJIE_NOT_EXIST = 321;
+	public final static String MSG_ARMORY_JINJIE_NOT_EXIST = "装备进阶配方不存在";
 
 }

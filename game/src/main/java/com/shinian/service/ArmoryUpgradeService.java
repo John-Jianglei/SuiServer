@@ -71,7 +71,13 @@ public class ArmoryUpgradeService {
 			return result;
 		}
 		
-		ArmoryJinjieRedisVo commJinjie = redisCacheUtil.getArmoryJinjieInfo(redisCacheUtil.getArmoryByComId(armory.getComId()).getStar(), armory.getPinjie()+1);
+		ArmoryJinjieRedisVo commJinjie = redisCacheUtil.getArmoryJinjieInfo(redisCacheUtil.getArmoryByComId(armory.getComId()).getStar(), redisCacheUtil.getArmoryByComId(armory.getComId()).getCategory(), armory.getPinjie()+1);
+		if (null == commJinjie){
+			result.setCode(Message.MSG_CODE_ARMORY_JINJIE_NOT_EXIST);
+			result.setMsg(Message.MSG_ARMORY_JINJIE_NOT_EXIST);
+			return result;
+		}
+		
 		ArmoryJinjieRedisVo gameJinjie = getPropForArmoryJinjie(player);
 		
 		if (!meetJinjieCriteria(commJinjie, gameJinjie)){
@@ -82,16 +88,52 @@ public class ArmoryUpgradeService {
 		
 		consumePropForArmoryJinjie(player.getUid(), commJinjie);
 		
-		//	to be continued...
-		armory.setLevel(armory.getLevel() + 1);
-		armory.setAttack(getNextLevelAttack(armory));
-		armory.setHealth(getNextLevelHealth(armory));
-		armoryDao.levelup(armory.getId(), armory.getLevel(), armory.getAttack(), armory.getHealth());
+		updateJinjieArmoryVo(armory);
+		armoryDao.updateArmory(armory);
 
 		result.setData(armory);		
 		result.setCode(Message.MSG_CODE_OK);
 		
 		return result;
+	}
+	
+	private void updateJinjieArmoryVo(ArmoryVo armory)
+	{
+		armory.setPinjie(armory.getPinjie()+1);
+		ArmoryRedisVo arv = redisCacheUtil.getArmoryByComId(armory.getComId());
+		
+		if (armory.getPinjie() == Constant.ARMORY_JINJIE_MAX_GENERAL_PINJIE+1){
+			armory.setHujia(arv.getHujiaGaoji());
+			armory.setPojia(arv.getPojiaGaoji());
+			armory.setFachuan(arv.getFachuanGaoji());
+			armory.setFakang(arv.getFakangGaoji());
+			armory.setBaoji	(arv.getBaojiGaoji());
+			armory.setRenxing(arv.getRenxingGaoji());
+			armory.setMingzhong(arv.getMingzhongGaoji());
+			armory.setShanbi(arv.getShanbiGaoji());
+			armory.setXixue(arv.getXixueGaoji());
+			armory.setFantan(arv.getFantanGaoji());
+			armory.setJiyun(arv.getJiyunGaoji());
+			armory.setKangyun(arv.getKangyunGaoji());
+			armory.setGedang(arv.getGedangGaoji());
+			armory.setGedangPoss(arv.getGedangPossGaoji());
+			armory.setReduce(arv.getReduceGaoji());
+		}
+		
+		int attack = armory.getAttack() + armory.getLevel()*arv.getAttackStepJinglian();
+		int health = armory.getHealth() + armory.getLevel()*arv.getHealthStepJinglian();
+		
+		if (armory.getPinjie() > Constant.ARMORY_JINJIE_MAX_GENERAL_PINJIE){
+			attack += arv.getAddAttackGaoji();
+			health += arv.getAddHealthGaoji();
+		}
+		else{
+			attack += arv.getAddAttack();
+			health += arv.getAddHealth();
+		}
+
+		armory.setAttack(attack);
+		armory.setHealth(health);
 	}
 	
 	private void consumePropForArmoryJinjie(String uid, ArmoryJinjieRedisVo commJinjie)

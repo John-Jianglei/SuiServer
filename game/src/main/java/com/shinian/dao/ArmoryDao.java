@@ -22,6 +22,12 @@ import com.shinian.vo.PropInfoVo;
 @Repository
 public class ArmoryDao {
 	
+	public int updateArmory(ArmoryVo armory)
+	{
+		String sql = "update game_armory_info set `npcId` = ?, `pinjie` = ?, `level` = ?, `loaded` = ?, `amount` = ?, `health` = ?, `attack` = ?, `hujia` = ?, `pojia` = ?, `fachuan` = ?, `fakang` = ?, `baoji` = ?, `renxing` = ?, `mingzhong` = ?, `shanbi` = ?, `xixue` = ?, `fantan` = ?, `jiyun` = ?, `kangyun` = ?, `gedang` = ?, `gedangPoss` = ?, `reduce` = ?, `updateTime` = now() where `id` = ?";
+		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, armory.getNpcId(),  armory.getPinjie(),  armory.getLevel(),  armory.getLoaded(),  armory.getAmount(),  armory.getHealth(),  armory.getAttack(),  armory.getHujia(),  armory.getPojia(),  armory.getFachuan(),  armory.getFakang(),  armory.getBaoji(),  armory.getRenxing(),  armory.getMingzhong(),  armory.getShanbi(),  armory.getXixue(),  armory.getFantan(),  armory.getJiyun(),  armory.getKangyun(),  armory.getGedang(),  armory.getGedangPoss(),  armory.getReduce(),  armory.getId());
+	}
+	
 	public int levelup(int id, int level, int attack, int health)
 	{
 		String sql = "update game_armory_info set `level` = ?, `attack` = ?, `health` = ? where `id` = ?";
