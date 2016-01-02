@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shinian.dao.CommonDataDao;
+import com.shinian.vo.AnnexPackRedisVo;
 import com.shinian.vo.ArmoryJinjieRedisVo;
 import com.shinian.vo.ArmoryRedisVo;
 import com.shinian.vo.CombatPowerCoffiRedisVo;
@@ -93,5 +94,9 @@ public class CommonDataService {
 	public JingjiRedisVo getJingjiInfoById(int id){
 		return commonDataDao.getJingjiInfoById(id);
 	}	
+	
+	public AnnexPackRedisVo getAnnexPack(int id){
+		return commonDataDao.getAnnexPack(id);
+	}
 	
 }

@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
+import com.shinian.vo.AnnexPackRedisVo;
 import com.shinian.vo.ArmoryJinjieRedisVo;
 import com.shinian.vo.ArmoryRedisVo;
 import com.shinian.vo.CombatPowerCoffiRedisVo;
@@ -30,6 +31,16 @@ public class CommonDataDao  {
 	{
 		final String sql = " select `name` from common_sensitive_character where `status`= 1 ";	
 		return WebConstant.commonJdbc.getJdbcTemplate().queryForList(sql);
+	}
+	
+	public AnnexPackRedisVo getAnnexPack(int id){
+		final String sql = " select `id`, `name`, `type1`, `comId1`, `amount1`, `type2`, `comId2`, `amount2`, `type3`, `comId3`, `amount3`, `type4`, `comId4`, `amount4`, `type5`, `comId5`, `amount5`, `type6`, `comId6`, `amount6`, `updateTime`, `status` from common_annexPack_info where id = ? and status = 1";
+		List<AnnexPackRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(AnnexPackRedisVo.class),new Object[]{id});
+		if( null != list && list.size() > 0 )
+		{
+			return list.get(0);
+		}
+		return null;
 	}
 	
 	public NpcInfoRedisVo getNpcInfoByComId(final int comId)

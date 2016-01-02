@@ -19,5 +19,8 @@ public final class RedisKeyDefine {
 	public static final String KEY_COMMON_COMBAT_POWER_COFFI = "common:combat:power:coffi:%s";
 	public static final String KEY_COMMON_JINGJI = "common:jingji:%s";
 	
+	public static final String KEY_COMMON_ANNEXPACK = "common:annexPack:%s";
+
+	
 }
 	

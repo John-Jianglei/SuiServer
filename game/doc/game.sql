@@ -186,7 +186,7 @@ CREATE TABLE `game_armory_info` (
   `level` int(11) NOT NULL DEFAULT '1' COMMENT '装备等级',
   `loaded` int(3) NOT NULL DEFAULT '0' COMMENT '是否装备：0：未装备；1：装备',
   `amount` int(11) NOT NULL DEFAULT '1' COMMENT '装备数量',
-  `health` int(11) NOT NULL DEFAULT '1' COMMENT '武将初始生命值',
+`health` int(11) NOT NULL DEFAULT '1' COMMENT '武将初始生命值',
   `attack` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始攻击力',
   `hujia` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始护甲',
   `pojia` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始破甲',
@@ -232,3 +232,35 @@ CREATE TABLE `game_armory_piece` (
   `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',  
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='装备碎片信息表';
+
+
+DROP TABLE IF EXISTS `game_news_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `game_news_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category` int(3) NOT NULL DEFAULT '0' COMMENT '类别: 0--全局邮件 1--个人邮件 2--公告 3--消息',
+  `title` varchar(200) DEFAULT NULL COMMENT '消息的标题',
+  `uid` varchar(50) NOT NULL DEFAULT '0-0' COMMENT '接受方的角色id，0-0为全局邮件或消息',
+  `fromUid` varchar(50) NOT NULL DEFAULT '0-0' COMMENT '发送方的角色id，0-0为全局邮件或消息',
+  `fromName` varchar(200) DEFAULT NULL COMMENT '发送方的名字',
+  `content` varchar(512) COMMENT '内容',
+  `annexCate` int(3) NOT NULL DEFAULT '0' COMMENT '类别: 0--无附件 1--武将附件 2--物品附件 3--装备附件  4--礼包',
+  `annexId` int(11) NOT NULL DEFAULT '0' COMMENT '附件对应的common_*_info中的id，或当类型为礼包时，对应game_annexPack_info中的pid',
+  `amount` int(11) NOT NULL DEFAULT '1' COMMENT '附件数量',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',  
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '0 未读 1 表示已读  2 表示附件已领取',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='邮件及消息系统';
+
+DROP TABLE IF EXISTS `game_annexPack_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `game_annexPack_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NOT NULL COMMENT '礼品包代号',  
+  `annexCate` int(3) NOT NULL DEFAULT '0' COMMENT '类别: 0--无附件 1--武将附件 2--物品附件 3--装备附件',
+  `annexId` int(11) NOT NULL DEFAULT '0' COMMENT '附件对应的common_*_info中的id',
+  `amount` int(11) NOT NULL DEFAULT '1' COMMENT '附件数量',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='礼包信息表';
