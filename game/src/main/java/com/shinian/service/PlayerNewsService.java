@@ -11,15 +11,21 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.shinian.dao.ArmoryDao;
+import com.shinian.dao.PlayerNewsDao;
 import com.shinian.dao.PropInfoDao;
 import com.shinian.util.Constant;
+import com.shinian.util.DateUtil;
 import com.shinian.util.Message;
 import com.shinian.vo.ArmoryRedisVo;
 import com.shinian.vo.ArmoryReqVo;
 import com.shinian.vo.ArmoryVo;
 import com.shinian.vo.CommonReqVo;
 import com.shinian.vo.MessageRespVo;
+import com.shinian.vo.NewsReqVo;
+import com.shinian.vo.NewsRespVo;
 import com.shinian.vo.NpcInfoVo;
+import com.shinian.vo.PlayerInfoVo;
+import com.shinian.vo.PlayerNewsTimeVo;
 import com.shinian.vo.PropInfoReqVo;
 import com.shinian.vo.PropInfoRedisVo;
 import com.shinian.vo.PropInfoVo;
@@ -42,52 +48,57 @@ public class PlayerNewsService {
 	
 	@Autowired
 	NpcInfoService npcInfoService;
+	
+	@Autowired
+	PlayerNewsDao playerNewsDao;
 
+	//	input: uid
 	public MessageRespVo getPlayerNewsCount(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
 		MessageRespVo result = new MessageRespVo();
 
 		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
-		ArmoryReqVo nrv = JSON.parseObject(gcrv.getData().toString(),ArmoryReqVo.class);
+		NewsReqVo nrv = JSON.parseObject(gcrv.getData().toString(), NewsReqVo.class);
 		result.setTs(gcrv.getTs());
 		
-		NpcInfoVo npc = npcInfoService.getNpcInfoById(nrv.getNpcId());
-		if (npc == null){
-			result.setCode(Message.MSG_CODE_NPC_NOT_EXIST);
-			result.setMsg(Message.MSG_NPC_NOT_EXIST);
-			return result;
-		}
-
-		ArmoryVo armory = armoryDao.getArmoryById(nrv.getId());
-		if (armory == null){
-			result.setCode(Message.MSG_CODE_ARMORY_NOT_EXIST);
-			result.setMsg(Message.MSG_ARMORY_NOT_EXIST);
+		PlayerInfoVo player = playerInfoService.getPlayerById(nrv.getUid());
+		if (player == null){
+			result.setCode(Message.MSG_CODE_PLAYER_NOT_EXIST);
+			result.setMsg(Message.MSG_PLAYER_NOT_EXIST);
 			return result;
 		}
 		
-		if (npc.getUid() != armory.getUid()){
-			result.setCode(Message.MSG_CODE_ARMORY_NOT_MATCH_NPC);
-			result.setMsg(Message.MSG_ARMORY_NOT_MATCH_NPC);
-			return result;
+		int pCount = 0;
+		PlayerNewsTimeVo newsTime = playerNewsDao.getPlayerNewsTimeById( nrv.getUid() );
+		if( null == newsTime ){
+			pCount = playerNewsDao.getUserNewsCount( nrv.getUid() ); 
 		}
-		
-		int category = redisCacheUtil.getArmoryByComId(armory.getComId()).getCategory();
-		List<ArmoryVo> armoryList = armoryDao.getLoadedArmorys(nrv.getNpcId());
-		
-		for (ArmoryVo a:armoryList){
-			if (category == redisCacheUtil.getArmoryByComId(a.getComId()).getCategory()) {
-				armoryDao.loadArmoryToNpc(nrv.getNpcId(), a.getId(), false);
+		else{
+			String uNewsTime = newsTime.getNewsTime();
+			if( DateUtil.getDifferDays(uNewsTime, DateUtil.getCurrentTime()) > Constant.NEWS_MAX_RETENTION_DAY )
+			{
+				uNewsTime = DateUtil.getyesterday(-Constant.NEWS_MAX_RETENTION_DAY);
 			}
+			pCount = playerNewsDao.getUserNewsCount( nrv.getUid() , uNewsTime );
 		}
 		
-		armoryDao.loadArmoryToNpc(nrv.getNpcId(), nrv.getId(), true);
-		armory.setLoaded(1);
-		armory.setNpcId(nrv.getNpcId());
+		int gCount = getGlobalNewsCount(nrv.getUid());
 
-		result.setData(armory);		
+		NewsRespVo resp = new NewsRespVo();
+		resp.setCount( pCount+gCount );
+		resp.setUid(nrv.getUid());
+		
+		result.setData(resp);		
 		result.setCode(Message.MSG_CODE_OK);
 		
 		return result;
+	}
+	
+	private int getGlobalNewsCount(String uid)
+	{
+		int count = 0;
+		
+		return count;
 	}
 	
 	public MessageRespVo getPlayerNewsList(HttpServletRequest request, HttpServletResponse response,String jsonStr)
