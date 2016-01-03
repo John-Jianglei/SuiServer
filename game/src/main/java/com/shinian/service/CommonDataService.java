@@ -20,6 +20,8 @@ import com.shinian.vo.PassNameRedisVo;
 import com.shinian.vo.PassZhanyiRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
 import com.shinian.vo.YuanfenInfoRedisVo;
+import com.shinian.vo.playerExpRedisVo;
+import com.shinian.vo.vipPrivilegeRedisVo;
 
 @Service
 public class CommonDataService {
@@ -98,5 +100,14 @@ public class CommonDataService {
 	public AnnexPackRedisVo getAnnexPack(int id){
 		return commonDataDao.getAnnexPack(id);
 	}
+	
+	public vipPrivilegeRedisVo getVipPrivilegeByVip(int vipLevel){
+		return commonDataDao.getVipPrivilegeByVip(vipLevel);
+	}
+	
+	public playerExpRedisVo getPlayerExpByLevel(int level){
+		return commonDataDao.getPlayerExpByLevel(level);
+	}
+	
 	
 }

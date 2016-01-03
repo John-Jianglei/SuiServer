@@ -22,6 +22,8 @@ import com.shinian.vo.PassNameRedisVo;
 import com.shinian.vo.PassZhanyiRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
 import com.shinian.vo.YuanfenInfoRedisVo;
+import com.shinian.vo.playerExpRedisVo;
+import com.shinian.vo.vipPrivilegeRedisVo;
 
 
 @Repository
@@ -42,6 +44,31 @@ public class CommonDataDao  {
 		}
 		return null;
 	}
+	
+	public vipPrivilegeRedisVo getVipPrivilegeByVip(int vipLevel){
+		final String sql = " select `vipLevel`, `buyStrengthDesc`, `maxStrengthDesc`, `buyStrength`, `maxStrength`, `resetPassDesc`, " +
+				"`resetPassNum`, `zhaoCaiDesc`, `zhaoCaiNum`, `libaoDesc`, `libao`, `saoDangDesc`, `saoDang`, `chongZhiDesc`, " +
+				"`chongZhi`, `shenJiangLuDesc`, `shenJiangLu` from common_vip_privilege where vipLevel = ?";
+		List<vipPrivilegeRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(vipPrivilegeRedisVo.class),new Object[]{vipLevel});
+		if( null != list && list.size() > 0 )
+		{
+			return list.get(0);
+		}
+		return null;		
+
+	}
+	
+	public playerExpRedisVo getPlayerExpByLevel(int level){
+		final String sql = " select `level`, `exp`, `attackAdd`, `healthAdd` from common_player_exp where level = ?";
+		List<playerExpRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(playerExpRedisVo.class),new Object[]{level});
+		if( null != list && list.size() > 0 )
+		{
+			return list.get(0);
+		}
+		return null;		
+
+	}
+	
 	
 	public NpcInfoRedisVo getNpcInfoByComId(final int comId)
 	{

@@ -1,6 +1,5 @@
 package com.shinian.redis;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +25,8 @@ import com.shinian.vo.PassNameRedisVo;
 import com.shinian.vo.PassZhanyiRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
 import com.shinian.vo.YuanfenInfoRedisVo;
+import com.shinian.vo.playerExpRedisVo;
+import com.shinian.vo.vipPrivilegeRedisVo;
 
 
 @Component
@@ -630,7 +631,109 @@ public class RedisCacheUtil {
 		
 		return null;
 	}
+	
+	public vipPrivilegeRedisVo getVipPrivilegeByVip(int vipLevel)
+	{
+		vipPrivilegeRedisVo vprv = new vipPrivilegeRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_VIP_PRIVILEGE_ONE;
+			String key = String.format(prefix, vipLevel);
 
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, vprv.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					vprv.fromList(list);
+					return vprv;
+				}
+			}
+			else{
+				vipPrivilegeRedisVo v = commonDataService.getVipPrivilegeByVip(vipLevel);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
+	}	
+	
+//	public List<String> geingtVipPrivilege( int vipAll)
+//	{
+//		List<String> listVprv = new ArrayList<String>();
+//		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+//		try{
+//			String key = RedisKeyDefine.KEY_VIP_PRIVILEGE;
+//			if(jedis.exists(key)){
+//				
+//				listVprv =  jedis.lrange(key, 0, -1);   ;
+//				return listVprv;
+//			}
+//			else{
+//				List<vipPrivilegeRedisVo> vipAllList = commonDataService.geingtVipPrivilege(vipAll);
+//				if( null != vipAllList && vipAllList.size() > 0 )
+//				{
+//					for (vipPrivilegeRedisVo data : vipAllList) 
+//					{
+//						jedis.lpush(key, data.getPlayerId()+"");
+//						list.add(data.getPlayerId()+"");
+//					}
+//				}
+//				
+//				return list;
+//			}
+//		}
+//		catch(Exception e){
+//			e.printStackTrace();
+//		}
+//		finally{
+//			RedisMessageUtil.getInstance().closeConnection(jedis);
+//		}
+//		
+//		return null;
+//	}
+
+	public playerExpRedisVo getPlayerExpByLevel(int level)
+	{
+		playerExpRedisVo vprv = new playerExpRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_PLAYER_EXP;
+			String key = String.format(prefix, level);
+
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, vprv.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					vprv.fromList(list);
+					return vprv;
+				}
+			}
+			else{
+				playerExpRedisVo v = commonDataService.getPlayerExpByLevel(level);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
+	}
 	
 }
 
