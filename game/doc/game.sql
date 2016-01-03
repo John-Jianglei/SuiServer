@@ -253,14 +253,11 @@ CREATE TABLE `game_news_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='邮件及消息系统';
 
-DROP TABLE IF EXISTS `game_annexPack_info`;
+DROP TABLE IF EXISTS `game_player_news_time`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `game_annexPack_info` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pid` int(11) NOT NULL COMMENT '礼品包代号',  
-  `annexCate` int(3) NOT NULL DEFAULT '0' COMMENT '类别: 0--无附件 1--武将附件 2--物品附件 3--装备附件',
-  `annexId` int(11) NOT NULL DEFAULT '0' COMMENT '附件对应的common_*_info中的id',
-  `amount` int(11) NOT NULL DEFAULT '1' COMMENT '附件数量',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='礼包信息表';
+CREATE TABLE `game_player_news_time` (
+  `uid` int(10) NOT NULL COMMENT '用户的ID',
+  `newsTime` varchar(20) DEFAULT NULL COMMENT '用户上次去消息的时间',
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户上传邮件时间';

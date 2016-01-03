@@ -31,7 +31,7 @@ public class Constant implements Serializable{
 	public final static int ARMORY_JINJIE_PROP_MADENG = 204;
 	public final static int ARMORY_JINJIE_PROP_PIGE = 205;
 	
-
+	public final static int NEWS_MAX_RETENTION_DAY = 7;
 
 	
 
