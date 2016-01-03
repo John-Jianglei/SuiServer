@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class playerExpRedisVo extends BaseObject implements Serializable{
+public class PlayerExpRedisVo extends BaseObject implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	

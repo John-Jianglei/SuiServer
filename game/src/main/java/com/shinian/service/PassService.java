@@ -18,6 +18,7 @@ import com.shinian.dao.PassDao;
 import com.shinian.dao.PlayerInfoDao;
 import com.shinian.dao.PropInfoDao;
 import com.shinian.redis.RedisCacheUtil;
+import com.shinian.util.Constant;
 import com.shinian.util.Message;
 import com.shinian.vo.BattleReturnVo;
 import com.shinian.vo.CommonReqVo;
@@ -28,6 +29,7 @@ import com.shinian.vo.PassLogVo;
 import com.shinian.vo.PassReturnVo;
 import com.shinian.vo.PassVo;
 import com.shinian.vo.PassZhanyiRedisVo;
+import com.shinian.vo.PlayerExpRedisVo;
 import com.shinian.vo.PlayerInfoVo;
 import com.shinian.vo.RewardVo;
 
@@ -272,6 +274,35 @@ public class PassService {
 	//玩家升级
 	public PlayerInfoVo playerUpdate( int exp, PlayerInfoVo piv ){
 		
+		int currentExp = piv.getCurrent_exp();
+		int level = piv.getLevel();
+		PlayerExpRedisVo perv = redisCacheUtil.getPlayerExpByLevel(level);
+		int levelExp = perv.getExp();
+		
+		while(true){
+			//不够升级
+			if( exp < levelExp-currentExp ){
+				currentExp +=  exp;				
+				break;
+			}
+			else{
+				exp = exp - ( levelExp - currentExp );
+				if( level == Constant.CON_PLAYER_MAX_LEVEL ){
+					currentExp = levelExp;
+					break;
+				}
+				else{
+					currentExp = 0;
+					level += 1;
+					perv = redisCacheUtil.getPlayerExpByLevel(level);
+					levelExp = perv.getExp();
+				}
+			}
+		}
+		piv.setLevel(level);
+		piv.setCurrent_exp(currentExp);
+		
+		//更新战力
 		
 		return piv;
 	}

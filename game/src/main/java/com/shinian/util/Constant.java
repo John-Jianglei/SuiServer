@@ -53,6 +53,8 @@ public class Constant implements Serializable{
  	public final static int CON_NPC_BATTLE_ACT_GEDANG 		= 0x0008;
  	public final static int CON_NPC_BATTLE_ACT_PHYFIGHT 	= 0x0010;
  	public final static int CON_NPC_BATTLE_ACT_MAGICFIGHT 	= 0x0020;
+ 	
+ 	public final static int CON_PLAYER_MAX_LEVEL = 200;
 
 
 }

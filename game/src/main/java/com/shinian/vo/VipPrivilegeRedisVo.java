@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class vipPrivilegeRedisVo extends BaseObject implements Serializable{
+public class VipPrivilegeRedisVo extends BaseObject implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	

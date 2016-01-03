@@ -23,10 +23,10 @@ import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcUpdateRedisVo;
 import com.shinian.vo.PassNameRedisVo;
 import com.shinian.vo.PassZhanyiRedisVo;
+import com.shinian.vo.PlayerExpRedisVo;
 import com.shinian.vo.PropInfoRedisVo;
+import com.shinian.vo.VipPrivilegeRedisVo;
 import com.shinian.vo.YuanfenInfoRedisVo;
-import com.shinian.vo.playerExpRedisVo;
-import com.shinian.vo.vipPrivilegeRedisVo;
 
 
 @Component
@@ -632,9 +632,9 @@ public class RedisCacheUtil {
 		return null;
 	}
 	
-	public vipPrivilegeRedisVo getVipPrivilegeByVip(int vipLevel)
+	public VipPrivilegeRedisVo getVipPrivilegeByVip(int vipLevel)
 	{
-		vipPrivilegeRedisVo vprv = new vipPrivilegeRedisVo();
+		VipPrivilegeRedisVo vprv = new VipPrivilegeRedisVo();
 		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
 		try{
 			String prefix = RedisKeyDefine.KEY_VIP_PRIVILEGE_ONE;
@@ -649,7 +649,7 @@ public class RedisCacheUtil {
 				}
 			}
 			else{
-				vipPrivilegeRedisVo v = commonDataService.getVipPrivilegeByVip(vipLevel);
+				VipPrivilegeRedisVo v = commonDataService.getVipPrivilegeByVip(vipLevel);
 				if(v != null){
 					jedis.hmset(key, v.toMap());
 				}
@@ -701,9 +701,9 @@ public class RedisCacheUtil {
 //		return null;
 //	}
 
-	public playerExpRedisVo getPlayerExpByLevel(int level)
+	public PlayerExpRedisVo getPlayerExpByLevel(int level)
 	{
-		playerExpRedisVo vprv = new playerExpRedisVo();
+		PlayerExpRedisVo vprv = new PlayerExpRedisVo();
 		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
 		try{
 			String prefix = RedisKeyDefine.KEY_PLAYER_EXP;
@@ -718,7 +718,7 @@ public class RedisCacheUtil {
 				}
 			}
 			else{
-				playerExpRedisVo v = commonDataService.getPlayerExpByLevel(level);
+				PlayerExpRedisVo v = commonDataService.getPlayerExpByLevel(level);
 				if(v != null){
 					jedis.hmset(key, v.toMap());
 				}
