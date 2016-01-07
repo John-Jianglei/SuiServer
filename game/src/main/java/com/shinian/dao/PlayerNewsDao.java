@@ -16,12 +16,25 @@ import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
 import com.shinian.vo.ArmoryVo;
+import com.shinian.vo.NewsVo;
 import com.shinian.vo.NpcInfoVo;
 import com.shinian.vo.PlayerNewsTimeVo;
 import com.shinian.vo.PropInfoVo;
 
 @Repository
 public class PlayerNewsDao {
+	
+	public List<NewsVo> getUserNews(final String uid,final String newsTime)
+	{
+		final String sql = " select `id`, `category`, `title`, `uid`, `fromUid`, `fromName`, `content`, `annexCate`, `annexId`, `amount`, `updateTime`, `status` from  game_news_info  where `status` = 0 and `uid` = ? and  `category` = 1 and `updateTime` >= ? ";
+		return WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(NewsVo.class),new Object[]{uid});
+	}
+	
+	public List<NewsVo> getUserNews(final String uid)
+	{
+		final String sql = " select `id`, `category`, `title`, `uid`, `fromUid`, `fromName`, `content`, `annexCate`, `annexId`, `amount`, `updateTime`, `status` from  game_news_info  where `status` = 0 and `uid` = ? and  `category` = 1 ";
+		return WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(NewsVo.class),new Object[]{uid});
+	}
 	
 	public int getUserNewsCount(final String uid,final String newsTime)
 	{
