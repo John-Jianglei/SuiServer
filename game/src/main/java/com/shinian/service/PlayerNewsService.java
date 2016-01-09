@@ -131,9 +131,17 @@ public class PlayerNewsService {
 			list = playerNewsDao.getUserNews( nrv.getUid() , uNewsTime );
 		}
 		
+		if( null != list && list.size() > 0 ){
+			for (NewsVo news : list)
+			{
+				playerNewsDao.setPlayerNewsStatus( news.getId(), Constant.NEWS_STATUS_READ );
+			}
+			playerNewsDao.updatePlayerNewsTimeById( nrv.getUid() );
+		}
+			
 		List<NewsVo> gList = getGlobalNews(nrv.getUid());
-		list.addAll(gList);
-
+		if( null != gList && gList.size() > 0 ) list.addAll(gList);
+					
 		result.setData(list);		
 		result.setCode(Message.MSG_CODE_OK);
 		
