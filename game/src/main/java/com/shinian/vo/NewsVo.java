@@ -17,6 +17,7 @@ public class NewsVo extends BaseObject implements Serializable{
 		private int amount;
 		private String updateTime;
 		private int status;
+		
 		public int getId() {
 			return id;
 		}

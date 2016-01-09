@@ -23,6 +23,7 @@ import com.shinian.vo.CommonReqVo;
 import com.shinian.vo.MessageRespVo;
 import com.shinian.vo.NewsReqVo;
 import com.shinian.vo.NewsRespVo;
+import com.shinian.vo.NewsVo;
 import com.shinian.vo.NpcInfoVo;
 import com.shinian.vo.PlayerInfoVo;
 import com.shinian.vo.PlayerNewsTimeVo;
@@ -106,29 +107,42 @@ public class PlayerNewsService {
 		MessageRespVo result = new MessageRespVo();
 
 		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
-		ArmoryReqVo nrv = JSON.parseObject(gcrv.getData().toString(),ArmoryReqVo.class);
+		NewsReqVo nrv = JSON.parseObject(gcrv.getData().toString(), NewsReqVo.class);
 		result.setTs(gcrv.getTs());
 		
-		if (!playerInfoService.isUidExist(nrv.getUid())){
+		PlayerInfoVo player = playerInfoService.getPlayerById(nrv.getUid());
+		if (player == null){
 			result.setCode(Message.MSG_CODE_PLAYER_NOT_EXIST);
 			result.setMsg(Message.MSG_PLAYER_NOT_EXIST);
 			return result;
 		}
 		
-		ArmoryRedisVo arvo = redisCacheUtil.getArmoryByComId(nrv.getComId()); 
-		if (arvo == null){
-			result.setCode(Message.MSG_CODE_ARMORY_NOT_EXIST);
-			result.setMsg(Message.MSG_ARMORY_NOT_EXIST);
-			return result;
+		List<NewsVo> list;
+		PlayerNewsTimeVo newsTime = playerNewsDao.getPlayerNewsTimeById( nrv.getUid() );
+		if( null == newsTime ){
+			list = playerNewsDao.getUserNews( nrv.getUid() ); 
+		}
+		else{
+			String uNewsTime = newsTime.getNewsTime();
+			if( DateUtil.getDifferDays(uNewsTime, DateUtil.getCurrentTime()) > Constant.NEWS_MAX_RETENTION_DAY )
+			{
+				uNewsTime = DateUtil.getyesterday(-Constant.NEWS_MAX_RETENTION_DAY);
+			}
+			list = playerNewsDao.getUserNews( nrv.getUid() , uNewsTime );
 		}
 		
-		ArmoryVo armory = arvo.initGameArmory();
-				
-		ArmoryVo av = armoryDao.addArmoryToPlayer(nrv.getUid(), armory);		
-		result.setData(av);		
+		List<NewsVo> gList = getGlobalNews(nrv.getUid());
+		list.addAll(gList);
+
+		result.setData(list);		
 		result.setCode(Message.MSG_CODE_OK);
 		
 		return result;
+	}
+	
+	private List<NewsVo> getGlobalNews(String uid)
+	{
+		return null;
 	}
 	
 	public MessageRespVo getNewsAward(HttpServletRequest request, HttpServletResponse response,String jsonStr)
