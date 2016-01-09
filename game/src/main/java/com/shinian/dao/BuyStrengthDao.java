@@ -10,11 +10,13 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import com.shinian.dao.impl.WebConstant;
 import com.shinian.vo.BuyStrengthLogVo;
 import com.shinian.vo.PassLogVo;
 
+@Repository
 public class BuyStrengthDao {
 	
 	//BuyStrengthLog get 
