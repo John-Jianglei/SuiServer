@@ -12,6 +12,7 @@ import com.shinian.dao.impl.WebConstant;
 import com.shinian.vo.AnnexPackRedisVo;
 import com.shinian.vo.ArmoryJinjieRedisVo;
 import com.shinian.vo.ArmoryRedisVo;
+import com.shinian.vo.BuyStrengthRedisVo;
 import com.shinian.vo.CombatPowerCoffiRedisVo;
 import com.shinian.vo.JinengRedisVo;
 import com.shinian.vo.JingjiRedisVo;
@@ -297,8 +298,21 @@ public class CommonDataDao  {
 			return list.get(0);
 		}
 		return null;
-	}	
+	}
 	
+	public BuyStrengthRedisVo getBuyStrengthBySeq(int seq){
+		
+		final String sql = " select `seq`,`gold` from common_buyStrength where seq= ?";
+				
+		List<BuyStrengthRedisVo> list = WebConstant.commonJdbc.getJdbcTemplate().query(sql,
+				ParameterizedBeanPropertyRowMapper.newInstance(BuyStrengthRedisVo.class),
+				new Object[]{seq});	
+		
+		if(list != null && list.size() > 0){
+			return list.get(0);
+		}
+		return null;
+	}	
 	
 }
 

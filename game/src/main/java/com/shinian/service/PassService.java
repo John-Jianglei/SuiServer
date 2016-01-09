@@ -20,6 +20,7 @@ import com.shinian.dao.PropInfoDao;
 import com.shinian.redis.RedisCacheUtil;
 import com.shinian.util.Constant;
 import com.shinian.util.Message;
+import com.shinian.util.Util;
 import com.shinian.vo.BattleReturnVo;
 import com.shinian.vo.CommonReqVo;
 import com.shinian.vo.DropRewardVo;
@@ -207,11 +208,8 @@ public class PassService {
 		
 		PassZhanyiRedisVo pzrv = redisCacheUtil.getPassZhanyiInfoById(passVo.getBattle());			//本次扫荡经验			
 		//int	exp = pzrv.getExp();		
-	
-		Calendar cal=Calendar.getInstance();
-		cal.setTime(new Date());
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String date = formatter.format(cal.getTime());
+
+		String date = Util.getCurrentDate();	
 		
 		PassLogVo plv= passDao.getPassLog( passVo.getBattle(), passVo.getUid(), date );
 		//如果没有则插入一条记录

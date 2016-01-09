@@ -24,6 +24,7 @@ public final class RedisKeyDefine {
 	public static final String KEY_VIP_PRIVILEGE = "common:vipPrivilege:%s";
 	public static final String KEY_VIP_PRIVILEGE_ONE = "common:vipPrivilegeOne:vipAll";
 	public static final String KEY_PLAYER_EXP = "common:playerExp:%S";
+	public static final String KEY_BUY_STRENGTH = "common:buyStrenght:%S";
 
 	
 }

@@ -59,6 +59,9 @@ public class DispatcherService {
 	@Autowired
 	JingjiService jingjiService; 
 	
+	@Autowired
+	BuyStrengthService buyStrengthServic;
+	
 	
 	private static Logger log = Logger.getLogger("game");
 	
@@ -123,11 +126,15 @@ public class DispatcherService {
 				break;
 				
 			case 1013:
-				result = jingjiService.JingjiBatttle(request, response, jsonStr);///	竞技场战斗
+				result = jingjiService.JingjiBatttle(request, response, jsonStr);		///	竞技场战斗
 				break;
 				
 			case 1014:
-				result = jingjiService.EnterJingji(request, response, jsonStr);///	初次进入竞技场
+				result = jingjiService.EnterJingji(request, response, jsonStr);			///	初次进入竞技场
+				break;
+				
+			case 1015:
+				result = buyStrengthServic.BuyStrength(request, response, jsonStr);		///	购买体力
 				break;
 				
 			case 9002:

@@ -14,6 +14,9 @@ import java.net.URL;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -211,5 +214,16 @@ public class Util {
 		
 		return resp;
 	}
+ 	
+    //获取当天日期
+    public static String getCurrentDate(){
+		
+    	Calendar cal=Calendar.getInstance();
+		cal.setTime(new Date());
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String date = formatter.format(cal.getTime());
+		
+		return date;
+    }
 
 }

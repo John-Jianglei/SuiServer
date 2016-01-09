@@ -55,6 +55,7 @@ public class Constant implements Serializable{
  	public final static int CON_NPC_BATTLE_ACT_MAGICFIGHT 	= 0x0020;
  	
  	public final static int CON_PLAYER_MAX_LEVEL = 200;
+ 	public final static int CON_BUY_ONE_STRENGTH = 10;		//购买一次体力增加值
 
 
 }

@@ -10,6 +10,7 @@ import com.shinian.dao.CommonDataDao;
 import com.shinian.vo.AnnexPackRedisVo;
 import com.shinian.vo.ArmoryJinjieRedisVo;
 import com.shinian.vo.ArmoryRedisVo;
+import com.shinian.vo.BuyStrengthRedisVo;
 import com.shinian.vo.CombatPowerCoffiRedisVo;
 import com.shinian.vo.JinengRedisVo;
 import com.shinian.vo.JingjiRedisVo;
@@ -109,5 +110,8 @@ public class CommonDataService {
 		return commonDataDao.getPlayerExpByLevel(level);
 	}
 	
+	public BuyStrengthRedisVo getBuyStrengthBySeq(int seq){
+		return commonDataDao.getBuyStrengthBySeq(seq);
+	}	
 	
 }

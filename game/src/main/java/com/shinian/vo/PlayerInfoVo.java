@@ -33,12 +33,7 @@ public class PlayerInfoVo extends BaseObject implements Serializable{
 		this.camp = camp;
 	}
 	
-	public int getVip_level() {
-		return vip_level;
-	}
-	public void setVip_level(int vip_level) {
-		this.vip_level = vip_level;
-	}
+
 	public long getCombatPower() {
 		return combatPower;
 	}

@@ -73,5 +73,14 @@ public class Message implements Serializable{
 	
 	public final static int MSG_CODE_ARMORY_JINJIE_NOT_EXIST = 321;
 	public final static String MSG_ARMORY_JINJIE_NOT_EXIST = "装备进阶配方不存在";
+	
+	public final static int MSG_CODE_BUY_STRENGTH_FULL = 322;
+	public final static String MSG_BUY_STRENGTH_FULL = "已达最大购买次数";	
+	public final static int MSG_CODE_BUY_STRENGTH_ERROR = 323;
+	public final static String MSG_BUY_STRENGTH_ERROR = "购买体力消耗元宝数错误";	
+	public final static int MSG_CODE_CANNOT_BUY_STRENGTH = 324;
+	public final static String MSG_CANNOT_BUY_STRENGTH = "体力已满，不能购买";
+	public final static int MSG_CODE_NOT_ENOUGH_GOLD = 325;
+	public final static String MSG_NOT_ENOUGH_GOLD = "元宝不足，不能购买";
 
 }

@@ -15,6 +15,7 @@ import com.shinian.util.Constant;
 import com.shinian.vo.AnnexPackRedisVo;
 import com.shinian.vo.ArmoryJinjieRedisVo;
 import com.shinian.vo.ArmoryRedisVo;
+import com.shinian.vo.BuyStrengthRedisVo;
 import com.shinian.vo.CombatPowerCoffiRedisVo;
 import com.shinian.vo.JinengRedisVo;
 import com.shinian.vo.JingjiRedisVo;
@@ -734,6 +735,40 @@ public class RedisCacheUtil {
 		
 		return null;
 	}
+	
+	public BuyStrengthRedisVo getBuyStrengthBySeq(int seq)
+	{
+		BuyStrengthRedisVo vprv = new BuyStrengthRedisVo();
+		Jedis jedis = RedisMessageUtil.getInstance().getConnection();
+		try{
+			String prefix = RedisKeyDefine.KEY_BUY_STRENGTH;
+			String key = String.format(prefix, seq);
+
+			if(jedis.exists(key)){
+				List<String> list = jedis.hmget(key, vprv.getFieldNames());
+				
+				if(list != null && list.size() > 0 && list.get(0) != null) {					
+					vprv.fromList(list);
+					return vprv;
+				}
+			}
+			else{
+				BuyStrengthRedisVo v = commonDataService.getBuyStrengthBySeq(seq);
+				if(v != null){
+					jedis.hmset(key, v.toMap());
+				}
+				return v;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			RedisMessageUtil.getInstance().closeConnection(jedis);
+		}
+		
+		return null;
+	}	
 	
 }
 

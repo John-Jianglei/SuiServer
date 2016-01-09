@@ -2,7 +2,7 @@ package com.shinian.vo;
 
 import java.io.Serializable;
 
-public class PassVo  extends BaseObject implements Serializable{
+public class PassVo extends BaseObject implements Serializable{
 
 	protected	String 	uid;
 	private		int		battle;			//battleId
