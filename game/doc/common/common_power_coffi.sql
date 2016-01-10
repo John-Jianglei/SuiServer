@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2015-12-23 21:32:15
+Date: 2016-01-10 09:48:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -39,7 +39,7 @@ CREATE TABLE `common_power_coffi` (
   `gedangC` int(11) NOT NULL COMMENT '系数，需除以100',
   `reduceC` int(11) NOT NULL COMMENT '系数，需除以100',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '战力系数表';
 
 -- ----------------------------
 -- Records of common_power_coffi

@@ -82,5 +82,8 @@ public class Message implements Serializable{
 	public final static String MSG_CANNOT_BUY_STRENGTH = "体力已满，不能购买";
 	public final static int MSG_CODE_NOT_ENOUGH_GOLD = 325;
 	public final static String MSG_NOT_ENOUGH_GOLD = "元宝不足，不能购买";
+	
+	public final static int MSG_CODE_NPC_FENJIE_EXCEPTION = 326;
+	public final static String MSG_NPC_FENJIE_EXCEPTION = "武将分解出现异常";
 
 }

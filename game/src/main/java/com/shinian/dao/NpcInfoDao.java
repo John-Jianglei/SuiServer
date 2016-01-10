@@ -48,4 +48,9 @@ public class NpcInfoDao{
 		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, position, id);
 	}
 	
+	public int deleteNpcById(int id){
+		String sql = "delete from game_npc_info where `id` = ?";
+		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, id);
+	}
+	
 }

@@ -9,6 +9,9 @@ public class Nature implements Serializable{
 	public final static int YUANFEN_CATEGORY_NPC = 1;
 	public final static int YUANFEN_CATEGORY_PROP = 2;
 	
+	public final static int NT_NPC_JINJIE = 100;
+	public final static String NT_MSG_NPC_JINJIE = "npc_jinjie";
+	
 	public final static int NT_ATT_EXPERIENCE = 200;
 	public final static String NT_MSG_EXPERIENCE = "experience";
 	

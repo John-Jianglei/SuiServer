@@ -13,7 +13,7 @@ import com.shinian.dao.NpcUpdateDao;
 import com.shinian.redis.RedisCacheUtil;
 import com.shinian.util.Message;
 import com.shinian.vo.CommonReqVo;
-import com.shinian.vo.ExpCardVo;
+import com.shinian.vo.CommonVo;
 import com.shinian.vo.MessageRespVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcUpdateRedisVo;
@@ -48,7 +48,7 @@ public class NpcUpdateService {
 		}
 				
 		//parse list and get totalExp
-		List<ExpCardVo> expCardList = npcuv.getExpCardList();
+		List<CommonVo> expCardList = npcuv.getExpCardList();
 		int npcId = npcuv.getId();
 		String Uid = npcuv.getUid();
 		long totalExp = 0;
@@ -59,7 +59,7 @@ public class NpcUpdateService {
 			ExpCard[i][0] = 0;
 		}
 		
-		for(ExpCardVo expCardVo : expCardList){
+		for(CommonVo expCardVo : expCardList){
 			for( int i=0; i<expCardList.size(); i++ ){
 				if( ExpCard[i][0] ==0 || ExpCard[i][0]==expCardVo.getId() ){
 					ExpCard[i][0] = expCardVo.getId();
@@ -197,6 +197,5 @@ public class NpcUpdateService {
 	
 		return result;
 	}
-
 
 }

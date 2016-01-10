@@ -1,7 +1,6 @@
 package com.shinian.vo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 //Get all NPC info of player
@@ -12,7 +11,7 @@ public class NpcUpdateVo extends BaseObject implements Serializable
 	protected int id;		// ID from game_npc_info;
 	protected String uid;
 	private int comId;
-	List<ExpCardVo> expCardList;
+	private List<CommonVo> expCardList;
 	private String token;
 	private int level;
 	private int pinjie;
@@ -52,10 +51,10 @@ public class NpcUpdateVo extends BaseObject implements Serializable
 		this.comId = comId;
 	}
 	
-	public List<ExpCardVo> getExpCardList() {
+	public List<CommonVo> getExpCardList() {
 		return expCardList;
 	}
-	public void setExpCardList(List<ExpCardVo> expCardList) {
+	public void setExpCardList(List<CommonVo> expCardList) {
 		this.expCardList = expCardList;
 	}
 	public String getToken() {
