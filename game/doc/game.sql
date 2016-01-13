@@ -28,7 +28,7 @@ CREATE TABLE `game_player_info` (
   `gender` int(2) DEFAULT '1',
   `level` int(11) NOT NULL DEFAULT '1' COMMENT '玩家等级',
   `current_exp` int(11) NOT NULL DEFAULT '0',
-  `create_time` varchar(50) DEFAULT NULL COMMENT '角色创建时间',
+  `createTime` timestamp NOT NULL COMMENT '角色创建时间'
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `vip_level` int(11) NOT NULL DEFAULT '1',
   `silver` int(11) NOT NULL DEFAULT '0',
@@ -249,7 +249,7 @@ CREATE TABLE `game_news_info` (
   `annexId` int(11) NOT NULL DEFAULT '0' COMMENT '附件对应的common_*_info中的id，或当类型为礼包时，对应game_annexPack_info中的pid',
   `amount` int(11) NOT NULL DEFAULT '1' COMMENT '附件数量',
   `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',  
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '0 未读 1 表示已读  2 表示附件已领取',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '0 未读 1 表示已读  2 表示附件已领取',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='邮件及消息系统';
 
@@ -258,6 +258,20 @@ DROP TABLE IF EXISTS `game_player_news_time`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `game_player_news_time` (
   `uid` int(10) NOT NULL COMMENT '用户的ID',
-  `newsTime` varchar(20) DEFAULT NULL COMMENT '用户上次去消息的时间',
+  `newsTime` varchar(20) DEFAULT NULL COMMENT '用户上次收消息的时间',
   PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户上传邮件时间';
+
+CREATE TABLE `game_global_news_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category` int(3) NOT NULL DEFAULT '1' COMMENT '类别: 1--邮件 2--公告 3--消息',
+  `vip` int(11) NOT NULL DEFAULT '1' COMMENT 'VIP等级',
+  `title` varchar(200) DEFAULT NULL COMMENT '消息的标题',
+  `content` varchar(512) COMMENT '内容',
+  `annexCate` int(3) NOT NULL DEFAULT '0' COMMENT '类别: 0--无附件 1--武将附件 2--物品附件 3--装备附件  4--礼包',
+  `annexId` int(11) NOT NULL DEFAULT '0' COMMENT '附件对应的common_*_info中的id，或当类型为礼包时，对应game_annexPack_info中的pid',
+  `amount` int(11) NOT NULL DEFAULT '1' COMMENT '附件数量',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',  
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '0--无效 1--有效',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='全局邮件及消息系统';

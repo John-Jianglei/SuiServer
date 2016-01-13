@@ -18,6 +18,7 @@ import com.shinian.dao.impl.WebConstant;
 import com.shinian.vo.ArmoryVo;
 import com.shinian.vo.NewsVo;
 import com.shinian.vo.NpcInfoVo;
+import com.shinian.vo.PlayerInfoVo;
 import com.shinian.vo.PlayerNewsTimeVo;
 import com.shinian.vo.PropInfoVo;
 
@@ -104,5 +105,17 @@ public class PlayerNewsDao {
 	{
 		String sql = "update game_news_info set `status` = ? where `id` = ?";
 		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, status, id);
+	}
+	
+	public int getGlobalNewsCount(final int vip, final String newsTime)
+	{
+		final String sql = " select count(1) from  game_global_news_info  where `status` = 1 and `vip` < ? and `updateTime` >= ? ";
+		return WebConstant.gameJdbc.getJdbcTemplate().queryForInt(sql, new Object[]{vip+1, newsTime});
+	}
+	
+	public int dumpGlobalNewsToUser(PlayerInfoVo player, String newsTime)
+	{
+		String sql = "INSERT INTO game_news_info(`category`, `title`, `uid`, `fromUid`, `content`, `annexCate`, `annexId`, `amount`, `updateTime`) SELECT `category`, `title`, ?, `0-0`, `content`, `annexCate`, `annexId`, `amount`, now() FROM game_global_news_info where `vip` < ? and `status` = 1 and `updateTime` >= ? ";
+		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, player.getUid(), player.getVip_Level()+1, newsTime);
 	}
 }

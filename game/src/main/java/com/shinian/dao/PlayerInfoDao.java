@@ -78,7 +78,7 @@ public class PlayerInfoDao{
 	
 	
 	public int insertPlayer(String uid, String name, int gender){
-		String sql = "insert into game_player_info(uid, name, gender, create_time) values(?, ?, ?, ?)";
+		String sql = "insert into game_player_info(uid, name, gender, createTime) values(?, ?, ?, ?)";
 		int row = WebConstant.gameJdbc.getJdbcTemplate().update(sql, uid, name, gender, new Date());
 
 		return row;

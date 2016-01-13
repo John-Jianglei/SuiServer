@@ -70,20 +70,15 @@ public class PlayerNewsService {
 		}
 		
 		int pCount = 0;
-		PlayerNewsTimeVo newsTime = playerNewsDao.getPlayerNewsTimeById( nrv.getUid() );
+		String newsTime = getNewsTime(playerNewsDao.getPlayerNewsTimeById( nrv.getUid() ));
 		if( null == newsTime ){
 			pCount = playerNewsDao.getUserNewsCount( nrv.getUid() ); 
 		}
 		else{
-			String uNewsTime = newsTime.getNewsTime();
-			if( DateUtil.getDifferDays(uNewsTime, DateUtil.getCurrentTime()) > Constant.NEWS_MAX_RETENTION_DAY )
-			{
-				uNewsTime = DateUtil.getyesterday(-Constant.NEWS_MAX_RETENTION_DAY);
-			}
-			pCount = playerNewsDao.getUserNewsCount( nrv.getUid() , uNewsTime );
+			pCount = playerNewsDao.getUserNewsCount( nrv.getUid() , newsTime );
 		}
 		
-		int gCount = getGlobalNewsCount(nrv.getUid());
+		int gCount = getGlobalNewsCount(player, newsTime);
 
 		NewsRespVo resp = new NewsRespVo();
 		resp.setCount( pCount+gCount );
@@ -95,10 +90,27 @@ public class PlayerNewsService {
 		return result;
 	}
 	
-	private int getGlobalNewsCount(String uid)
+	private String getNewsTime(PlayerNewsTimeVo newsTime)
+	{
+		if ( null == newsTime ) return null;
+		
+		String uNewsTime = newsTime.getNewsTime();
+		if( DateUtil.getDifferDays(uNewsTime, DateUtil.getCurrentTime()) > Constant.NEWS_MAX_RETENTION_DAY )
+		{
+			uNewsTime = DateUtil.getyesterday(-Constant.NEWS_MAX_RETENTION_DAY);
+		}
+		return uNewsTime;
+	}
+	
+	private int getGlobalNewsCount(PlayerInfoVo player, String newsTime)
 	{
 		int count = 0;
-		
+		if( null == newsTime ){
+			count = playerNewsDao.getGlobalNewsCount( player.getVip_Level(), player.getCreateTime() ); 
+		}
+		else{
+			count = playerNewsDao.getGlobalNewsCount( player.getVip_Level() , newsTime );
+		}
 		return count;
 	}
 	
@@ -118,17 +130,15 @@ public class PlayerNewsService {
 		}
 		
 		List<NewsVo> list;
-		PlayerNewsTimeVo newsTime = playerNewsDao.getPlayerNewsTimeById( nrv.getUid() );
+		String newsTime = getNewsTime(playerNewsDao.getPlayerNewsTimeById( nrv.getUid() ));
+		
+		playerNewsDao.dumpGlobalNewsToUser(player, ((newsTime == null) ? player.getCreateTime() : newsTime) );
+		
 		if( null == newsTime ){
 			list = playerNewsDao.getUserNews( nrv.getUid() ); 
 		}
 		else{
-			String uNewsTime = newsTime.getNewsTime();
-			if( DateUtil.getDifferDays(uNewsTime, DateUtil.getCurrentTime()) > Constant.NEWS_MAX_RETENTION_DAY )
-			{
-				uNewsTime = DateUtil.getyesterday(-Constant.NEWS_MAX_RETENTION_DAY);
-			}
-			list = playerNewsDao.getUserNews( nrv.getUid() , uNewsTime );
+			list = playerNewsDao.getUserNews( nrv.getUid() , newsTime );
 		}
 		
 		if( null != list && list.size() > 0 ){
@@ -139,19 +149,12 @@ public class PlayerNewsService {
 			playerNewsDao.updatePlayerNewsTimeById( nrv.getUid() );
 		}
 			
-		List<NewsVo> gList = getGlobalNews(nrv.getUid());
-		if( null != gList && gList.size() > 0 ) list.addAll(gList);
-					
 		result.setData(list);		
 		result.setCode(Message.MSG_CODE_OK);
 		
 		return result;
 	}
-	
-	private List<NewsVo> getGlobalNews(String uid)
-	{
-		return null;
-	}
+
 	
 	public MessageRespVo getNewsAward(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
