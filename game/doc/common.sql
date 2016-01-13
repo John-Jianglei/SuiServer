@@ -153,7 +153,8 @@ DROP TABLE IF EXISTS `common_prop_info`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `common_prop_info` (
   `comId` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL COMMENT '道具名',
+  `eName` varchar(50) NOT NULL COMMENT '道具名',
+  `name` varchar(50) NOT NULL COMMENT '道具中文名',
   `nature` int(11) NOT NULL COMMENT '道具功能',
   `val` int(11) NOT NULL DEFAULT '1' COMMENT '道具功能数值',
   `star` int(11) NOT NULL DEFAULT '1' COMMENT '道具星级',
@@ -166,6 +167,12 @@ CREATE TABLE `common_prop_info` (
 
 insert into common_prop_info(`name`,`nature`,`val`,`star`,`desc`) values('经验书',200,100,2,'增加经验');
 insert into common_prop_info(`name`,`nature`,`val`,`star`,`desc`) values('ExperienceBook',200,100,2,'Increase NPC experience');
+INSERT INTO common_prop_info(`comId`, `name`, `nature`, `val`, `star`, `desc`) values(200, '进化石', 101, '100', '2', '武器进阶材料');
+INSERT INTO common_prop_info(`comId`, `name`, `nature`, `val`, `star`, `desc`) values(201, '至尊虎魄', 101, '100', '2', '武器进阶材料');
+INSERT INTO common_prop_info(`comId`, `name`, `nature`, `val`, `star`, `desc`) values(202, '精炼玄铁', 101, '100', '2', '武器进阶材料');
+INSERT INTO common_prop_info(`comId`, `name`, `nature`, `val`, `star`, `desc`) values(203, '天外精铜', 101, '100', '2', '武器进阶材料');
+INSERT INTO common_prop_info(`comId`, `name`, `nature`, `val`, `star`, `desc`) values(204, '不朽马蹬', 101, '100', '2', '武器进阶材料');
+INSERT INTO common_prop_info(`comId`, `name`, `nature`, `val`, `star`, `desc`) values(205, '精制皮革', 101, '100', '2', '武器进阶材料');
 
 
 DROP TABLE IF EXISTS `common_yuanfen_info`;

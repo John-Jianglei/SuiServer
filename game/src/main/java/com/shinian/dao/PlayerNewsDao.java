@@ -115,7 +115,7 @@ public class PlayerNewsDao {
 	
 	public int dumpGlobalNewsToUser(PlayerInfoVo player, String newsTime)
 	{
-		final String sql = "INSERT INTO game_news_info(`category`, `title`, `uid`, `fromUid`, `content`, `annexCate`, `annexId`, `amount`, `updateTime`) SELECT `1`, `title`, ?, `0-0`, `content`, `annexCate`, `annexId`, `amount`, now() FROM game_global_news_info where `status` = 1 and `category` = 1 and `vip` < ? and `updateTime` >= ? ";
+		final String sql = "INSERT INTO game_news_info(`category`, `title`, `uid`, `fromUid`, `content`, `annexCate`, `annexId`, `amount`, `updateTime`) SELECT '1', `title`, ?, '0-0', `content`, `annexCate`, `annexId`, `amount`, now() FROM game_global_news_info where `status` = 1 and `category` = 1 and `vip` < ? and `updateTime` >= ? ";
 		return WebConstant.gameJdbc.getJdbcTemplate().update(sql, player.getUid(), player.getVip_Level()+1, newsTime);
 	}
 }

@@ -12,6 +12,9 @@ public class Nature implements Serializable{
 	public final static int NT_NPC_JINJIE = 100;
 	public final static String NT_MSG_NPC_JINJIE = "npc_jinjie";
 	
+	public final static int NT_ARMORY_JINJIE = 101;
+	public final static String NT_MSG_ARMORY_JINJIE = "armory_jinjie";
+	
 	public final static int NT_ATT_EXPERIENCE = 200;
 	public final static String NT_MSG_EXPERIENCE = "experience";
 	

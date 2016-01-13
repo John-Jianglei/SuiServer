@@ -87,6 +87,7 @@ public class ArmoryUpgradeService {
 		}
 		
 		consumePropForArmoryJinjie(player.getUid(), commJinjie);
+		playerInfoService.consumeSilver(player, commJinjie.getSliver());
 		
 		updateJinjieArmoryVo(armory);
 		armoryDao.updateArmory(armory);
