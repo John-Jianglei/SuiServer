@@ -82,6 +82,17 @@ public class PropInfoService {
 		return result;
 	}
 	
+	public int addPropertyToPlayer(String uid, int comId, int amount)
+	{
+		if (!playerInfoService.isUidExist(uid)) return 0;
+
+		if (!redisCacheUtil.isPropComIdExist(comId)) return 0;
+		
+		propInfoDao.addPropertyToPlayer(uid, comId, amount);		
+
+		return 1;
+	}
+	
 	public MessageRespVo getPropListOfPlayer(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
 		MessageRespVo result = new MessageRespVo();

@@ -16,6 +16,7 @@ import com.shinian.dao.PropInfoDao;
 import com.shinian.util.Constant;
 import com.shinian.util.DateUtil;
 import com.shinian.util.Message;
+import com.shinian.vo.AnnexPackRedisVo;
 import com.shinian.vo.ArmoryRedisVo;
 import com.shinian.vo.ArmoryReqVo;
 import com.shinian.vo.ArmoryVo;
@@ -52,7 +53,16 @@ public class PlayerNewsService {
 	
 	@Autowired
 	PlayerNewsDao playerNewsDao;
+	
+	@Autowired
+	NpcAddService npcAddService;
 
+	@Autowired
+	PropInfoService propInfoService;
+	
+	@Autowired
+	ArmoryService armoryService;
+	
 	//	input: uid
 	public MessageRespVo getPlayerNewsCount(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
@@ -155,70 +165,93 @@ public class PlayerNewsService {
 		return result;
 	}
 
-	
+	//	input:	uid, id
 	public MessageRespVo getNewsAward(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
 		MessageRespVo result = new MessageRespVo();
 
 		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
-		ArmoryReqVo nrv = JSON.parseObject(gcrv.getData().toString(),ArmoryReqVo.class);
+		NewsReqVo nrv = JSON.parseObject(gcrv.getData().toString(), NewsReqVo.class);
 		result.setTs(gcrv.getTs());
 		
-		if (!playerInfoService.isUidExist(nrv.getUid())){
-			result.setCode(Message.MSG_CODE_PLAYER_NOT_EXIST);
-			result.setMsg(Message.MSG_PLAYER_NOT_EXIST);
+		NewsVo news = playerNewsDao.getNewsById( nrv.getUid() , nrv.getId() );
+
+		if(news == null){
+			result.setCode(Message.MSG_CODE_NEWS_NOT_EXIST);
+			result.setMsg(Message.MSG_NEWS_NOT_EXIST);
 			return result;
 		}
-		
-		List<ArmoryVo> armoryList = armoryDao.getArmoryList(nrv.getUid());
-		List<ArmoryVo> retList = new ArrayList<ArmoryVo>();
-		int category = nrv.getCategory();
-		
-		for (ArmoryVo armory:armoryList){
-			if (redisCacheUtil.getArmoryByComId(armory.getComId()).getCategory() == category) retList.add(armory);
+
+		if (news.getAnnexCate() == Constant.ANNEX_CATEGORY_PACK){
+			AnnexPackRedisVo aprvo = redisCacheUtil.getAnnexPack(news.getAnnexId());
+			
+			addAnnexToPlayer(nrv.getUid(), aprvo.getType1(), aprvo.getComId1(), aprvo.getAmount1() );
+			addAnnexToPlayer(nrv.getUid(), aprvo.getType2(), aprvo.getComId2(), aprvo.getAmount2() );
+			addAnnexToPlayer(nrv.getUid(), aprvo.getType3(), aprvo.getComId3(), aprvo.getAmount3() );
+			addAnnexToPlayer(nrv.getUid(), aprvo.getType4(), aprvo.getComId4(), aprvo.getAmount4() );
+			addAnnexToPlayer(nrv.getUid(), aprvo.getType5(), aprvo.getComId5(), aprvo.getAmount5() );
+			addAnnexToPlayer(nrv.getUid(), aprvo.getType6(), aprvo.getComId6(), aprvo.getAmount6() );
 		}
-		
-		if(retList == null || retList.size() == 0){
-			result.setCode(Message.MSG_CODE_ARMORY_NOT_EXIST);
-			result.setMsg(Message.MSG_ARMORY_NOT_EXIST);
-			return result;
+		else{
+			addAnnexToPlayer(nrv.getUid(), news.getAnnexCate(), news.getAnnexId(), news.getAmount() );
 		}
+
+		playerNewsDao.setPlayerNewsStatus( news.getId(), Constant.NEWS_STATUS_GOTTEN );
 		
-		result.setData(retList);		
+		NewsRespVo resp = new NewsRespVo();
+		resp.setAnnexCate(news.getAnnexCate());
+		
+		result.setData(resp);		
 		result.setCode(Message.MSG_CODE_OK);
 		
 		return result;
 	}
 	
-	public MessageRespVo getNews(HttpServletRequest request, HttpServletResponse response,String jsonStr)
+	private int addAnnexToPlayer(String uid, int annexCate, int comId, int amount)
+	{
+		if (annexCate == 0) return 0;
+		int ret = 0;
+		
+		switch (annexCate) {
+		case Constant.ANNEX_CATEGORY_NPC:
+			ret = npcAddService.addNpcToPlayer(uid, comId, amount);
+			break;
+			
+		case Constant.ANNEX_CATEGORY_PROP:
+			ret = propInfoService.addPropertyToPlayer(uid, comId, amount);
+			break;
+			
+		case Constant.ANNEX_CATEGORY_ARMORY:
+			ret = armoryService.addArmoryToPlayer(uid, comId, amount);
+			break;
+			
+		default:
+			break;
+		}
+		
+		return ret;
+	}
+	
+	//	input:	uid, id
+	public MessageRespVo getNewsById(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
 		MessageRespVo result = new MessageRespVo();
 
 		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
-		ArmoryReqVo nrv = JSON.parseObject(gcrv.getData().toString(),ArmoryReqVo.class);
+		NewsReqVo nrv = JSON.parseObject(gcrv.getData().toString(), NewsReqVo.class);
 		result.setTs(gcrv.getTs());
 		
-		if (!playerInfoService.isUidExist(nrv.getUid())){
-			result.setCode(Message.MSG_CODE_PLAYER_NOT_EXIST);
-			result.setMsg(Message.MSG_PLAYER_NOT_EXIST);
+		NewsVo news = playerNewsDao.getNewsById( nrv.getUid() , nrv.getId() );
+
+		if(news == null){
+			result.setCode(Message.MSG_CODE_NEWS_NOT_EXIST);
+			result.setMsg(Message.MSG_NEWS_NOT_EXIST);
 			return result;
 		}
-		
-		List<ArmoryVo> armoryList = armoryDao.getArmoryList(nrv.getUid());
-		List<ArmoryVo> retList = new ArrayList<ArmoryVo>();
-		int category = nrv.getCategory();
-		
-		for (ArmoryVo armory:armoryList){
-			if (redisCacheUtil.getArmoryByComId(armory.getComId()).getCategory() == category) retList.add(armory);
-		}
-		
-		if(retList == null || retList.size() == 0){
-			result.setCode(Message.MSG_CODE_ARMORY_NOT_EXIST);
-			result.setMsg(Message.MSG_ARMORY_NOT_EXIST);
-			return result;
-		}
-		
-		result.setData(retList);		
+
+		playerNewsDao.setPlayerNewsStatus( news.getId(), Constant.NEWS_STATUS_READ );
+
+		result.setData(news);		
 		result.setCode(Message.MSG_CODE_OK);
 		
 		return result;

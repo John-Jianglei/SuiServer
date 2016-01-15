@@ -10,7 +10,15 @@ public class NewsRespVo extends BaseObject implements Serializable{
 
 	private String uid;	
 	private int count;
+	private int annexCate;
 	
+	
+	public int getAnnexCate() {
+		return annexCate;
+	}
+	public void setAnnexCate(int annexCate) {
+		this.annexCate = annexCate;
+	}
 	public int getCount() {
 		return count;
 	}

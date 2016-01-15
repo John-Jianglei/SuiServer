@@ -9,7 +9,16 @@ public class NewsReqVo extends BaseObject implements Serializable{
 	private String token;
 
 	private String uid;		
+	private int id;
 	
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getToken() {
 		return token;
 	}

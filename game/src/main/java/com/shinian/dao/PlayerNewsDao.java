@@ -62,6 +62,17 @@ public class PlayerNewsDao {
 		final String sql = " select `id`, `category`, `title`, `uid`, `fromUid`, `fromName`, `content`, `annexCate`, `annexId`, `amount`, `updateTime`, `status` from  game_news_info  where `status` = 0 and `uid` = ? and  `category` = 1 ";
 		return WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(NewsVo.class),new Object[]{uid});
 	}
+		
+	public NewsVo getNewsById(final String uid, final int id)
+	{
+		final String sql = " select `id`, `category`, `title`, `uid`, `fromUid`, `fromName`, `content`, `annexCate`, `annexId`, `amount`, `updateTime`, `status` from  game_news_info  where `category` = 1  and `uid` = ? and `id` = ?";
+		List<NewsVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(NewsVo.class),new Object[]{uid, id});
+		if( null != list && list.size() > 0 )
+		{
+			return list.get(0);
+		}
+		return null;	
+	}
 	
 	public int getUserNewsCount(final String uid,final String newsTime)
 	{

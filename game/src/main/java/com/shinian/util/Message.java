@@ -85,5 +85,9 @@ public class Message implements Serializable{
 	
 	public final static int MSG_CODE_NPC_FENJIE_EXCEPTION = 326;
 	public final static String MSG_NPC_FENJIE_EXCEPTION = "武将分解出现异常";
+	
+	public final static int MSG_CODE_NEWS_NOT_EXIST = 327;
+	public final static String MSG_NEWS_NOT_EXIST = "邮件不存在";
+
 
 }

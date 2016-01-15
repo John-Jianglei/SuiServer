@@ -121,6 +121,20 @@ public class ArmoryService {
 		return result;
 	}
 	
+	public int addArmoryToPlayer(String uid, int comId, int amount)
+	{
+		if (!playerInfoService.isUidExist(uid)) return 0;
+		
+		ArmoryRedisVo arvo = redisCacheUtil.getArmoryByComId(comId); 
+		if (arvo == null) return 0;
+		
+		ArmoryVo armory = arvo.initGameArmory();
+				
+		for (int i = 0; i < amount; i++) armoryDao.addArmoryToPlayer(uid, armory);		
+
+		return 1;
+	}
+	
 	public MessageRespVo getArmoryListByCategory(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
 		MessageRespVo result = new MessageRespVo();

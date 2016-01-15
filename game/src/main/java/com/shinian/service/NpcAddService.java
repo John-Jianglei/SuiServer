@@ -68,4 +68,18 @@ public class NpcAddService {
 		return result;
 	}
 	
+	public int addNpcToPlayer(String uid, int comId, int amount)
+	{
+		if (!playerInfoService.isUidExist(uid)) return 0;
+		
+		NpcInfoRedisVo npc = redisCacheUtil.getNpcInfoByComId(comId);
+		if (npc == null) return 0;
+
+		for (int i = 0; i < amount; i++){
+			npcAddDao.addNpcToPlayer(uid, npc);
+		}
+		
+		return 1;
+	}
+	
 }

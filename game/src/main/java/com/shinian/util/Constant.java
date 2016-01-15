@@ -36,6 +36,12 @@ public class Constant implements Serializable{
 	public final static int NEWS_STATUS_READ = 1;
 	public final static int NEWS_STATUS_GOTTEN = 2;
 	
+	public final static int ANNEX_CATEGORY_NONE = 0;
+	public final static int ANNEX_CATEGORY_NPC = 1;
+	public final static int ANNEX_CATEGORY_PROP = 2;
+	public final static int ANNEX_CATEGORY_ARMORY = 3;
+	public final static int ANNEX_CATEGORY_PACK = 4;
+	
 
 	
 
