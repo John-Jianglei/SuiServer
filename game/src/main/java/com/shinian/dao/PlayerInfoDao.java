@@ -18,6 +18,8 @@ import org.springframework.stereotype.Repository;
 import com.shinian.dao.impl.WebConstant;
 import com.shinian.vo.PassLogVo;
 import com.shinian.vo.PlayerInfoVo;
+import com.shinian.vo.PlayerNewsTimeVo;
+import com.shinian.vo.PlayerXTimeVo;
 
 @Repository
 public class PlayerInfoDao{
@@ -38,6 +40,32 @@ public class PlayerInfoDao{
 		else
 			return true;
 	} 
+	
+	public void updateStrengthTime(final String uid)
+	{
+		final String sql = "REPLACE INTO game_player_strength_time SET uid = ?, `lastTime` = now()";
+		WebConstant.gameJdbc.getJdbcTemplate().update(new PreparedStatementCreator(){
+			@Override
+            public PreparedStatement createPreparedStatement(Connection conn) throws SQLException{
+                PreparedStatement ps = conn.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+                ps.setString(1, uid);
+                return ps;
+            }					
+        });
+    
+        return ;
+	}
+	
+	public PlayerXTimeVo getStrengthTime(String uid)
+	{
+		final String sql = " select `uid`, `lastTime` from game_player_strength_time where uid = ?  ";
+		List<PlayerXTimeVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(PlayerXTimeVo.class),new Object[]{uid});
+		if( null != list && list.size() > 0 )
+		{
+			return list.get(0);
+		}
+		return null;	
+	}
 	
 	public int updatePlayer(final PlayerInfoVo piv)
 	{

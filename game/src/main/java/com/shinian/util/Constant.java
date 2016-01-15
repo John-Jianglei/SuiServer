@@ -42,6 +42,8 @@ public class Constant implements Serializable{
 	public final static int ANNEX_CATEGORY_ARMORY = 3;
 	public final static int ANNEX_CATEGORY_PACK = 4;
 	
+	public final static int NEWS_MINUTE_PER_STRENGTH = 5;
+
 
 	
 

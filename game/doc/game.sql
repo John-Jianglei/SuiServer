@@ -275,3 +275,12 @@ CREATE TABLE `game_global_news_info` (
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '0--无效 1--有效',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='全局邮件及消息系统';
+
+DROP TABLE IF EXISTS `game_player_strength_time`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `game_player_strength_time` (
+  `uid` int(10) NOT NULL COMMENT '用户的ID',
+  `lastTime` varchar(20) DEFAULT NULL COMMENT '用户上次加体力的时间',
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户上次加体力时间';

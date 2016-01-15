@@ -14,10 +14,18 @@ import com.alibaba.fastjson.JSON;
 import com.shinian.dao.PlayerInfoDao;
 import com.shinian.redis.RedisCacheUtil;
 import com.shinian.util.Config;
+import com.shinian.util.Constant;
+import com.shinian.util.DateUtil;
 import com.shinian.util.Message;
 import com.shinian.vo.CommonReqVo;
 import com.shinian.vo.MessageRespVo;
+import com.shinian.vo.NewsReqVo;
+import com.shinian.vo.NewsRespVo;
+import com.shinian.vo.PlayerInfoReqVo;
+import com.shinian.vo.PlayerInfoRespVo;
 import com.shinian.vo.PlayerInfoVo;
+import com.shinian.vo.PlayerXTimeVo;
+import com.shinian.vo.VipPrivilegeRedisVo;
 
 
 @Service
@@ -25,6 +33,9 @@ public class PlayerInfoService {
 		
 	@Autowired
 	PlayerInfoDao playerInfoDao;
+	
+	@Autowired
+	RedisCacheUtil redisCacheUtil;
 
 //	private static String regExUid = "^[0-9]+-[1-9]+$"; 
 	private static String regExUid = "^\\d+-\\d+$";
@@ -51,5 +62,59 @@ public class PlayerInfoService {
 	{
 		return playerInfoDao.getPlayerInfoByUid(uid);
 	}
+	
+	//	input: uid
+	public MessageRespVo getPlayerStrength(HttpServletRequest request, HttpServletResponse response,String jsonStr)
+	{
+		MessageRespVo result = new MessageRespVo();
+
+		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
+		PlayerInfoReqVo nrv = JSON.parseObject(gcrv.getData().toString(), PlayerInfoReqVo.class);
+		result.setTs(gcrv.getTs());
+		
+		PlayerInfoVo player = getPlayerById(nrv.getUid());
+		if (player == null){
+			result.setCode(Message.MSG_CODE_PLAYER_NOT_EXIST);
+			result.setMsg(Message.MSG_PLAYER_NOT_EXIST);
+			return result;
+		}
+		
+		int strength = player.getCurrent_strength() ;
+
+		VipPrivilegeRedisVo vprv = redisCacheUtil.getVipPrivilegeByVip( player.getVip_Level() );
+		if (null == vprv){
+			result.setCode(Message.MSG_CODE_VIPLEVEL_NOT_EXIST);
+			result.setMsg(Message.MSG_VIPLEVEL_NOT_EXIST);
+			return result;
+		}
+		
+		if (strength < vprv.getMaxStrength()){
+			PlayerXTimeVo lastTime = playerInfoDao.getStrengthTime( nrv.getUid() );
+			
+			if( null == lastTime ){
+				strength = vprv.getMaxStrength();
+			}
+			else{
+				int diffTimes = DateUtil.getDifferTimes( lastTime.getLastTime(), DateUtil.getCurrentTime() );
+				strength += diffTimes / Constant.NEWS_MINUTE_PER_STRENGTH;
+				strength = (strength > vprv.getMaxStrength()) ? vprv.getMaxStrength() : strength;	
+			}
+			
+			player.setCurrent_strength(strength);
+			playerInfoDao.updatePlayer(player);
+		}
+		
+		playerInfoDao.updateStrengthTime( nrv.getUid() );
+		
+		PlayerInfoRespVo resp = new PlayerInfoRespVo();
+		resp.setUid(nrv.getUid());
+		resp.setStrength( strength );
+		
+		result.setData(resp);		
+		result.setCode(Message.MSG_CODE_OK);
+		
+		return result;
+	}
+	
 	
 }

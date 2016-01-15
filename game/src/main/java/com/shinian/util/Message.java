@@ -89,5 +89,8 @@ public class Message implements Serializable{
 	public final static int MSG_CODE_NEWS_NOT_EXIST = 327;
 	public final static String MSG_NEWS_NOT_EXIST = "邮件不存在";
 
+	public final static int MSG_CODE_VIPLEVEL_NOT_EXIST = 328;
+	public final static String MSG_VIPLEVEL_NOT_EXIST = "VIP信息不存在";
+
 
 }
