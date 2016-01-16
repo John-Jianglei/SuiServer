@@ -11,6 +11,7 @@ import com.shinian.dao.BuyStrengthDao;
 import com.shinian.dao.PlayerInfoDao;
 import com.shinian.redis.RedisCacheUtil;
 import com.shinian.util.Constant;
+import com.shinian.util.DateUtil;
 import com.shinian.util.Message;
 import com.shinian.util.Util;
 import com.shinian.vo.BuyStrengthLogVo;
@@ -63,7 +64,7 @@ public class BuyStrengthService {
 			return result;	
 		}
 		
-		String date = Util.getCurrentDate();
+		String date = DateUtil.getTodayStr();
 		BuyStrengthLogVo bslv = buyStrengthDao.getBuyStrengthLog(buyStrengthLogVo.getUid(), date);
 		if( bslv==null ){
 			bslv = new BuyStrengthLogVo();

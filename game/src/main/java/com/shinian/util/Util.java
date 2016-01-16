@@ -215,15 +215,15 @@ public class Util {
 		return resp;
 	}
  	
-    //获取当天日期
-    public static String getCurrentDate(){
-		
-    	Calendar cal=Calendar.getInstance();
-		cal.setTime(new Date());
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String date = formatter.format(cal.getTime());
-		
-		return date;
-    }
+//    //获取当天日期
+//    public static String getCurrentDate(){
+//		
+//    	Calendar cal=Calendar.getInstance();
+//		cal.setTime(new Date());
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//		String date = formatter.format(cal.getTime());
+//		
+//		return date;
+//    }
 
 }
