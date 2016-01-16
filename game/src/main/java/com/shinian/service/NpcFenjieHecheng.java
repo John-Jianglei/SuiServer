@@ -1,4 +1,4 @@
-//武将分解与组合
+//武将分解与组合(合成)
 package com.shinian.service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.shinian.dao.NpcInfoDao;
+import com.shinian.dao.NpcPieceDao;
 import com.shinian.dao.PlayerInfoDao;
 import com.shinian.dao.PropInfoDao;
 import com.shinian.redis.RedisCacheUtil;
@@ -17,20 +18,24 @@ import com.shinian.util.RandomUtil;
 import com.shinian.vo.CommonReqVo;
 import com.shinian.vo.CommonVo;
 import com.shinian.vo.MessageRespVo;
-import com.shinian.vo.NpcAddReqVo;
 import com.shinian.vo.NpcFenjieVo;
+import com.shinian.vo.NpcHechengVo;
 import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcInfoVo;
+import com.shinian.vo.NpcPieceVo;
 import com.shinian.vo.PlayerInfoVo;
 
 @Service
-public class NpcFenjieZuhe {
+public class NpcFenjieHecheng {
 	
 	@Autowired
 	NpcInfoDao npcInfoDao;
 	
 	@Autowired
 	PlayerInfoDao playerInfoDao;
+	
+	@Autowired
+	NpcPieceDao npcPieceDao;
 	
 	@Autowired
 	PropInfoDao propInfoDao;
@@ -230,13 +235,35 @@ public class NpcFenjieZuhe {
 		return rtnRand;
 	}
 	
-	public MessageRespVo npcZuhe(HttpServletRequest request, HttpServletResponse response,String jsonStr){
+	//武将组合(合成)
+	public MessageRespVo npcHecheng(HttpServletRequest request, HttpServletResponse response,String jsonStr){
 		
 		MessageRespVo result = new MessageRespVo();
 
 		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
-		NpcAddReqVo nrv = JSON.parseObject(gcrv.getData().toString(),NpcAddReqVo.class);
+		NpcHechengVo npcHechengVo = JSON.parseObject(gcrv.getData().toString(),NpcHechengVo.class);
 		result.setTs(gcrv.getTs());
+		
+		if ( null == npcHechengVo.getUid() || 0 == npcHechengVo.getcId()) {
+			result.setCode(Message.MSG_CODE_PLAYERID_IS_NULL);
+			result.setMsg(Message.MSG_PLAYERID_IS_NULL);
+			return result;
+		}
+		
+		//
+		NpcInfoRedisVo nirv = redisCacheUtil.getNpcInfoByComId(npcHechengVo.getcId());
+		if( nirv==null ){
+			result.setCode(Message.MSG_CODE_NPC_NOT_EXIST);
+			result.setMsg(Message.MSG_NPC_NOT_EXIST);
+			return result;
+		}
+		
+		NpcPieceVo npv = npcPieceDao.getNpcPieceBy2Id(npcHechengVo.getcId(), npcHechengVo.getUid());
+		if( npv==null ){
+			result.setCode(Message.MSG_CODE_NPC_NOT_EXIST);
+			result.setMsg(Message.MSG_NPC_NOT_EXIST);
+			return result;
+		}
 		
 		result.setCode(Message.MSG_CODE_OK);
 		

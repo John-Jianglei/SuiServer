@@ -62,6 +62,9 @@ public class DispatcherService {
 	@Autowired
 	BuyStrengthService buyStrengthServic;
 	
+	@Autowired
+	NpcFenjieHecheng npcFenjieHecheng;
+	
 	
 	private static Logger log = Logger.getLogger("game");
 	
@@ -135,6 +138,14 @@ public class DispatcherService {
 				
 			case 1015:
 				result = buyStrengthServic.BuyStrength(request, response, jsonStr);		///	购买体力
+				break;
+				
+			case 1016:
+				result = npcFenjieHecheng.npcFenjie(request, response, jsonStr);		///	武将分解
+				break;
+				
+			case 1017:
+				result = npcFenjieHecheng.npcHecheng(request, response, jsonStr);		///	武将合成
 				break;
 				
 			case 9002:
