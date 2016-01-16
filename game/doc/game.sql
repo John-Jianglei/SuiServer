@@ -186,7 +186,7 @@ CREATE TABLE `game_armory_info` (
   `level` int(11) NOT NULL DEFAULT '1' COMMENT '装备等级',
   `loaded` int(3) NOT NULL DEFAULT '0' COMMENT '是否装备：0：未装备；1：装备',
   `amount` int(11) NOT NULL DEFAULT '1' COMMENT '装备数量',
-`health` int(11) NOT NULL DEFAULT '1' COMMENT '武将初始生命值',
+  `health` int(11) NOT NULL DEFAULT '1' COMMENT '武将初始生命值',
   `attack` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始攻击力',
   `hujia` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始护甲',
   `pojia` int(11) NOT NULL DEFAULT '0' COMMENT '武将初始破甲',
