@@ -154,7 +154,7 @@ public class ArmoryService {
 		int category = nrv.getCategory();
 		
 		for (ArmoryVo armory:armoryList){
-			if ((category == 0) || (redisCacheUtil.getArmoryByComId(armory.getComId()).getCategory() == category)) retList.add(armory);
+			if ((category == Constant.CON_ARMORY_ALL) || (redisCacheUtil.getArmoryByComId(armory.getComId()).getCategory() == category)) retList.add(armory);
 		}
 		
 		if(retList == null || retList.size() == 0){
