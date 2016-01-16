@@ -63,6 +63,9 @@ public class DispatcherService {
 	BuyStrengthService buyStrengthServic;
 	
 	@Autowired
+	NpcFenjieHecheng npcFenjieHecheng;
+
+	@Autowired
 	PlayerInfoService playerInfoService;
 	
 	@Autowired
@@ -71,7 +74,6 @@ public class DispatcherService {
 	@Autowired
 	ArmoryUpgradeService armoryUpgradeService;
 
-	
 	private static Logger log = Logger.getLogger("game");
 	
 	
@@ -145,7 +147,15 @@ public class DispatcherService {
 			case 1015:
 				result = buyStrengthServic.BuyStrength(request, response, jsonStr);		///	购买体力
 				break;
+
+			case 1019:
+				result = npcFenjieHecheng.npcFenjie(request, response, jsonStr);		///	武将分解
+				break;
 				
+			case 1017:
+				result = npcFenjieHecheng.npcHecheng(request, response, jsonStr);		///	武将合成
+				break;
+
 			case 1016:
 				result = playerInfoService.getPlayerStrength(request, response, jsonStr);		///	获取玩家体力
 				break;
@@ -153,34 +163,6 @@ public class DispatcherService {
 			case 1018:
 				result = playerNewsService.getPlayerNewsCount(request, response, jsonStr);		///	get player's news count
 				break;
-				
-			case 1020:
-				result = playerNewsService.getPlayerNewsList(request, response, jsonStr);		///	get player's news list
-				break;
-				
-			case 1022:
-				result = playerNewsService.getNewsAward(request, response, jsonStr);		///	get award from a specific news
-				break;
-				
-			case 1024:
-				result = armoryService.loadArmoryToNpc(request, response, jsonStr);///	loaded to any npc
-				break;
-				
-			case 1026:
-				result = armoryService.getArmoryListByCategory(request, response, jsonStr);///	get armory list by category: 0-所有 1-武器 2-装甲 3-马匹
-				break;
-				
-			case 1028:
-				result = armoryUpgradeService.jinjie(request, response, jsonStr);///	armory jinjie
-				break;
-				
-			case 1030:
-				result = armoryUpgradeService.levelup(request, response, jsonStr);///	armory levelup
-				break;
-				
-
-
-				
 				
 			case 9002:
 				result = propInfoService.getCommPropInfo(request, response, jsonStr);	///get common property info

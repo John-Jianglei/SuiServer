@@ -91,6 +91,11 @@ public class Message implements Serializable{
 
 	public final static int MSG_CODE_VIPLEVEL_NOT_EXIST = 328;
 	public final static String MSG_VIPLEVEL_NOT_EXIST = "VIP信息不存在";
+	
+	public final static int MSG_CODE_NPC_PIECE_NOT_ENOUGH = 329;
+	public final static String MSG_NPC_PIECE_NOT_ENOUGH = "武将将魂不足";
+	public final static int MSG_CODE_COMMON_PIECE_NOT_ENOUGH = 330;
+	public final static String MSG_COMMON_PIECE_NOT_ENOUGH = "万能武将将魂不足";
 
 
 }
