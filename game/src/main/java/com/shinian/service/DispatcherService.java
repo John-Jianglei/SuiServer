@@ -73,6 +73,9 @@ public class DispatcherService {
 
 	@Autowired
 	ArmoryUpgradeService armoryUpgradeService;
+	
+	@Autowired
+	SyncTimeService syncTimeService;
 
 	private static Logger log = Logger.getLogger("game");
 	
@@ -190,6 +193,10 @@ public class DispatcherService {
 
 			case 1032:
 				result = armoryUpgradeService.levelupMax(request, response, jsonStr);///	armory levelup
+				break;
+
+			case 1034:
+				result = syncTimeService.getCurrentTime(request, response, jsonStr);///	sync time 
 				break;
 
 			case 9002:

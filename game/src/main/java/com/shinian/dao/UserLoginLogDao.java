@@ -20,7 +20,7 @@ import com.shinian.vo.PlayerInfoVo;
 public class UserLoginLogDao{
 	
 	public PlayerInfoVo getPlayerInfoByUid(String uid){
-		String sql = "select uid,name,gender,level,create_time,vip_level,current_exp,silver,fame,gold,current_strength from game_player_info where uid = ?";
+		String sql = "select uid,name,gender,level,createTime,vip_level,current_exp,silver,fame,gold,current_strength from game_player_info where uid = ?";
 		List<PlayerInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(PlayerInfoVo.class), new Object[]{uid});
 		

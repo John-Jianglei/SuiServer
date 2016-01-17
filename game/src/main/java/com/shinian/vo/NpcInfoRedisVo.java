@@ -534,6 +534,7 @@ public class NpcInfoRedisVo extends BaseObject implements Serializable{
 		NpcInfoVo npc = new NpcInfoVo();
 		
 		npc.setComId(this.comId);
+		npc.setPosition(-1);
 		npc.setHealthBase(this.health); 
 		npc.setAttackBase(this.attack); 
 		npc.setHujiaBase(this.hujia); 

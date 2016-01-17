@@ -21,7 +21,7 @@ public class NpcAddDao {
 	
 
 	public NpcInfoVo addNpcToPlayer(String uid, NpcInfoRedisVo npcRedis){
-		String sql = "select `id`, `comId`, `uid`, `position` from game_npc_info where `uid` = ? order by `position` desc";
+/*		String sql = "select `id`, `comId`, `uid`, `position` from game_npc_info where `uid` = ? order by `position` desc";
 		List<NpcInfoVo> pivList = WebConstant.gameJdbc.getJdbcTemplate().query(sql,
 				ParameterizedBeanPropertyRowMapper.newInstance(NpcInfoVo.class), new Object[]{uid});
 		
@@ -29,11 +29,10 @@ public class NpcAddDao {
 		
 		if(pivList != null && pivList.size() > 0){
 			position = pivList.get(0).getPosition() + 1;
-		}
+		}*/
 		
 		NpcInfoVo npc = npcRedis.initGameNpc();
 		npc.setUid(uid);
-		npc.setPosition(position);
 		int rt = insert(npc);
 		npc.setId(rt);
 

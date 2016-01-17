@@ -73,7 +73,7 @@ CREATE TABLE `game_npc_info` (
   `pinjie` int(11) NOT NULL DEFAULT '1' COMMENT '武将品阶',
   `level` int(11) NOT NULL DEFAULT '1' COMMENT '武将等级',
   `experience` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前经验',
-  `position` int(2) NOT NULL DEFAULT '0' COMMENT '武将队列中的位置',
+  `position` int(2) NOT NULL DEFAULT '-1' COMMENT '武将队列中的位置',
   `health` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前生命值',
   `attack` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前攻击力',
   `hujia` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前护甲',
