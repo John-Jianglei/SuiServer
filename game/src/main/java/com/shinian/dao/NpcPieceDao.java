@@ -21,7 +21,7 @@ public class NpcPieceDao {
 	//获得npc碎片信息
 	public NpcPieceVo getNpcPieceBy2Id(int comId, String uid){
 		
-		final String sql = " select `id`,`comId`,`uid`,`amount`,`updateTime` from game_npc_piece where id = ? and uid=?";
+		final String sql = " select `id`,`comId`,`uid`,`amount`,`updateTime` from game_npc_piece where comId = ? and uid=?";
 	
 		List<NpcPieceVo> list = WebConstant.gameJdbc.getJdbcTemplate().query(sql,ParameterizedBeanPropertyRowMapper.newInstance(NpcPieceVo.class),new Object[]{comId,uid});	
 		

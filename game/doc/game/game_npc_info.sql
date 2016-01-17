@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2016-01-10 17:46:55
+Date: 2016-01-17 11:23:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,7 +23,7 @@ CREATE TABLE `game_npc_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `comId` int(11) NOT NULL COMMENT '武将id',
   `uid` varchar(50) NOT NULL COMMENT '角色id',
-  `pinjie` int(11) NOT NULL DEFAULT '1' COMMENT '武将品阶',
+  `pinjie` int(11) NOT NULL DEFAULT '0' COMMENT '武将品阶',
   `level` int(11) NOT NULL DEFAULT '1' COMMENT '武将等级',
   `experience` int(11) NOT NULL DEFAULT '0' COMMENT '武将当前经验',
   `position` int(2) NOT NULL DEFAULT '0' COMMENT '武将队列中的位置',

@@ -18,31 +18,31 @@ public class NpcHechengVo extends BaseObject implements Serializable{
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
-	public int getcId() {
+	public int getCId() {
 		return cId;
 	}
-	public void setcId(int cId) {
+	public void setCId(int cId) {
 		this.cId = cId;
 	}
 	
-	public int getcNum() {
+	public int getCNum() {
 		return cNum;
 	}
-	public void setcNum(int cNum) {
+	public void setCNum(int cNum) {
 		this.cNum = cNum;
 	}
 	
-	public int getgId() {
+	public int getGId() {
 		return gId;
 	}
-	public void setgId(int gId) {
+	public void setGId(int gId) {
 		this.gId = gId;
 	}
 	
-	public int getgNum() {
+	public int getGNum() {
 		return gNum;
 	}
-	public void setgNum(int gNum) {
+	public void setGNum(int gNum) {
 		this.gNum = gNum;
 	}
 	public int getStar() {
