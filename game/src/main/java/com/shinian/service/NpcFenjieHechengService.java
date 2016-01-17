@@ -13,6 +13,7 @@ import com.shinian.dao.NpcPieceDao;
 import com.shinian.dao.PlayerInfoDao;
 import com.shinian.dao.PropInfoDao;
 import com.shinian.redis.RedisCacheUtil;
+import com.shinian.util.DateUtil;
 import com.shinian.util.Message;
 import com.shinian.util.RandomUtil;
 import com.shinian.vo.CommonReqVo;
@@ -24,9 +25,12 @@ import com.shinian.vo.NpcInfoRedisVo;
 import com.shinian.vo.NpcInfoVo;
 import com.shinian.vo.NpcPieceVo;
 import com.shinian.vo.PlayerInfoVo;
+import com.shinian.vo.PropInfoVo;
+
+
 
 @Service
-public class NpcFenjieHecheng {
+public class NpcFenjieHechengService {
 	
 	@Autowired
 	NpcInfoDao npcInfoDao;
@@ -42,7 +46,16 @@ public class NpcFenjieHecheng {
 	
 	@Autowired
 	RedisCacheUtil redisCacheUtil;
+	
+	@Autowired
+	NpcAddService npcAddService;
+	
+	//进阶丹，五彩石，虎符，地煞令，天罡令，圣将令，隋唐军功章 
+    private static final int[] COM_ID = {7,8,9,10,11,12,13}; 
+    //三星万能将魂，四星万能将魂，五星万能将魂
+    private static final int[] NPC_PIECE_ID = {501,502,503}; 	
 
+	//武将分解得到银两、合成材料和万能将魂
 	public MessageRespVo npcFenjie(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
 		MessageRespVo result = new MessageRespVo();
@@ -98,7 +111,7 @@ public class NpcFenjieHecheng {
 				num[1][1] = 5;
 				num[2][1] = 2;
 				nfrv.setT(getComRand(num) + nfrv.getT());
-				
+
 				piv.setSilver(piv.getSilver()+500);
 				npcInfoDao.deleteNpcById(commonVo.getId());
 				break;
@@ -120,6 +133,7 @@ public class NpcFenjieHecheng {
 				num[5][1] = 1;
 				num[6][1] = 1;
 				nfrv.setH4(getComRand(num) + nfrv.getH4());
+
 				//地煞令
 				num = new int[3][2];
 				num[0][0] = 0;
@@ -156,6 +170,7 @@ public class NpcFenjieHecheng {
 				num[5][1] = 1;
 				num[6][1] = 1;
 				nfrv.setH5(getComRand(num) + nfrv.getH5());
+
 				//天罡令
 				num = new int[2][2];
 				num[0][0] = 0;
@@ -193,14 +208,91 @@ public class NpcFenjieHecheng {
 		playerInfoDao.updatePlayer(piv);		//增加钱
 
 		//写武将将魂数据库
+		NpcPieceVo npv = new NpcPieceVo();		
+		npv.setUid(npcFenjieVo.getUid());		
+
+		if( nfrv.getH3()>0 ){
+			npv.setAmount(nfrv.getH3());
+			npv.setComId(NPC_PIECE_ID[0]);
+			updateNpcPieceDB(npv);
+		}
+		if( nfrv.getH4()>0 ){
+			npv.setAmount(nfrv.getH4());
+			npv.setComId(NPC_PIECE_ID[1]);
+			updateNpcPieceDB(npv);
+		}
+		if( nfrv.getH5()>0 ){
+			npv.setAmount(nfrv.getH5());
+			npv.setComId(NPC_PIECE_ID[2]);
+			updateNpcPieceDB(npv);
+		}
 		
 		//写玩家物品数据库
+		PropInfoVo propInfoVo = new PropInfoVo();
+		propInfoVo.setUid(npcFenjieVo.getUid());
 		
+		if( nfrv.getJ()>0 ){
+			propInfoVo.setComId(COM_ID[0]);
+			propInfoVo.setAmount(nfrv.getJ());
+			updateNpcPropDB(propInfoVo);
+		}
+		if( nfrv.getF()>0 ){
+			propInfoVo.setComId(COM_ID[1]);
+			propInfoVo.setAmount(nfrv.getF());
+			updateNpcPropDB(propInfoVo);
+		}
+		if( nfrv.getT()>0 ){
+			propInfoVo.setComId(COM_ID[2]);
+			propInfoVo.setAmount(nfrv.getT());
+			updateNpcPropDB(propInfoVo);
+		}
+		if( nfrv.getE()>0 ){
+			propInfoVo.setComId(COM_ID[3]);
+			propInfoVo.setAmount(nfrv.getE());
+			updateNpcPropDB(propInfoVo);
+		}
+		if( nfrv.getP()>0 ){
+			propInfoVo.setComId(COM_ID[4]);
+			propInfoVo.setAmount(nfrv.getP());
+			updateNpcPropDB(propInfoVo);
+		}		
 
 		result.setData(nfrv);	
 		result.setCode(Message.MSG_CODE_OK);
 		
 		return result;
+	}
+	
+	private void updateNpcPropDB(PropInfoVo propInfoVo){
+		
+		PropInfoVo piv = propInfoDao.getPropOfPlayerByComId(propInfoVo.getUid(), propInfoVo.getComId());
+		if( piv==null ){
+			propInfoDao.addPropertyToPlayer(propInfoVo.getUid(), propInfoVo.getComId(), propInfoVo.getAmount());
+		}
+		else{
+			piv.setAmount(piv.getAmount()+propInfoVo.getAmount());
+			propInfoDao.updatePropertyOfPlayer(piv);
+		}
+		
+	}
+	
+	private void updateNpcPieceDB(NpcPieceVo npcPieceVo){
+		
+		NpcPieceVo npv = npcPieceDao.getNpcPieceBy2Id(npcPieceVo.getComId(), npcPieceVo.getUid());
+		if( npv==null ){
+			npv = new NpcPieceVo();
+			npv.setComId(NPC_PIECE_ID[0]);
+			npv.setUid(npcPieceVo.getUid());
+			npv.setAmount(npcPieceVo.getAmount());
+			npv.setUpdateTime(DateUtil.getCurrentTime());
+			npcPieceDao.insertNpcPiece(npv);
+		}
+		else{
+			npv.setUpdateTime(DateUtil.getCurrentTime());
+			npv.setAmount(npv.getAmount()+npcPieceVo.getAmount());
+			npcPieceDao.updateNpcPiece(npv);
+		}
+		
 	}
 	
 	//功能：获得掉落物品数量
@@ -250,7 +342,7 @@ public class NpcFenjieHecheng {
 			return result;
 		}
 		
-		//
+		//某人pieceId和comId相同，建议删除common表中的pieceId
 		NpcInfoRedisVo nirv = redisCacheUtil.getNpcInfoByComId(npcHechengVo.getcId());
 		if( nirv==null ){
 			result.setCode(Message.MSG_CODE_NPC_NOT_EXIST);
@@ -258,12 +350,47 @@ public class NpcFenjieHecheng {
 			return result;
 		}
 		
-		NpcPieceVo npv = npcPieceDao.getNpcPieceBy2Id(npcHechengVo.getcId(), npcHechengVo.getUid());
-		if( npv==null ){
-			result.setCode(Message.MSG_CODE_NPC_NOT_EXIST);
-			result.setMsg(Message.MSG_NPC_NOT_EXIST);
+		if( nirv.getPieces() != npcHechengVo.getcNum() + npcHechengVo.getgNum() ){	
+			result.setCode(Message.MSG_CODE_NPC_HECHENG_NUM_ERROR);
+			result.setMsg(Message.MSG_NPC_HECHENG_NUM_ERROR);
 			return result;
 		}
+		if( npcHechengVo.getgNum()> nirv.getMaxPieces()){
+			result.setCode(Message.MSG_CODE_NPC_COMMON_PIECE_ERROR);
+			result.setMsg(Message.MSG_NPC_COMMON_PIECE_ERROR);
+			return result;
+		}
+		
+		NpcPieceVo npv = npcPieceDao.getNpcPieceBy2Id(npcHechengVo.getcId(), npcHechengVo.getUid());
+		if( npv==null ){
+			result.setCode(Message.MSG_CODE_NPC_PIECE_NOT_ENOUGH);
+			result.setMsg(Message.MSG_NPC_PIECE_NOT_ENOUGH);
+			return result;
+		}
+		if( npv.getAmount()< npcHechengVo.getcNum()){
+			result.setCode(Message.MSG_CODE_NPC_PIECE_NOT_ENOUGH);
+			result.setMsg(Message.MSG_NPC_PIECE_NOT_ENOUGH);
+			return result;
+		}
+		npv.setAmount(npv.getAmount()-npcHechengVo.getcNum());
+
+		
+		NpcPieceVo npvWanneng = npcPieceDao.getNpcPieceBy2Id(npcHechengVo.getgId(), npcHechengVo.getUid());
+		if( npvWanneng==null ){
+			result.setCode(Message.MSG_CODE_COMMON_PIECE_NOT_ENOUGH);
+			result.setMsg(Message.MSG_COMMON_PIECE_NOT_ENOUGH);
+			return result;
+		}
+		if( npvWanneng.getAmount()< npcHechengVo.getgNum()){
+			result.setCode(Message.MSG_CODE_COMMON_PIECE_NOT_ENOUGH);
+			result.setMsg(Message.MSG_COMMON_PIECE_NOT_ENOUGH);
+			return result;
+		}
+		npvWanneng.setAmount(npvWanneng.getAmount()-npcHechengVo.getgNum());
+		
+		npcPieceDao.updateNpcPiece(npv);
+		npcPieceDao.updateNpcPiece(npvWanneng);
+		npcAddService.addNpcToPlayer(npcHechengVo.getUid(), npcHechengVo.getcId(), 1);		
 		
 		result.setCode(Message.MSG_CODE_OK);
 		

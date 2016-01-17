@@ -96,6 +96,10 @@ public class Message implements Serializable{
 	public final static String MSG_NPC_PIECE_NOT_ENOUGH = "武将将魂不足";
 	public final static int MSG_CODE_COMMON_PIECE_NOT_ENOUGH = 330;
 	public final static String MSG_COMMON_PIECE_NOT_ENOUGH = "万能武将将魂不足";
+	public final static int MSG_CODE_NPC_HECHENG_NUM_ERROR = 331;
+	public final static String MSG_NPC_HECHENG_NUM_ERROR = "武将合成数量错误";
+	public final static int MSG_CODE_NPC_COMMON_PIECE_ERROR = 332;
+	public final static String MSG_NPC_COMMON_PIECE_ERROR = "万能将魂使用数量错误";
 
 
 }
