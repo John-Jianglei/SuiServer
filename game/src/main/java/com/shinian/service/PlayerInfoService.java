@@ -58,6 +58,11 @@ public class PlayerInfoService {
 		return playerInfoDao.updateSilver(player.getUid(), silver) > 0;
 	}
 	
+	public int updateSilver(String uid, int silver)
+	{
+		return playerInfoDao.updateSilver(uid, silver);
+	}
+	
 	public PlayerInfoVo getPlayerById(String uid)
 	{
 		return playerInfoDao.getPlayerInfoByUid(uid);

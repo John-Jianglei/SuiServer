@@ -215,6 +215,13 @@ public class ArmoryUpgradeService {
 			result.setMsg(Message.MSG_ARMORY_NOT_EXIST);
 			return result;
 		}
+
+		ArmoryRedisVo arv = redisCacheUtil.getArmoryByComId(armory.getComId());
+		if (arv == null){
+			result.setCode(Message.MSG_CODE_ARMORY_NOT_EXIST);
+			result.setMsg(Message.MSG_ARMORY_NOT_EXIST);
+			return result;
+		}
 				
 		PlayerInfoVo player = playerInfoService.getPlayerById(armory.getUid());
 		if (player == null){
@@ -223,17 +230,17 @@ public class ArmoryUpgradeService {
 			return result;
 		}
 		
-		if (player.getSilver() < getLevelupSilver(armory)){
+		if (player.getSilver() < getLevelupSilver(arv, armory)){
 			result.setCode(Message.MSG_CODE_ARMORY_NOT_MEET_CRITERIA);
 			result.setMsg(Message.MSG_ARMORY_NOT_MEET_CRITERIA);
 			return result;
 		}
 		
-		playerInfoService.consumeSilver(player, getLevelupSilver(armory));
+		playerInfoService.consumeSilver(player, getLevelupSilver(arv, armory));
 		
 		armory.setLevel(armory.getLevel() + 1);
-		armory.setAttack(getNextLevelAttack(armory));
-		armory.setHealth(getNextLevelHealth(armory));
+		armory.setAttack(getNextLevelAttack(arv, armory));
+		armory.setHealth(getNextLevelHealth(arv, armory));
 		armoryDao.levelup(armory.getId(), armory.getLevel(), armory.getAttack(), armory.getHealth());
 
 		result.setData(armory);		
@@ -242,23 +249,70 @@ public class ArmoryUpgradeService {
 		return result;
 	}
 	
-	private int getNextLevelAttack(ArmoryVo armory)
+	//	Input: id(id of the game_armory_info)
+	public MessageRespVo levelupMax(HttpServletRequest request, HttpServletResponse response,String jsonStr)
 	{
-		ArmoryRedisVo arv = redisCacheUtil.getArmoryByComId(armory.getComId());
+		MessageRespVo result = new MessageRespVo();
+
+		CommonReqVo gcrv = JSON.parseObject(jsonStr, CommonReqVo.class);		
+		ArmoryReqVo nrv = JSON.parseObject(gcrv.getData().toString(),ArmoryReqVo.class);
+		result.setTs(gcrv.getTs());
 		
+		ArmoryVo armory = armoryDao.getArmoryById(nrv.getId());
+		if (armory == null){
+			result.setCode(Message.MSG_CODE_ARMORY_NOT_EXIST);
+			result.setMsg(Message.MSG_ARMORY_NOT_EXIST);
+			return result;
+		}
+		
+		ArmoryRedisVo arv = redisCacheUtil.getArmoryByComId(armory.getComId());
+		if (arv == null){
+			result.setCode(Message.MSG_CODE_ARMORY_NOT_EXIST);
+			result.setMsg(Message.MSG_ARMORY_NOT_EXIST);
+			return result;
+		}
+				
+		PlayerInfoVo player = playerInfoService.getPlayerById(armory.getUid());
+		if (player == null){
+			result.setCode(Message.MSG_CODE_PLAYER_NOT_EXIST);
+			result.setMsg(Message.MSG_PLAYER_NOT_EXIST);
+			return result;
+		}
+		
+		int silver = player.getSilver();
+		while (silver > getLevelupSilver(arv, armory)){
+			silver -= getLevelupSilver(arv, armory);
+			
+			armory.setLevel(armory.getLevel() + 1);
+			armory.setAttack(getNextLevelAttack(arv, armory));
+			armory.setHealth(getNextLevelHealth(arv, armory));
+		}
+
+		playerInfoService.updateSilver(player.getUid(), silver);
+		
+		armoryDao.levelup(armory.getId(), armory.getLevel(), armory.getAttack(), armory.getHealth());
+
+		result.setData(armory);		
+		result.setCode(Message.MSG_CODE_OK);
+		
+		return result;
+	}
+	
+	private int getNextLevelAttack(ArmoryRedisVo arv, ArmoryVo armory)
+	{
+//		ArmoryRedisVo arv = redisCacheUtil.getArmoryByComId(armory.getComId());
 		return armory.getAttack() + arv.getAttackStep() + armory.getPinjie()*arv.getAttackStepJinglian();
 	}
 	
-	private int getNextLevelHealth(ArmoryVo armory)
+	private int getNextLevelHealth(ArmoryRedisVo arv, ArmoryVo armory)
 	{
-		ArmoryRedisVo arv = redisCacheUtil.getArmoryByComId(armory.getComId());
-		
+//		ArmoryRedisVo arv = redisCacheUtil.getArmoryByComId(armory.getComId());
 		return armory.getHealth() + arv.getHealthStep() + armory.getPinjie()*arv.getHealthStepJinglian();
 	}
 		
-	private int getLevelupSilver(ArmoryVo armory)
+	private int getLevelupSilver(ArmoryRedisVo arv, ArmoryVo armory)
 	{
-		ArmoryRedisVo arv = redisCacheUtil.getArmoryByComId(armory.getComId());
+//		ArmoryRedisVo arv = redisCacheUtil.getArmoryByComId(armory.getComId());
 		return arv.getInitSliver() + arv.getSliverStep()*armory.getLevel();
 	}
 }

@@ -164,6 +164,34 @@ public class DispatcherService {
 				result = npcFenjieHechengService.npcFenjie(request, response, jsonStr);		///	武将分解
 				break;
 				
+			case 1020:
+				result = playerNewsService.getPlayerNewsList(request, response, jsonStr);		///	get player's news list
+				break;
+				
+			case 1022:
+				result = playerNewsService.getNewsAward(request, response, jsonStr);		///	get award from a specific news
+				break;
+				
+			case 1024:
+				result = armoryService.loadArmoryToNpc(request, response, jsonStr);///	loaded to any npc
+				break;
+				
+			case 1026:
+				result = armoryService.getArmoryListByCategory(request, response, jsonStr);///	get armory list by category: 0-鎵€鏈 1-姝﹀櫒 2-瑁呯敳 3-椹¬鍖
+				break;
+				
+			case 1028:
+				result = armoryUpgradeService.jinjie(request, response, jsonStr);///	armory jinjie
+				break;
+				
+			case 1030:
+				result = armoryUpgradeService.levelup(request, response, jsonStr);///	armory levelup
+				break;
+
+			case 1032:
+				result = armoryUpgradeService.levelupMax(request, response, jsonStr);///	armory levelup
+				break;
+
 			case 9002:
 				result = propInfoService.getCommPropInfo(request, response, jsonStr);	///get common property info
 				break;
