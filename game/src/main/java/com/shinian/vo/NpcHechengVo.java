@@ -10,7 +10,7 @@ public class NpcHechengVo extends BaseObject implements Serializable{
 	private int cNum;		//消耗武将将魂数量
 	private int gId;		//武将万能将魂id
 	private int gNum;		//消耗武将万能将魂数量
-	private int star;		//武将星级
+	private int id;			//ID from game_npc_info;
 	
 	public String getUid() {
 		return uid;
@@ -45,11 +45,11 @@ public class NpcHechengVo extends BaseObject implements Serializable{
 	public void setGNum(int gNum) {
 		this.gNum = gNum;
 	}
-	public int getStar() {
-		return star;
+	public int getId() {
+		return id;
 	}
-	public void setStar(int star) {
-		this.star = star;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.shinian.dao.NpcAddDao;
 import com.shinian.dao.NpcInfoDao;
 import com.shinian.dao.NpcPieceDao;
 import com.shinian.dao.PlayerInfoDao;
@@ -46,6 +47,9 @@ public class NpcFenjieHechengService {
 	
 	@Autowired
 	RedisCacheUtil redisCacheUtil;
+	
+	@Autowired
+	NpcAddDao npcAddDao;
 	
 	@Autowired
 	NpcAddService npcAddService;
@@ -407,8 +411,15 @@ public class NpcFenjieHechengService {
 		
 		npcPieceDao.updateNpcPiece(npv);
 		npcPieceDao.updateNpcPiece(npvWanneng);
-		npcAddService.addNpcToPlayer(npcHechengVo.getUid(), npcHechengVo.getCId(), 1);		
+
+		NpcInfoRedisVo npc = redisCacheUtil.getNpcInfoByComId(npcHechengVo.getCId());
+		NpcInfoVo piv = npcAddDao.addNpcToPlayer(npcHechengVo.getUid(), npc);
 		
+		npcHechengVo.setId(piv.getId());
+		npcHechengVo.setCNum(npv.getAmount());
+		npcHechengVo.setGNum(npvWanneng.getAmount());
+		
+		result.setData(npcHechengVo);
 		result.setCode(Message.MSG_CODE_OK);
 		
 		return result;
