@@ -331,32 +331,3 @@ CREATE TABLE `common_armory_jinjie` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='装备进阶材料表';
 
 
-
-DROP TABLE IF EXISTS `common_annexPack_info`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `common_annexPack_info` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL COMMENT '礼包名称',
-  `type1` int(3) NOT NULL DEFAULT '0' COMMENT '类别: 0--无附件 1--武将附件 2--物品附件 3--装备附件',
-  `comId1` int(11) NOT NULL DEFAULT '0' COMMENT '附件对应的common_*_info中的id',
-  `amount1` int(11) NOT NULL DEFAULT '1' COMMENT '附件数量',
-  `type2` int(3) NOT NULL DEFAULT '0' COMMENT '类别: 0--无附件 1--武将附件 2--物品附件 3--装备附件',
-  `comId2` int(11) NOT NULL DEFAULT '0' COMMENT '附件对应的common_*_info中的id',
-  `amount2` int(11) NOT NULL DEFAULT '1' COMMENT '附件数量',
-  `type3` int(3) NOT NULL DEFAULT '0' COMMENT '类别: 0--无附件 1--武将附件 2--物品附件 3--装备附件',
-  `comId3` int(11) NOT NULL DEFAULT '0' COMMENT '附件对应的common_*_info中的id',
-  `amount3` int(11) NOT NULL DEFAULT '1' COMMENT '附件数量',
-  `type4` int(3) NOT NULL DEFAULT '0' COMMENT '类别: 0--无附件 1--武将附件 2--物品附件 3--装备附件',
-  `comId4` int(11) NOT NULL DEFAULT '0' COMMENT '附件对应的common_*_info中的id',
-  `amount4` int(11) NOT NULL DEFAULT '1' COMMENT '附件数量',
-  `type5` int(3) NOT NULL DEFAULT '0' COMMENT '类别: 0--无附件 1--武将附件 2--物品附件 3--装备附件',
-  `comId5` int(11) NOT NULL DEFAULT '0' COMMENT '附件对应的common_*_info中的id',
-  `amount5` int(11) NOT NULL DEFAULT '1' COMMENT '附件数量',
-  `type6` int(3) NOT NULL DEFAULT '0' COMMENT '类别: 0--无附件 1--武将附件 2--物品附件 3--装备附件',
-  `comId6` int(11) NOT NULL DEFAULT '0' COMMENT '附件对应的common_*_info中的id',
-  `amount6` int(11) NOT NULL DEFAULT '1' COMMENT '附件数量',
-  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',  
-  `status` int(2) NOT NULL DEFAULT '1' COMMENT '0--无效 1--有效',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='礼包信息表';
